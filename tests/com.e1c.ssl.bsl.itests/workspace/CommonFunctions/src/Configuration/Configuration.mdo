@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:Configuration xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="874cf280-75f9-43b3-8096-a896aeaf348f">
+  <name>ДемоКонфигурация</name>
+  <synonym>
+    <key>ru</key>
+    <value>Демо конфигурация</value>
+  </synonym>
+  <containedObjects classId="9cd510cd-abfc-11d4-9434-004095e12fc7" objectId="3274d3de-c505-4ac7-850c-9bba3913f19b"/>
+  <containedObjects classId="9fcd25a0-4822-11d4-9414-008048da11f9" objectId="a8c17a01-3120-4f0e-8d7f-30fdc0186f97"/>
+  <containedObjects classId="e3687481-0a87-462c-a166-9f34594f9bba" objectId="68f0fbcc-5bb8-4450-b34e-38df64f61349"/>
+  <containedObjects classId="9de14907-ec23-4a07-96f0-85521cb6b53b" objectId="208d446f-ba7c-49d8-a30c-3d5c083dff58"/>
+  <containedObjects classId="51f2d5d8-ea4d-4064-8892-82951750031e" objectId="03e70635-1c7d-404a-9236-360fe6c91448"/>
+  <containedObjects classId="e68182ea-4237-4383-967f-90c1e3370bc7" objectId="e0871f33-337e-4d8b-8856-e4ffd6eeacd0"/>
+  <configurationExtensionCompatibilityMode>8.3.9</configurationExtensionCompatibilityMode>
+  <defaultRunMode>ManagedApplication</defaultRunMode>
+  <usePurposes>PersonalComputer</usePurposes>
+  <scriptVariant>Russian</scriptVariant>
+  <defaultLanguage>Language.Русский</defaultLanguage>
+  <dataLockControlMode>Managed</dataLockControlMode>
+  <objectAutonumerationMode>NotAutoFree</objectAutonumerationMode>
+  <modalityUseMode>DontUse</modalityUseMode>
+  <synchronousExtensionAndAddInCallUseMode>DontUse</synchronousExtensionAndAddInCallUseMode>
+  <compatibilityMode>8.3.9</compatibilityMode>
+  <languages uuid="a7279fd3-845d-44e5-80f8-54d33acb8caa">
+    <name>Русский</name>
+    <synonym>
+      <key>ru</key>
+      <value>Русский</value>
+    </synonym>
+    <languageCode>ru</languageCode>
+  </languages>
+  <subsystems>Subsystem.Стандартные</subsystems>
+  <subsystems>Subsystem.Подсистема1</subsystems>
+  <commonModules>CommonModule.ОбщегоНазначения</commonModules>
+  <commonModules>CommonModule.ОбщегоНазначенияКлиент</commonModules>
+  <commonModules>CommonModule.ТестовыйМодуль</commonModules>
+  <commonModules>CommonModule.УсловныйМодуль</commonModules>
+  <catalogs>Catalog.Товары</catalogs>
+  <catalogs>Catalog.Поставщики</catalogs>
+  <informationRegisters>InformationRegister.ШтрихКоды</informationRegisters>
+</mdclass:Configuration>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:InformationRegister xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="d70ab898-c1e0-4cba-884d-190df9f20285">
+  <producedTypes>
+    <selectionType typeId="780c7a7f-6ea2-4e17-bffa-2dcf3bbf8dc9" valueTypeId="32768e1a-4be6-43d8-95b1-baa72a91c86e"/>
+    <listType typeId="45733190-696c-4b42-b729-607244afd13a" valueTypeId="863807ac-d606-4680-81ef-d7d79d27d262"/>
+    <managerType typeId="761d38b1-8a81-4cfa-90ea-820c73756549" valueTypeId="1ec72bb9-cea3-4af2-98d6-251868275a81"/>
+    <recordSetType typeId="a756d656-abf4-4e4a-bf7c-0841a3ea0c3a" valueTypeId="fde89b5b-a497-40c2-bb61-0c3d69512f69"/>
+    <recordKeyType typeId="8c69da82-4e84-4080-9eff-17fdcf94f656" valueTypeId="2795a5a9-7921-4309-98d6-1e1ca8c717b3"/>
+    <recordType typeId="04715cea-de0a-4946-967b-5b44344166bf" valueTypeId="f2283210-3a00-4505-940e-b7f4e0644b61"/>
+    <recordManagerType typeId="0d3afd7e-9f2a-4402-a912-11cad87d3dc9" valueTypeId="88c387ff-54ea-4671-a844-8ef7cc1163b7"/>
+  </producedTypes>
+  <name>ШтрихКоды</name>
+  <synonym>
+    <key>ru</key>
+    <value>Штрих коды</value>
+  </synonym>
+  <useStandardCommands>true</useStandardCommands>
+  <dataLockControlMode>Managed</dataLockControlMode>
+  <resources uuid="1c35b19c-1707-4289-a5ee-f1d05cdd7552">
+    <name>ШтрихКод</name>
+    <synonym>
+      <key>ru</key>
+      <value>Штрих код</value>
+    </synonym>
+    <type>
+      <types>String</types>
+      <stringQualifiers>
+        <length>100</length>
+      </stringQualifiers>
+    </type>
+    <fullTextSearch>Use</fullTextSearch>
+  </resources>
+  <dimensions uuid="1b88ad1a-1928-42cf-bf07-77094b9c3424">
+    <name>Товар</name>
+    <synonym>
+      <key>ru</key>
+      <value>Товар</value>
+    </synonym>
+    <type>
+      <types>CatalogRef.Товары</types>
+    </type>
+    <fullTextSearch>Use</fullTextSearch>
+    <mainFilter>true</mainFilter>
+  </dimensions>
+</mdclass:InformationRegister>

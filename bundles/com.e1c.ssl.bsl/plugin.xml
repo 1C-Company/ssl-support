@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+    Copyright (C) 2020, 1C-Soft LLC and others.
+   
+    This program and the accompanying materials are made
+    available under the terms of the Eclipse Public License 2.0
+    which is available at https://www.eclipse.org/legal/epl-2.0/
+   
+    SPDX-License-Identifier: EPL-2.0
+   
+    Contributors:
+        1C-Soft LLC - initial API and implementation
+ -->
+
+<plugin>
+   <extension
+         point="com._1c.g5.v8.dt.bsl.invocationTypesComputerExtension">
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionCommonModuleManagerTypesComputer"
+            name="CommonModule"
+            nameRu="ОбщийМодуль">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectManagerByRefTypesComputer"
+            name="ObjectManagerByRef"
+            nameRu="МенеджерОбъектаПоСсылке">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectManagerByFullNameTypesComputer"
+            name="ObjectManagerByFullName"
+            nameRu="МенеджерОбъектаПоПолномуИмени">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectAttributeValueTypesComputer"
+            name="ObjectAttributeValue"
+            nameRu="ЗначениеРеквизитаОбъекта">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectsAttributeValueTypesComputer"
+            name="ObjectsAttributeValue"
+            nameRu="ЗначениеРеквизитаОбъектов">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectAttributesValuesTypesComputer"
+            name="ObjectAttributesValues"
+            nameRu="ЗначенияРеквизитовОбъекта">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectsAttributesValuesTypesComputer"
+            name="ObjectsAttributesValues"
+            nameRu="ЗначенияРеквизитовОбъектов">
+      </computers>
+   </extension>
+
+</plugin>

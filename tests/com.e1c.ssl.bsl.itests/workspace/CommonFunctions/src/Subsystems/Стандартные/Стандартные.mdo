@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:Subsystem xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="a77b1361-f6b2-4222-8dd8-0b486919fb6e">
+  <name>Стандартные</name>
+  <synonym>
+    <key>ru</key>
+    <value>Стандартные</value>
+  </synonym>
+  <includeHelpInContents>true</includeHelpInContents>
+  <includeInCommandInterface>true</includeInCommandInterface>
+  <subsystems>Файлы</subsystems>
+  <subsystems>Подсистема2</subsystems>
+</mdclass:Subsystem>
