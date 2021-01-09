@@ -922,6 +922,27 @@ public class BslCommonFunctionsTest
         restoreState(oldFileContent, oldFile);
     }
 
+    @Test
+    public void testObjectPropertiesDetails() throws Exception
+    {
+
+        IFile oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        String oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/object-property-details.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+        testingWorkspace.buildWorkspace();
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(1, method.getStatements().size());
+        checkExpr(getRightExpr(method.getStatements().get(0)), Lists.newArrayList("ValueTable")); //$NON-NLS-1$
+
+        restoreState(oldFileContent, oldFile);
+    }
+
     private Expression getRightExpr(Statement statement)
     {
         assertTrue(statement instanceof SimpleStatement);

@@ -51,6 +51,12 @@
             name="ObjectsAttributesValues"
             nameRu="ЗначенияРеквизитовОбъектов">
       </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectPropertiesDetailsComputer"
+            name="ObjectPropertiesDetails"
+            nameRu="ОписаниеСвойствОбъекта">
+      </computers>
+      
    </extension>
 
 </plugin>
