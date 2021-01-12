@@ -9,9 +9,11 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.util.Strings;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.typesystem.ValueTableDynamicContextDefProvider;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.McoreFactory;
@@ -49,17 +51,27 @@ public class CommonFunctionObjectPropertiesDetailsComputer
         if (!isValidModuleNameInvocation(inv))
             return Collections.emptyList();
 
-        Expression expr = inv.getParams().get(0);
-
-        Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-
-        List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
-
-        EList<Property> properties = ((Type)types.get(0)).getContextDef().allProperties();
-
         String propetiesName = getExpressionContent(inv.getParams().get(1));
+        if (Strings.isEmpty(propetiesName))
+            return Collections.emptyList();
 
-        return computeTypes(inv, propetiesName, properties);
+        Expression expr = inv.getParams().get(0);
+        if (expr instanceof StaticFeatureAccess)
+        {
+            Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
+
+            List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
+            if (types.isEmpty())
+                return Collections.emptyList();
+
+            EList<Property> properties = ((Type)types.get(0)).getContextDef().allProperties();
+
+            return computeTypes(inv, propetiesName, properties);
+        }
+        else
+        {
+            return Collections.emptyList();
+        }
     }
 
     protected List<TypeItem> computeTypes(Invocation inv, String propetiesName, EList<Property> properties)
