@@ -32,6 +32,7 @@ import com._1c.g5.v8.dt.mcore.McoreFactory;
 import com._1c.g5.v8.dt.mcore.McorePackage;
 import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
+import com._1c.g5.v8.dt.mcore.TypeContainer;
 import com._1c.g5.v8.dt.mcore.TypeContainerRef;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
@@ -115,27 +116,33 @@ public class CommonFunctionObjectPropertiesDetailsComputer
 
         Type valueTableRowType = (Type)derivedType.getCollectionElementTypes().allTypes().get(0);
 
-        Type valueTableColumnType =
-            (Type)ValueTableDynamicContextDefProvider.getColumnCollectionType(derivedType).allTypes().get(0);
+        TypeContainer columns = ValueTableDynamicContextDefProvider.getColumnCollectionType(derivedType);
+        if (columns == null)
+            return Collections.emptyList();
+
+        Type valueTableColumnType = (Type)columns.allTypes().get(0);
 
         for (String part : parts)
         {
+            if (Strings.isEmpty(part))
+                continue;
+
             Property property = properties.parallelStream()
                 .filter(p -> p.getNameRu().equalsIgnoreCase(part) || p.getName().equalsIgnoreCase(part))
                 .findFirst()
                 .orElse(null);
 
-            if (property == null)
-                continue;
+            if (property != null)
+            {
+                Property newProperty = EcoreUtil2.cloneWithProxies(property);
+                newProperty.setWritable(true);
+                valueTableRowType.getContextDef().getProperties().add(newProperty);
 
-            Property newProperty = EcoreUtil2.cloneWithProxies(property);
-            newProperty.setWritable(true);
-            valueTableRowType.getContextDef().getProperties().add(newProperty);
-
-            Property columnProperty = EcoreUtil2.cloneWithProxies(property);
-            columnProperty.setTypeContainer(McoreFactory.eINSTANCE.createTypeContainerRef());
-            ((TypeContainerRef)columnProperty.getTypeContainer()).getTypes().add(columnPropertyType);
-            valueTableColumnType.getContextDef().getProperties().add(columnProperty);
+                Property columnProperty = EcoreUtil2.cloneWithProxies(property);
+                columnProperty.setTypeContainer(McoreFactory.eINSTANCE.createTypeContainerRef());
+                ((TypeContainerRef)columnProperty.getTypeContainer()).getTypes().add(columnPropertyType);
+                valueTableColumnType.getContextDef().getProperties().add(columnProperty);
+            }
         }
 
         return Lists.newArrayList(derivedType);
