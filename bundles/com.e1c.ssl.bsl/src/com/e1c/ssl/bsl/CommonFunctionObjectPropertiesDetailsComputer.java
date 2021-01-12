@@ -41,6 +41,9 @@ import com._1c.g5.v8.dt.platform.version.Version;
 import com.google.common.collect.Lists;
 
 /**
+ * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectPropertiesDetails()} that
+ * returns a table with columns from the properties of the metadata object.
+ *
  * @author Artem Iliukhin
  *
  */
