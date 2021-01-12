@@ -1,14 +1,26 @@
-/**
- * Copyright (C) 2021, 1C
- */
+/*******************************************************************************
+ * Copyright (C), 2021 1C-Soft LLC and others.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     1C-Soft LLC - initial API and implementation
+ *******************************************************************************/
 package com.e1c.ssl.bsl;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Strings;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
@@ -24,23 +36,26 @@ import com._1c.g5.v8.dt.mcore.TypeContainerRef;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
-import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com._1c.g5.v8.dt.platform.version.Version;
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
 
 /**
  * @author Artem Iliukhin
  *
  */
 public class CommonFunctionObjectPropertiesDetailsComputer
-    extends AbstractCommonModuleCommonFunctionTypesComputer
+    extends AbstractCommonModuleObjectAttributeValueTypesComputer
 {
-    @Inject
-    protected IRuntimeVersionSupport versionSupport;
 
-    @Inject
-    private ValueTableDynamicContextDefProvider valueTableDynamicContextDefProvider;
+    private final ValueTableDynamicContextDefProvider valueTableDynamicContextDefProvider;
+
+    protected CommonFunctionObjectPropertiesDetailsComputer()
+    {
+        super();
+        IResourceServiceProvider rsp =
+            IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
+        this.valueTableDynamicContextDefProvider = rsp.get(ValueTableDynamicContextDefProvider.class);
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -64,9 +79,16 @@ public class CommonFunctionObjectPropertiesDetailsComputer
             if (types.isEmpty())
                 return Collections.emptyList();
 
-            EList<Property> properties = ((Type)types.get(0)).getContextDef().allProperties();
+            Pair<Collection<Property>, TypeItem> all = this.getDynamicFeatureAccessComputer()
+                .getAllProperties(types, envs.eResource())
+                .stream()
+                .findFirst()
+                .orElse(null);
 
-            return computeTypes(inv, propetiesName, properties);
+            if (all == null)
+                return Collections.emptyList();
+
+            return computeTypes(inv, propetiesName, all.getFirst());
         }
         else
         {
@@ -74,7 +96,7 @@ public class CommonFunctionObjectPropertiesDetailsComputer
         }
     }
 
-    protected List<TypeItem> computeTypes(Invocation inv, String propetiesName, EList<Property> properties)
+    private List<TypeItem> computeTypes(Invocation inv, String propetiesName, Collection<Property> properties)
     {
         String content = propetiesName.trim().replaceAll("\\s", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
