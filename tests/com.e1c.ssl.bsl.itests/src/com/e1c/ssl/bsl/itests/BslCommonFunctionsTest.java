@@ -923,7 +923,7 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    public void testObjectPropertiesDetails() throws Exception
+    public void testFunctionObjectPropertiesDetails() throws Exception
     {
 
         IFile oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
@@ -939,6 +939,30 @@ public class BslCommonFunctionsTest
         Method method = module.allMethods().get(0);
         assertEquals(3, method.getStatements().size());
         checkExpr(getRightExpr(method.getStatements().get(2)), Lists.newArrayList("ValueTable")); //$NON-NLS-1$
+
+        Expression table = getRightExpr(method.getStatements().get(2));
+        Environmental envs = EcoreUtil2.getContainerOfType(table, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(table, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals("ValueTable", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(1, type.getCollectionElementTypes().allTypes().size());
+        assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
+        Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
+        assertEquals("ValueTableRow", McoreUtil.getTypeName(collectionType)); //$NON-NLS-1$
+
+        assertNotNull(collectionType.getContextDef());
+        Map<String, Collection<String>> expected = Maps.newHashMap();
+        expected.put("Имя", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Синоним", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Справка", Lists.newArrayList("Undefined")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Реквизиты", Lists.newArrayList("MetadataObjectCollection")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Формы", Lists.newArrayList("MetadataObjectCollection")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        checkProperties(collectionType.getContextDef().getProperties().stream().skip(1).collect(Collectors.toList()),
+            expected, true, false);
 
         restoreState(oldFileContent, oldFile);
     }
