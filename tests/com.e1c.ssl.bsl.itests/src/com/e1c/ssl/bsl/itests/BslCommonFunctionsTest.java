@@ -937,8 +937,8 @@ public class BslCommonFunctionsTest
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
-        assertEquals(1, method.getStatements().size());
-        checkExpr(getRightExpr(method.getStatements().get(0)), Lists.newArrayList("ValueTable")); //$NON-NLS-1$
+        assertEquals(3, method.getStatements().size());
+        checkExpr(getRightExpr(method.getStatements().get(2)), Lists.newArrayList("ValueTable")); //$NON-NLS-1$
 
         restoreState(oldFileContent, oldFile);
     }
