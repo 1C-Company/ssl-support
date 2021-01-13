@@ -27,6 +27,7 @@ import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.typesystem.ValueTableDynamicContextDefProvider;
+import com._1c.g5.v8.dt.mcore.DerivedProperty;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.McoreFactory;
 import com._1c.g5.v8.dt.mcore.McorePackage;
@@ -42,7 +43,7 @@ import com.google.common.collect.Lists;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectPropertiesDetails()} that
- * returns a table with columns from the properties of the metadata object.
+ * returns a table with columns from the properties of the metadata object attributes.
  *
  * @author Artem Iliukhin
  *
@@ -85,6 +86,23 @@ public class CommonFunctionObjectPropertiesDetailsComputer
 
             Pair<Collection<Property>, TypeItem> all = this.getDynamicFeatureAccessComputer()
                 .getAllProperties(types, envs.eResource())
+                .stream()
+                .findFirst()
+                .orElse(null);
+
+            if (all == null)
+                return Collections.emptyList();
+            Property property = all.getFirst()
+                .stream()
+                .filter(p -> p.getName().equalsIgnoreCase("Attributes")) //$NON-NLS-1$
+                .findFirst()
+                .orElse(null);
+
+            if (property == null)
+                return Collections.emptyList();
+            all = this.getDynamicFeatureAccessComputer()
+                .getAllProperties(((Type)(property.getTypes().get(0))).getCollectionElementTypes().allTypes(),
+                    envs.eResource())
                 .stream()
                 .findFirst()
                 .orElse(null);
@@ -137,10 +155,14 @@ public class CommonFunctionObjectPropertiesDetailsComputer
             if (property != null)
             {
                 Property newProperty = EcoreUtil2.cloneWithProxies(property);
+                if (property instanceof DerivedProperty)
+                    ((DerivedProperty)newProperty).setSource(((DerivedProperty)property).getSource());
                 newProperty.setWritable(true);
                 valueTableRowType.getContextDef().getProperties().add(newProperty);
 
                 Property columnProperty = EcoreUtil2.cloneWithProxies(property);
+                if (property instanceof DerivedProperty)
+                    ((DerivedProperty)columnProperty).setSource(((DerivedProperty)property).getSource());
                 columnProperty.setTypeContainer(McoreFactory.eINSTANCE.createTypeContainerRef());
                 ((TypeContainerRef)columnProperty.getTypeContainer()).getTypes().add(columnPropertyType);
                 valueTableColumnType.getContextDef().getProperties().add(columnProperty);

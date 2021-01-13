@@ -957,9 +957,7 @@ public class BslCommonFunctionsTest
         Map<String, Collection<String>> expected = Maps.newHashMap();
         expected.put("Имя", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
         expected.put("Синоним", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
-        expected.put("Справка", Lists.newArrayList("Undefined")); //$NON-NLS-1$ //$NON-NLS-2$
-        expected.put("Реквизиты", Lists.newArrayList("MetadataObjectCollection")); //$NON-NLS-1$ //$NON-NLS-2$
-        expected.put("Формы", Lists.newArrayList("MetadataObjectCollection")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("МногострочныйРежим", Lists.newArrayList("Boolean")); //$NON-NLS-1$ //$NON-NLS-2$
 
         checkProperties(collectionType.getContextDef().getProperties().stream().skip(1).collect(Collectors.toList()),
             expected, true, false);
