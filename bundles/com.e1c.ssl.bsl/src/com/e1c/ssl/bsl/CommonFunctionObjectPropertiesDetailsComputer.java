@@ -110,7 +110,6 @@ public class CommonFunctionObjectPropertiesDetailsComputer
             versionSupport.getRuntimeVersionOrDefault(inv, Version.LATEST));
 
         TypeItem type = provider.getProxy(IEObjectTypeNames.VALUE_TABLE);
-
         TypeItem columnPropertyType = provider.getProxy("ValueTableColumn"); //$NON-NLS-1$
 
         Type valueTable = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(type, inv));
