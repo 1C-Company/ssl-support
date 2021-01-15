@@ -30,6 +30,7 @@
     
     <spotbugs.maven.plugin.version>3.1.12.2</spotbugs.maven.plugin.version>
     <checkstyle.version>8.5</checkstyle.version>
+	<checkstyle.header.file>java.header</checkstyle.header.file>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
