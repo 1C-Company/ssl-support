@@ -7,6 +7,7 @@
    SPDX-License-Identifier: EPL-2.0
    Contributors:
        1C-Soft LLC - initial API and implementation
+       Aleksandr Kapralov - checkstyle version fix
 -->
 <project
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
@@ -29,8 +30,9 @@
     <tycho.extras.version>1.7.0</tycho.extras.version>
     
     <spotbugs.maven.plugin.version>3.1.12.2</spotbugs.maven.plugin.version>
-    <checkstyle.version>8.5</checkstyle.version>
-	<checkstyle.header.file>java.header</checkstyle.header.file>
+    <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
+    <checkstyle.version>8.29</checkstyle.version>
+    <checkstyle.header.file>java.header</checkstyle.header.file>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -196,7 +198,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.17</version>
+          <version>${maven.checkstyle.plugin.version}</version>
           <dependencies>
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
