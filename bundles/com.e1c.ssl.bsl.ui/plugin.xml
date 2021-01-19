@@ -25,6 +25,9 @@
       <stringLiteralProposals
             class="com.e1c.ssl.bsl.internal.ui.UiExecutableExtensionFactory:com.e1c.ssl.bsl.ui.StringLiteralProposalProviderCommonFunctionObjectAttributeValue">
       </stringLiteralProposals>
+      <stringLiteralProposals
+            class="com.e1c.ssl.bsl.internal.ui.UiExecutableExtensionFactory:com.e1c.ssl.bsl.ui.StringLiteralProposalObjectPropertiesDetails">
+      </stringLiteralProposals>
    </extension>
 
 </plugin>
