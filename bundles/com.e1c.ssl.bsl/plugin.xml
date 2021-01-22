@@ -51,6 +51,11 @@
             name="ObjectsAttributesValues"
             nameRu="ЗначенияРеквизитовОбъектов">
       </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionValueTableRowToStructure"
+            name="ValueTableRowToStructure"
+            nameRu="СтрокаТаблицыЗначенийВСтруктуру">
+      </computers>
    </extension>
 
 </plugin>
