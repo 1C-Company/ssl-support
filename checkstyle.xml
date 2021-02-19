@@ -12,16 +12,16 @@
 
     <!-- copyright -->
     <module name="RegexpHeader">
-        <property name="headerFile" value="java.header" />
+        <property name="headerFile" value="${checkstyle.header.file}" />
         <property name="fileExtensions" value="java" />
     </module>
 
-    <module name="TreeWalker">
-        <module name="LineLength">
-            <property name="max" value="120" />
-            <property name="ignorePattern" value="^ *\* *[^ ]+$|(\s+\/\/\$NON-NLS-\d+\$)+$"/>
-        </module>
+    <module name="LineLength">
+        <property name="max" value="120" />
+        <property name="ignorePattern" value="^ *\* *[^ ]+$|(\s+\/\/\$NON-NLS-\d+\$)+$"/>
+    </module>
 
+    <module name="TreeWalker">
         <module name="SuppressionCommentFilter">
             <property name="offCommentFormat" value="checkstyle:off" />
             <property name="onCommentFormat" value="checkstyle:on" />

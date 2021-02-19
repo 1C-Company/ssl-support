@@ -338,8 +338,8 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
     private DerivedProperty createPropertyFromSource(String name, Pair<Property, EObject> source)
     {
         DerivedProperty property = McoreFactory.eINSTANCE.createDerivedProperty();
-        if (source instanceof DerivedProperty)
-            property.setSource(((DerivedProperty)source).getSource());
+        if (source.getFirst() instanceof DerivedProperty)
+            property.setSource(((DerivedProperty)source.getFirst()).getSource());
 
         if (name.equalsIgnoreCase(source.getFirst().getName()) || name.equalsIgnoreCase(source.getFirst().getNameRu()))
         {
