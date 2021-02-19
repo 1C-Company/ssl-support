@@ -11,7 +11,7 @@
 <feature
       id="com.e1c.ssl.sdk"
       label="%featureName"
-      version="0.3.0.qualifier"
+      version="0.4.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.license"
       license-feature-version="2.0.2.qualifier">
@@ -30,11 +30,11 @@
 
    <includes
          id="com.e1c.ssl.feature.source"
-         version="0.3.0.qualifier"
+         version="0.4.0.qualifier"
          optional="true"/>
 
    <includes
          id="com.e1c.ssl.feature"
-         version="0.3.0.qualifier"/>
+         version="0.4.0.qualifier"/>
 
 </feature>
