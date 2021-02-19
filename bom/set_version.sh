@@ -28,12 +28,12 @@ increment_version ()
   echo -e "${new// /.}"
 } 
 
-current_version='0.2.0'
+current_version='0.3.0'
 
 #increment_version $current_version
 
-new_version='0.3.0'
-next_version='0.4.0'
+new_version='0.4.0'
+next_version='0.5.0'
 
 #sed "s/\<version\>0.1.0-SNAPSHOT\<\/version\>/\<version\>0.1.1-SNAPSHOT\<\/version\>/g" pom.xml
 find . -name 'pom.xml' -exec sed -i "s/${current_version}-SNAPSHOT/${new_version}-SNAPSHOT/g" {} +

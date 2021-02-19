@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (c) 2020 1C-Soft LLC
-   This program and the accompanying materials are made available under
-   the terms of the Eclipse Public License 2.0 which is available at
-   https://www.eclipse.org/legal/epl-2.0/
-   SPDX-License-Identifier: EPL-2.0
-   Contributors:
-       1C-Soft LLC - initial API and implementation
--->
+
+    Copyright (C) 2021, 1C-Soft LLC and others.
+   
+    This program and the accompanying materials are made
+    available under the terms of the Eclipse Public License 2.0
+    which is available at https://www.eclipse.org/legal/epl-2.0/
+   
+    SPDX-License-Identifier: EPL-2.0
+   
+    Contributors:
+        1C-Soft LLC - initial API and implementation
+        Aleksandr Kapralov - checkstyle version fix
+ -->
 <project
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -15,7 +20,7 @@
 
   <groupId>com.e1c.ssl</groupId>
   <artifactId>bom</artifactId>
-  <version>0.3.0-SNAPSHOT</version>
+  <version>0.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>BOM</name>
@@ -25,11 +30,13 @@
   </prerequisites>
 
   <properties>
-    <tycho.version>1.7.0</tycho.version>
-    <tycho.extras.version>1.7.0</tycho.extras.version>
+    <tycho.version>2.2.0</tycho.version>
+    <tycho.extras.version>2.2.0</tycho.extras.version>
     
     <spotbugs.maven.plugin.version>3.1.12.2</spotbugs.maven.plugin.version>
-    <checkstyle.version>8.5</checkstyle.version>
+    <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
+    <checkstyle.version>8.29</checkstyle.version>
+    <checkstyle.header.file>java.header</checkstyle.header.file>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -61,7 +68,7 @@
               <artifact>
                 <groupId>com.e1c.ssl</groupId>
                 <artifactId>default</artifactId>
-                <version>0.3.0-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
               </artifact>
             </target>
             <dependency-resolution>
@@ -152,6 +159,7 @@
           <artifactId>tycho-packaging-plugin</artifactId>
           <version>${tycho.version}</version>
           <configuration>
+            <forceContextQualifier>${qualifier}</forceContextQualifier>
             <format>'v'yyyyMMddHHmm</format>
           </configuration>
         </plugin>
@@ -172,17 +180,6 @@
         </plugin>
         <plugin>
           <groupId>org.eclipse.tycho.extras</groupId>
-          <artifactId>tycho-source-feature-plugin</artifactId>
-          <version>${tycho.extras.version}</version>
-          <configuration>
-            <includeBinaryFeature>false</includeBinaryFeature>
-            <archive>
-              <addMavenDescriptor>false</addMavenDescriptor>
-            </archive>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.eclipse.tycho.extras</groupId>
           <artifactId>tycho-eclipserun-plugin</artifactId>
           <version>${tycho.extras.version}</version>
         </plugin>
@@ -194,7 +191,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.17</version>
+          <version>${maven.checkstyle.plugin.version}</version>
           <dependencies>
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
