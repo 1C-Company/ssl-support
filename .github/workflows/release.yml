@@ -51,13 +51,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: repo
-        path: repositories/org.example.repository/target/repository/
+        path: repositories/com.e1c.ssl.repository/target/repository/
         
     - name: Upload SDK repo
       uses: actions/upload-artifact@v2
       with:
         name: sdk-repo
-        path: repositories/org.example.repository.sdk/target/repository/
+        path: repositories/com.e1c.ssl.repository.sdk/target/repository/
     
     - name: Upload JaCoCo exec data
       uses: actions/upload-artifact@v2
@@ -92,6 +92,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./repositories/org.example.repository.sdk/target/org.example.repository.sdk.zip
+        asset_path: ./repositories/com.e1c.ssl.repository.sdk/target/com.e1c.ssl.repository.sdk.zip
         asset_name: repo.zip
         asset_content_type: application/zip  
