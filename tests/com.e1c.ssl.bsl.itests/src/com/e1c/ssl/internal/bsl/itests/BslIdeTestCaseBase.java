@@ -188,6 +188,9 @@ abstract public class BslIdeTestCaseBase
         assertTrue(file instanceof V8XtextFile);
         V8XtextFile xtextFile = (V8XtextFile)file;
         DerivedStateAwareResource resource = getResourceFromFile(xtextFile);
+        assertTrue(resource instanceof BslResource);
+
+        ((BslResource)resource).setDeepAnalysis(true);
 
         IResourceServiceProvider provider = resource.getResourceServiceProvider();
         initilizeSpecialServicesByRSP(provider);
