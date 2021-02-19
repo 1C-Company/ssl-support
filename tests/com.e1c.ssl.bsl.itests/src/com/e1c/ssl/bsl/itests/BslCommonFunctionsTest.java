@@ -12,6 +12,9 @@
  *******************************************************************************/
 package com.e1c.ssl.bsl.itests;
 
+import static com._1c.g5.v8.dt.platform.IEObjectTypeNames.KEY_AND_VALUE;
+import static com._1c.g5.v8.dt.platform.IEObjectTypeNames.MAP;
+import static com._1c.g5.v8.dt.platform.IEObjectTypeNames.STRUCTURE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -41,7 +44,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.StringInputStream;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
@@ -149,7 +151,6 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    @Ignore
     public void testFunctionManagerByRefDynamic() throws Exception
     {
 
@@ -165,7 +166,7 @@ public class BslCommonFunctionsTest
         assertEquals(2, module.allMethods().size());
         Method method = module.allMethods().get(0);
         assertEquals(2, method.getStatements().size());
-        checkExpr(getRightExpr(method.getStatements().get(0)), Lists.newArrayList("CatalogManager.Товары")); //$NON-NLS-1$
+        checkExpr(getRightExpr(method.getStatements().get(1)), Lists.newArrayList("CatalogManager.Товары")); //$NON-NLS-1$
 
         restoreState(oldFileContent, oldFile);
     }
@@ -278,7 +279,6 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    @Ignore
     public void testFunctionObjectAttributeValueDynamic() throws Exception
     {
 
@@ -323,11 +323,11 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Map", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(MAP, McoreUtil.getTypeName(type));
         assertEquals(1, type.getCollectionElementTypes().allTypes().size());
         assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
         Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
-        assertEquals("KeyAndValue", McoreUtil.getTypeName(collectionType)); //$NON-NLS-1$
+        assertEquals(KEY_AND_VALUE, McoreUtil.getTypeName(collectionType));
 
         assertNotNull(collectionType.getContextDef());
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -340,7 +340,6 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    @Ignore
     public void testFunctionObjectsAttributeValueDynamic() throws Exception
     {
 
@@ -364,11 +363,11 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Map", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(MAP, McoreUtil.getTypeName(type));
         assertEquals(1, type.getCollectionElementTypes().allTypes().size());
         assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
         Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
-        assertEquals("KeyAndValue", McoreUtil.getTypeName(collectionType)); //$NON-NLS-1$
+        assertEquals(KEY_AND_VALUE, McoreUtil.getTypeName(collectionType));
 
         assertNotNull(collectionType.getContextDef());
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -404,7 +403,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -418,7 +417,6 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    @Ignore
     public void testFunctionObjectAttributesValuesDynamic() throws Exception
     {
 
@@ -442,7 +440,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -479,7 +477,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -516,7 +514,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -553,7 +551,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -590,7 +588,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -628,7 +626,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -665,7 +663,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -702,7 +700,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -740,7 +738,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected = Maps.newHashMap();
@@ -777,16 +775,16 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Map", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(MAP, McoreUtil.getTypeName(type));
         assertEquals(1, type.getCollectionElementTypes().allTypes().size());
         assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
         Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
-        assertEquals("KeyAndValue", McoreUtil.getTypeName(collectionType)); //$NON-NLS-1$
+        assertEquals(KEY_AND_VALUE, McoreUtil.getTypeName(collectionType));
 
         assertNotNull(collectionType.getContextDef());
         Map<String, Collection<String>> expected = Maps.newHashMap();
         expected.put("Key", Lists.newArrayList("CatalogRef.Товары")); //$NON-NLS-1$ //$NON-NLS-2$
-        expected.put("Value", Lists.newArrayList("Structure")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Value", Lists.newArrayList(STRUCTURE)); //$NON-NLS-1$
 
         checkProperties(collectionType.getContextDef().getProperties(), expected, false, false);
 
@@ -796,7 +794,7 @@ public class BslCommonFunctionsTest
         Property property = found.get();
         type = (Type)property.getTypes().get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected2 = Maps.newHashMap();
@@ -810,7 +808,6 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    @Ignore
     public void testFunctionObjectsAttributesValuesDynamic() throws Exception
     {
 
@@ -834,16 +831,16 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Map", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(MAP, McoreUtil.getTypeName(type));
         assertEquals(1, type.getCollectionElementTypes().allTypes().size());
         assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
         Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
-        assertEquals("KeyAndValue", McoreUtil.getTypeName(collectionType)); //$NON-NLS-1$
+        assertEquals(KEY_AND_VALUE, McoreUtil.getTypeName(collectionType));
 
         assertNotNull(collectionType.getContextDef());
         Map<String, Collection<String>> expected = Maps.newHashMap();
         expected.put("Key", Lists.newArrayList("CatalogRef.Товары")); //$NON-NLS-1$ //$NON-NLS-2$
-        expected.put("Value", Lists.newArrayList("Structure")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Value", Lists.newArrayList(STRUCTURE)); //$NON-NLS-1$
 
         checkProperties(collectionType.getContextDef().getProperties(), expected, false, false);
 
@@ -853,7 +850,7 @@ public class BslCommonFunctionsTest
         Property property = found.get();
         type = (Type)property.getTypes().get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected2 = Maps.newHashMap();
@@ -890,16 +887,16 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Map", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(MAP, McoreUtil.getTypeName(type));
         assertEquals(1, type.getCollectionElementTypes().allTypes().size());
         assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
         Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
-        assertEquals("KeyAndValue", McoreUtil.getTypeName(collectionType)); //$NON-NLS-1$
+        assertEquals(KEY_AND_VALUE, McoreUtil.getTypeName(collectionType));
 
         assertNotNull(collectionType.getContextDef());
         Map<String, Collection<String>> expected = Maps.newHashMap();
         expected.put("Key", Lists.newArrayList("CatalogRef.Товары")); //$NON-NLS-1$ //$NON-NLS-2$
-        expected.put("Value", Lists.newArrayList("Structure")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Value", Lists.newArrayList(STRUCTURE)); //$NON-NLS-1$
 
         checkProperties(collectionType.getContextDef().getProperties(), expected, false, false);
 
@@ -909,7 +906,7 @@ public class BslCommonFunctionsTest
         Property property = found.get();
         type = (Type)property.getTypes().get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
         assertNotNull(type.getContextDef());
 
         Map<String, Collection<String>> expected2 = Maps.newHashMap();
