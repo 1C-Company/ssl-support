@@ -8,7 +8,7 @@
    Contributors:
        1C-Soft LLC - initial API and implementation
 -->
-<?pde version="3.8"?><target name="1C:EDT Sapphire Platform" sequenceNumber="1">
+<?pde version="3.8"?><target name="1C:EDT Ruby Platform" sequenceNumber="1">
 <locations>
 <!-- EDT -->
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -33,17 +33,7 @@
 <unit id="com._1c.g5.v8.dt.handly.feature.feature.group" version="0.0.0"/>
 <unit id="com._1c.g5.v8.dt.markermatcher.feature.feature.group" version="0.0.0"/>
 <unit id="com._1c.g5.v8.dt.platform.services.mobile.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.8.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.9.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.10.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.11.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.12.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.13.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.14.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.15.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.16.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.17.feature.feature.group" version="0.0.0"/>
-<unit id="com._1c.g5.v8.dt.platform.support_v8.3.18.feature.feature.group" version="0.0.0"/>
+<unit id="com._1c.g5.v8.dt.platform.support_v8.3.19.feature.feature.group" version="0.0.0"/>
 <unit id="com._1c.g5.v8.dt.product.docs.feature.feature.group" version="0.0.0"/>
 <unit id="com._1c.g5.v8.dt.product.feature.feature.group" version="0.0.0"/>
 <unit id="com._1c.g5.v8.dt.profiling.feature.feature.group" version="0.0.0"/>
@@ -110,9 +100,7 @@
 <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="0.0.0"/>
-<unit id="org.eclipse.test.performance" version="0.0.0"/>
-<unit id="org.apache.derby" version="0.0.0"/>
-<repository id="dt_repository" location="https://edt.1c.ru/releases/sapphire/2020.6/"/>
+<repository id="dt_repository" location="https://edt.1c.ru/releases/ruby/2021.1/"/>
 </location>
 
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -123,7 +111,7 @@
 <!-- Eclipse -->
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.jdt.annotation" version="0.0.0"/>
-<repository id="eclipse_repository" location="https://download.eclipse.org/releases/2020-06/"/>
+<repository id="eclipse_repository" location="https://download.eclipse.org/releases/2020-12/"/>
 </location>
 
 </locations>
