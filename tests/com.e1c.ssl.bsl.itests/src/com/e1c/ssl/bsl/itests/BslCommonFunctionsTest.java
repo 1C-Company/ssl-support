@@ -57,6 +57,7 @@ import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
+import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com.e1c.ssl.internal.bsl.itests.BslIdeTestCaseBase;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -935,7 +936,7 @@ public class BslCommonFunctionsTest
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
         assertEquals(5, method.getStatements().size());
-        checkExpr(getRightExpr(method.getStatements().get(4)), Lists.newArrayList("Structure")); //$NON-NLS-1$
+        checkExpr(getRightExpr(method.getStatements().get(4)), Lists.newArrayList(IEObjectTypeNames.STRUCTURE));
 
         Expression structure = getRightExpr(method.getStatements().get(4));
         Environmental envs = EcoreUtil2.getContainerOfType(structure, Environmental.class);
@@ -944,7 +945,7 @@ public class BslCommonFunctionsTest
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
-        assertEquals("Structure", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+        assertEquals(IEObjectTypeNames.STRUCTURE, McoreUtil.getTypeName(type));
         Map<String, Collection<String>> expected = Maps.newHashMap();
         expected.put("НомерШага", Lists.newArrayList("Number")); //$NON-NLS-1$ //$NON-NLS-2$
         expected.put("Страница", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
