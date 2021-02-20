@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -59,7 +60,15 @@ public class StringLiteralProposalObjectPropertiesDetails
     @Override
     public boolean isAppropriate(Triple<EObject, List<Expression>, Integer> context)
     {
-        StringLiteral literal = (StringLiteral)(context.getSecond()).get(context.getThird());
+        Expression expression = context.getSecond().get(context.getThird());
+
+        StringLiteral literal = null;
+        if (expression instanceof StringLiteral)
+            literal = (StringLiteral)expression;
+
+        if (literal == null)
+            return false;
+
         if (literal.getLines().size() != 1)
         {
             return false;
@@ -100,11 +109,17 @@ public class StringLiteralProposalObjectPropertiesDetails
         IScopeProvider scopeProvider)
     {
         List<IReferenceDescription> descriptions = new ArrayList<>();
-        StringLiteral literal = (StringLiteral)(context.getSecond()).get(context.getThird());
-        if (literal.getLines().size() == 1)
+
+        Expression expression = context.getSecond().get(context.getThird());
+
+        StringLiteral literal = null;
+        if (expression instanceof StringLiteral)
+            literal = (StringLiteral)expression;
+
+        if (literal != null && literal.getLines().size() == 1)
         {
             String content = literal.lines(true).get(0);
-            String[] properties = content.split("\\."); //$NON-NLS-1$
+            String[] properties = content.trim().split("\\s*,\\s*"); //$NON-NLS-1$
 
             if (properties.length > 0)
             {
@@ -143,7 +158,7 @@ public class StringLiteralProposalObjectPropertiesDetails
         BslStringLiteralProposalImageProviderForMdObject imgProvider =
             new BslStringLiteralProposalImageProviderForMdObject(MdClassPackage.Literals.DB_OBJECT_ATTRIBUTE);
 
-        String[] properties = content.split("\\,", -1); //$NON-NLS-1$
+        String[] properties = content.trim().split("\\s*,\\s*", -1); //$NON-NLS-1$
         for (Property property : getProperties(context))
         {
             String name = isRussian ? property.getNameRu() : property.getName();
@@ -151,7 +166,7 @@ public class StringLiteralProposalObjectPropertiesDetails
                 continue;
 
             properties[properties.length - 1] = name;
-            String proposal = String.join(",", properties); //$NON-NLS-1$
+            String proposal = String.join(", ", properties); //$NON-NLS-1$
             proposals.add(Tuples.create(this.addQuoteToBegin(proposal), name, imgProvider));
         }
 
@@ -160,16 +175,17 @@ public class StringLiteralProposalObjectPropertiesDetails
 
     private Collection<Property> getProperties(Triple<EObject, List<Expression>, Integer> context)
     {
-        Expression expr = context.getSecond().get(0);
+        List<Expression> second = context.getSecond();
+        if (second.isEmpty())
+            return Collections.emptyList();
+
+        Expression expr = second.get(0);
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
 
         List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
 
-        Pair<Collection<Property>, TypeItem> all = this.getDynamicFeatureAccessComputer()
-            .getAllProperties(types, envs.eResource())
-            .stream()
-            .findFirst()
-            .orElse(null);
+        Pair<Collection<Property>, TypeItem> all =
+            this.getDynamicFeatureAccessComputer().getAllProperties(types, envs.eResource()).iterator().next();
 
         if (all == null)
             return Collections.emptyList();
@@ -183,11 +199,18 @@ public class StringLiteralProposalObjectPropertiesDetails
         if (prop == null)
             return Collections.emptyList();
 
+        EList<TypeItem> propTypes = prop.getTypes();
+        if (propTypes.isEmpty())
+            return Collections.emptyList();
+
+        TypeItem type = propTypes.get(0);
+        if (!(type instanceof Type))
+            return Collections.emptyList();
+
         all = this.getDynamicFeatureAccessComputer()
-            .getAllProperties(((Type)(prop.getTypes().get(0))).getCollectionElementTypes().allTypes(), envs.eResource())
-            .stream()
-            .findFirst()
-            .orElse(null);
+            .getAllProperties(((Type)type).getCollectionElementTypes().allTypes(), envs.eResource())
+            .iterator()
+            .next();
 
         if (all == null)
             return Collections.emptyList();
