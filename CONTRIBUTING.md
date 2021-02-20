@@ -138,7 +138,7 @@ Squash'ить коммиты стоит, если были сделаны лиш
 
 ```java
 /*******************************************************************************
- * Copyright (C), 2021 1C-Soft LLC and others.
+ * Copyright (C) 2021, 1C-Soft LLC and others.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
