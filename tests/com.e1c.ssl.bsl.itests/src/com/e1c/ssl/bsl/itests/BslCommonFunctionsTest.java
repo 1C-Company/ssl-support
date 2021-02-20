@@ -57,6 +57,7 @@ import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
+import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com.e1c.ssl.internal.bsl.itests.BslIdeTestCaseBase;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -915,6 +916,49 @@ public class BslCommonFunctionsTest
         expected2.put("Ссылка", Lists.newArrayList("CatalogRef.Товары")); //$NON-NLS-1$ //$NON-NLS-2$
 
         checkProperties(type.getContextDef().getProperties(), expected2, true, true);
+
+        restoreState(oldFileContent, oldFile);
+    }
+
+    @Test
+    public void testFunctionObjectPropertiesDetails() throws Exception
+    {
+
+        IFile oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        String oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/object-property-details.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+        testingWorkspace.buildWorkspace();
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(3, method.getStatements().size());
+        checkExpr(getRightExpr(method.getStatements().get(2)), Lists.newArrayList(IEObjectTypeNames.VALUE_TABLE));
+
+        Expression table = getRightExpr(method.getStatements().get(2));
+        Environmental envs = EcoreUtil2.getContainerOfType(table, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(table, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals(IEObjectTypeNames.VALUE_TABLE, McoreUtil.getTypeName(type));
+        assertEquals(1, type.getCollectionElementTypes().allTypes().size());
+        assertTrue(type.getCollectionElementTypes().allTypes().get(0) instanceof Type);
+        Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
+        assertEquals(IEObjectTypeNames.VALUE_TABLE_ROW, McoreUtil.getTypeName(collectionType));
+
+        assertNotNull(collectionType.getContextDef());
+        Map<String, Collection<String>> expected = Maps.newHashMap();
+        expected.put("Имя", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("Синоним", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+        expected.put("МногострочныйРежим", Lists.newArrayList("Boolean")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        checkProperties(collectionType.getContextDef().getProperties().stream().skip(1).collect(Collectors.toList()),
+            expected, true, false);
 
         restoreState(oldFileContent, oldFile);
     }
