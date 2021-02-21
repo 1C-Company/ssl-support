@@ -921,7 +921,7 @@ public class BslCommonFunctionsTest
     }
 
     @Test
-    public void testFunctionTableToArray() throws Exception
+    public void testFunctionTableRowToArray() throws Exception
     {
 
         IFile oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
