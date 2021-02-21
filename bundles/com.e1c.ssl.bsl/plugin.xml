@@ -52,6 +52,11 @@
             nameRu="ЗначенияРеквизитовОбъектов">
       </computers>
       <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionValueTableToArrayTypesComputer"
+            name="ValueTableToArray"
+            nameRu="ТаблицаЗначенийВМассив">
+      </computers>
+      <computers
             computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionObjectPropertiesDetailsComputer"
             name="ObjectPropertiesDetails"
             nameRu="ОписаниеСвойствОбъекта">
