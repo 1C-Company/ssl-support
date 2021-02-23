@@ -14,6 +14,8 @@ package com.e1c.ssl.bsl;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -31,6 +33,7 @@ import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeContainerRef;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com._1c.g5.v8.dt.platform.version.Version;
@@ -66,11 +69,27 @@ public class CommonFunctionValueTableRowToStructure
             if (types.isEmpty())
                 return Collections.emptyList();
 
-            Pair<Collection<Property>, TypeItem> all = this.getDynamicFeatureAccessComputer()
-                .getAllProperties(types, envs.eResource())
-                .stream()
-                .findFirst()
-                .orElse(null);
+            Collection<TypeItem> set = new HashSet<>();
+            for (TypeItem type : types)
+            {
+                if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.VALUE_TABLE_ROW))
+                {
+                    set.add(type);
+                    break;
+                }
+            }
+
+            if (set.isEmpty())
+                return Collections.emptyList();
+
+            Collection<Pair<Collection<Property>, TypeItem>> collection =
+                this.getDynamicFeatureAccessComputer().getAllProperties(set, envs.eResource());
+
+            if (collection.isEmpty())
+                return Collections.emptyList();
+
+            Iterator<Pair<Collection<Property>, TypeItem>> iterator = collection.iterator();
+            Pair<Collection<Property>, TypeItem> all = iterator.next();
 
             if (all == null)
                 return Collections.emptyList();
