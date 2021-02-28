@@ -34,6 +34,7 @@
   <modules>
     <module>targets</module>
     <module>bundles</module>
+    <module>docs</module>
     <module>features</module>
     <module>repositories</module>
     <module>tests</module>

@@ -32,6 +32,7 @@
   <properties>
     <tycho.version>2.2.0</tycho.version>
     <tycho.extras.version>2.2.0</tycho.extras.version>
+    <markdown-page-generator.version>2.3.0</markdown-page-generator.version>
     
     <spotbugs.maven.plugin.version>3.1.12.2</spotbugs.maven.plugin.version>
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
@@ -221,6 +222,19 @@
                 <exclude>**/MdClassPackageImpl*</exclude>
               </excludes>
             </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.ruleoftech</groupId>
+          <artifactId>markdown-page-generator-plugin</artifactId>
+            <version>${markdown-page-generator.version}</version>
+            <executions>
+              <execution>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>generate</goal>
+                </goals>
+              </execution>
+            </executions>
         </plugin>
       </plugins>
     </pluginManagement>

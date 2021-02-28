@@ -4,51 +4,35 @@
 
 ## Основные возможности
 
+### Помощник ввода в строковых литералах
+
 Поддержка контент-ассиста в строковых литералах, гиперссылки для перехода или по F3:
 
-* `ОбщегоНазначения.ПодсистемаСуществует` (`Common.SubsystemExist`) - иерархические имена подсистем
+* [`ОбщегоНазначения.ПодсистемаСуществует` (`Common.SubsystemExist`)](common-subsystem-exist.md)
+* [`ОбщегоНазначения.ОбщийМодуль` (`Common.CommonModule`)](common-common-module.md)
+* [`ОбщегоНазначения.ЗначениеРеквизитаОбъекта` (`Common.ObjectAttributeValue`)](common-object-attribute-value.md)
+* [`ОбщегоНазначения.ЗначениеРеквизитаОбъектов` (`Common.ObjectsAttributeValue`)](common-objects-attribute-value.md)
+* [`ОбщегоНазначенияКлиент.ОбщийМодуль` (`CommonClient.CommonModule`)](common-client-common-module.md)
+* [`ОбщегоНазначенияКлиент.ПодсистемаСуществует` (`CommonClient.SubsystemExist`)](common-client-subsystem-exist.md)
 
-![subsystem-exist](subsystem-exist.gif)
 
-* `ОбщегоНазначения.ОбщийМодуль` (`Common.CommonModule`) - имена общих модулей и модулей менеджеров
-
-![Common-Module](common-module.gif)
-
-* `ОбщегоНазначения.ЗначениеРеквизитаОбъекта` (`Common.ObjectAttributeValue`) - иерархическое имя реквизита из указанных ссылочных типов
-* `ОбщегоНазначения.ЗначениеРеквизитаОбъектов` (`Common.ObjectsAttributeValue`) - иерархическое имя реквизита из указанных ссылочных типов в массиве
-* `ОбщегоНазначенияКлиент.ОбщийМодуль` (`CommonClient.CommonModule`) - имена общих модулей и модулей менеджеров
-* `ОбщегоНазначенияКлиент.ПодсистемаСуществует` (`CommonClient.SubsystemExist`) - иерархические имена подсистем
-
+### Типизация возвращаемых значений
 
 Позволяет налету вычислять функции общего модуля `ОбщегоНазначения` (`Common`) которые возвращают тип в зависимости от переданных параметров.
 
-* `ОбщийМодуль` (`CommonModule`) - функция возвращает конкретный тип модуля, это позволяет вызвать методы модуля, получать типы возвращаемых значений, строить иерархию вызовов с учетом условных вызовов частичного внедрения БСП.
-
-![Type Common-Module](type-common-module.gif)
-
-
-* `МенеджерОбъектаПоСсылке` (`ObjectManagerByRef`) - функция возвращает конкретный тип модуля менеджера по ссылке
-* `МенеджерОбъектаПоПолномуИмени` (`ObjectManagerByFullName`) - функция возвращает конкретный тип модуля менеджера по полному имени
-* `ЗначениеРеквизитаОбъекта` (`ObjectAttributeValue`) - функция возвращает конкретный тип по типу реквизита передаваемого в параметрах
-
-![Type Common-Module](type-object-attribute-value.gif)
-
-
-* `ЗначениеРеквизитаОбъектов` (`ObjectsAttributeValue`) - функция возвращает конкретный тип реквизита объекта метаданных
-* `ЗначенияРеквизитовОбъекта` (`ObjectAttributesValues`) - функция возвращает тип со структурой и типизированными свойствами по именам реквизитов
-
-![Type Common-Module](type-object-attibutes-values.gif)
-
-
-* `ЗначенияРеквизитовОбъектов` (`ObjectsAttributesValues`) - функция возвращает конкретный тип реквизита объекта метаданных
-* `ОписаниеСвойствОбъекта` (`ObjectPropertiesDetails`) - возвращает таблицу с типизированными колонками
-* `ТаблицаЗначенийВМассив` (`ValueTableToArray`) - возвращает массив из структур с со свойствами идентичными колонкам таблицы
-* 'СтрокаТаблицыЗначенийВСтруктуру' ('ValueTableRowToStructure') - возвращает структуру со свойствами идентичными колонкам таблицы
+* [`ОбщийМодуль` (`CommonModule`)](common-common-module.md)
+* [`МенеджерОбъектаПоСсылке` (`ObjectManagerByRef`)](common-object-manager-by-ref.md)
+* [`МенеджерОбъектаПоПолномуИмени` (`ObjectManagerByFullName`)](common-object-manager-by-full-name.md)
+* [`ЗначениеРеквизитаОбъекта` (`ObjectAttributeValue`)](common-object-attribute-value.md)
+* [`ЗначениеРеквизитаОбъектов` (`ObjectsAttributeValue`)](common-objects-attribute-value.md)
+* [`ЗначенияРеквизитовОбъекта` (`ObjectAttributesValues`)](common-object-attributes-values.md)
+* [`ЗначенияРеквизитовОбъектов` (`ObjectsAttributesValues`)](common-objects-attribute-value.md)
+* [`ОписаниеСвойствОбъекта` (`ObjectPropertiesDetails`)](common-object-properties-details.md)
+* [`ТаблицаЗначенийВМассив` (`ValueTableToArray`)](common-value-table-to-array.md)
+* [`СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`)](common-value-table-row-to-structure.md)
 
 Позволяет налету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
-* `ОбщийМодуль` (`CommonModule`) - функция возвращает конкретный тип модуля
+* [`ОбщийМодуль` (`CommonModule`)](common-client-common-module.md)
 
-
-> Для функций поддерживается вычисление контента строк переданных через локальные переменные, с вычислением бинарных операций (конкатенация строк) в рамках одной процедуры. Для функции `ЗначенияРеквизитовОбъекта` (`ObjectAttributesValues`) поддерживается вычисление значений элементов массивов, значений ключей структуры.
 

@@ -11,14 +11,13 @@
     Contributors:
         1C-Soft LLC - initial API and implementation
  -->
-
 <feature
       id="com.e1c.ssl.feature"
       label="%feature.name"
       version="0.4.0.qualifier"
       provider-name="%feature.vendor"
       plugin="com.e1c.ssl.ui"
-	  license-feature="org.eclipse.license"
+      license-feature="org.eclipse.license"
       license-feature-version="2.0.2.qualifier">
 
    <description>
@@ -52,5 +51,12 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="com.e1c.ssl.docs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>

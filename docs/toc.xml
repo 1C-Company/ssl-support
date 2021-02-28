@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="1C:SSL support for 1C:EDT" topic="html/toc.html">
+   <topic label="Поддерживаемые функции">
+      <topic href="html/common-common-module.html" label="ОбщегоНазначения.ОбщийМодуль">
+         <anchor id="common-common-module"/>
+      </topic>
+      <topic href="html/common-subsystem-exist.html" label="ОбщегоНазначения.ПодсистемаСуществует">
+         <anchor id="common-subsystem-exist"/>
+      </topic>
+      <topic href="html/common-object-manager-by-ref.html" label="ОбщегоНазначения.МенеджерОбъектаПоСсылке">
+         <anchor id="common-object-manager-by-ref"/>
+      </topic>
+      <topic href="html/common-object-manager-by-full-name.html" label="ОбщегоНазначения.МенеджерОбъектаПоПолномуИмени">
+         <anchor id="common-object-manager-by-full-name"/>
+      </topic>
+      <topic href="html/common-object-attribute-value.html" label="ОбщегоНазначения.ЗначениеРеквизитаОбъекта">
+         <anchor id="common-object-attribute-value"/>
+      </topic>
+      <topic href="html/common-objects-attribute-value.html" label="ОбщегоНазначения.ЗначениеРеквизитаОбъектов">
+         <anchor id="common-objects-attribute-value"/>
+      </topic>
+      <topic href="html/common-object-attributes-values.html" label="ОбщегоНазначения.ЗначенияРеквизитовОбъекта">
+         <anchor id="common-object-attributes-values"/>
+      </topic>
+      <topic href="html/common-objects-attributes-values.html" label="ОбщегоНазначения.ЗначенияРеквизитовОбъектов">
+         <anchor id="common-objects-attributes-values"/>
+      </topic>
+      <topic href="html/common-object-properties-details.html" label="ОбщегоНазначения.ОписаниеСвойствОбъекта">
+         <anchor id="common-object-properties-details"/>
+      </topic>
+      <topic href="html/common-value-table-to-array.html" label="ОбщегоНазначения.ТаблицаЗначенийВМассив">
+         <anchor id="common-value-table-to-array"/>
+      </topic>
+      <topic href="html/common-value-table-row-to-structure.html" label="ОбщегоНазначения.СтрокаТаблицыЗначенийВСтруктуру">
+         <anchor id="common-value-table-row-to-structure"/>
+      </topic>
+      <topic href="html/common-client-common-module.html" label="ОбщегоНазначенияКлиент.ОбщийМодуль">
+         <anchor id="common-client-common-module"/>
+      </topic>
+      <topic href="html/common-client-subsystem-exist.html" label="ОбщегоНазначенияКлиент.ПодсистемаСуществует">
+         <anchor id="common-client-subsystem-exist"/>
+      </topic>
+   </topic>
+   <topic href="html/changelog.html" label="CHANGELOG">
+      <anchor id="changelog"/>
+   </topic>
+</toc>
