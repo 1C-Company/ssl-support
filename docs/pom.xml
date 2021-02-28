@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.e1c.ssl</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>com.e1c.ssl.docs</artifactId>
+	<version>0.4.0-SNAPSHOT</version>
+	<groupId>com.e1c.ssl</groupId>
+	<packaging>eclipse-plugin</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.ruleoftech</groupId>
+				<artifactId>markdown-page-generator-plugin</artifactId>
+				<configuration>
+					<inputDirectory>${project.basedir}/</inputDirectory>
+					<recursiveInput>false</recursiveInput>
+					<copyDirectories>pict</copyDirectories>
+					<headerHtmlFile>${project.basedir}/html/header.html</headerHtmlFile>
+					<footerHtmlFile>${project.basedir}/html/footer.html</footerHtmlFile>
+					<pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,AUTOLINKS,SMARTS,TASKLISTITEMS,EXTANCHORLINKS,TOC</pegdownExtensions>
+					<transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+					<outputDirectory>${project.basedir}/html</outputDirectory>
+					<inputEncoding>UTF-8</inputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-changelog-file</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+								<copy
+									file="${project.basedir}/../CHANGELOG.md"
+									tofile="${project.basedir}/changelog.md" />
+								<move
+									file="${project.basedir}/README.md"
+									tofile="${project.basedir}/toc.md" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
