@@ -98,6 +98,283 @@
                 <arch>x86_64</arch>
               </environment>
             </environments>
+            <filters>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.8</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_8</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.8.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.8.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.8.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.9</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_9</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.9.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.9.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.9.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.10</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_10</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.10.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.10.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.10.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.11</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_11</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.11.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.11.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.11.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.12</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_12</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.12.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.12.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.12.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.13</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_13</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.13.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.13.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.13.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.14</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_14</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.14.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.14.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.14.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.15</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_15</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.15.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.15.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.15.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.16</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_16</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.16.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.16.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.16.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.17</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_17</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.17.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.17.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.17.macosx</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform_v8.3.18</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.platform.doc_v8_3_18</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.18.linux</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.18.win32</id>
+              <removeAll />
+            </filter>
+            <filter>
+              <type>eclipse-plugin</type>
+              <id>com._1c.g5.v8.dt.natives.library.v8.3.18.macosx</id>
+              <removeAll />
+            </filter>
+          </filters>
           </configuration>
         </plugin>
         <plugin>
