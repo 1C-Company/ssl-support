@@ -30,6 +30,7 @@
 * [`ОписаниеСвойствОбъекта` (`ObjectPropertiesDetails`)](common-object-properties-details.md)
 * [`ТаблицаЗначенийВМассив` (`ValueTableToArray`)](common-value-table-to-array.md)
 * [`СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`)](common-value-table-row-to-structure.md)
+* [`ОбщегоНазначения.ПроверитьПроведенностьДокументов` (`Common.CheckDocumentsPosting`)] (common-check-documents-posting.md)
 
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
