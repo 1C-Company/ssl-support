@@ -42,6 +42,9 @@
       <topic href="html/common-client-subsystem-exist.html" label="ОбщегоНазначенияКлиент.ПодсистемаСуществует">
          <anchor id="common-client-subsystem-exist"/>
       </topic>
+      <topic href="html/common-client-server-value-in-array.html" label="ОбщегоНазначенияКлиентСервер.ЗначениеВМассиве">
+         <anchor id="common-client-server-value-in-array"/>
+      </topic>
    </topic>
    <topic href="html/changelog.html" label="CHANGELOG">
       <anchor id="changelog"/>

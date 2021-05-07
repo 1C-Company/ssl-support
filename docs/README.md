@@ -31,6 +31,9 @@
 * [`ТаблицаЗначенийВМассив` (`ValueTableToArray`)](common-value-table-to-array.md)
 * [`СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`)](common-value-table-row-to-structure.md)
 
+Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииентСервер` (`CommonClientServer`)
+* [`ЗначениеВМассиве` (`ValueInArray`)](common-client-server-value-in-array.md)
+
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
 * [`ОбщийМодуль` (`CommonModule`)](common-client-common-module.md)
