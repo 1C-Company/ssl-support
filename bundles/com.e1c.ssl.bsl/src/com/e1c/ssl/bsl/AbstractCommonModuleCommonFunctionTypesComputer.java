@@ -69,6 +69,14 @@ public abstract class AbstractCommonModuleCommonFunctionTypesComputer
 
     public static final String COMMON_MODULE_NAME_RU = "ОбщегоНазначения"; //$NON-NLS-1$
 
+    public static final String COMMON_CLIENT_MODULE_NAME = "CommonClient"; //$NON-NLS-1$
+
+    public static final String COMMON_CLIENT_MODULE_NAME_RU = "ОбщегоНазначенияКлиент"; //$NON-NLS-1$
+
+    public static final String COMMON_CLIENT_SERVER_MODULE_NAME = "CommonClientServer"; //$NON-NLS-1$
+
+    public static final String COMMON_CLIENT_SERVER_MODULE_NAME_RU = "ОбщегоНазначенияКлиентСервер"; //$NON-NLS-1$
+
     protected static final String METHOD_ARRAY_ADD_RU = "Добавить"; //$NON-NLS-1$
 
     protected static final String METHOD_ARRAY_ADD = "Add"; //$NON-NLS-1$
@@ -98,6 +106,46 @@ public abstract class AbstractCommonModuleCommonFunctionTypesComputer
      */
     protected boolean isValidModuleNameInvocation(Invocation inv)
     {
+        return isValidModuleNameInvocation(inv, COMMON_MODULE_NAME, COMMON_MODULE_NAME_RU);
+    }
+
+    /**
+     * Checks if the invocation is for valid module name "CommonClient".
+     *
+     * @param inv the invocation
+     * @return true, if it is valid module name invocation
+     */
+    protected boolean isValidClientModuleNameInvocation(Invocation inv)
+    {
+        return isValidModuleNameInvocation(inv, COMMON_CLIENT_MODULE_NAME, COMMON_CLIENT_MODULE_NAME_RU);
+    }
+
+    /**
+     * Checks if the invocation is for valid module name "CommonClientServer".
+     *
+     * @param inv the invocation
+     * @return true, if it is valid module name invocation
+     */
+    protected boolean isValidClientServerModuleNameInvocation(Invocation inv)
+    {
+        return isValidModuleNameInvocation(inv, COMMON_CLIENT_SERVER_MODULE_NAME, COMMON_CLIENT_SERVER_MODULE_NAME_RU);
+    }
+
+    /**
+     * Checks if the invocation is for valid module name "CommonServer".
+     *
+     * @param inv the invocation
+     * @return true, if it is valid module name invocation
+     */
+    protected boolean isValidAnyModuleNameInvocation(Invocation inv)
+    {
+        return isValidModuleNameInvocation(inv, COMMON_CLIENT_MODULE_NAME, COMMON_CLIENT_MODULE_NAME_RU)
+            || isValidModuleNameInvocation(inv, COMMON_MODULE_NAME, COMMON_MODULE_NAME_RU)
+            || isValidModuleNameInvocation(inv, COMMON_CLIENT_SERVER_MODULE_NAME, COMMON_CLIENT_SERVER_MODULE_NAME_RU);
+    }
+
+    private boolean isValidModuleNameInvocation(Invocation inv, String name, String nameRu)
+    {
 
         if (inv.getMethodAccess() instanceof DynamicFeatureAccess)
         {
@@ -105,8 +153,7 @@ public abstract class AbstractCommonModuleCommonFunctionTypesComputer
             if (dfa.getSource() instanceof StaticFeatureAccess)
             {
                 String moduleName = ((StaticFeatureAccess)dfa.getSource()).getName();
-                if (moduleName != null && (moduleName.equalsIgnoreCase(COMMON_MODULE_NAME_RU)
-                    || moduleName.equalsIgnoreCase(COMMON_MODULE_NAME)))
+                if (moduleName != null && (moduleName.equalsIgnoreCase(nameRu) || moduleName.equalsIgnoreCase(name)))
                 {
                     return true;
                 }
@@ -116,7 +163,7 @@ public abstract class AbstractCommonModuleCommonFunctionTypesComputer
         {
             URI uri = EcoreUtil.getURI(inv);
             String moduleName = uri.segment(uri.segmentCount() - 1);
-            if (COMMON_MODULE_NAME.equalsIgnoreCase(moduleName) || COMMON_MODULE_NAME_RU.equalsIgnoreCase(moduleName))
+            if (nameRu.equalsIgnoreCase(moduleName) || name.equalsIgnoreCase(moduleName))
             {
                 return true;
             }

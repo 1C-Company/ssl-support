@@ -35,6 +35,7 @@
   <commonModules>CommonModule.ОбщегоНазначенияКлиент</commonModules>
   <commonModules>CommonModule.ТестовыйМодуль</commonModules>
   <commonModules>CommonModule.УсловныйМодуль</commonModules>
+  <commonModules>CommonModule.ОбщегоНазначенияКлиентСервер</commonModules>
   <catalogs>Catalog.Товары</catalogs>
   <catalogs>Catalog.Поставщики</catalogs>
   <informationRegisters>InformationRegister.ШтрихКоды</informationRegisters>

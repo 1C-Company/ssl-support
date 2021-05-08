@@ -31,6 +31,11 @@
 * [`ТаблицаЗначенийВМассив` (`ValueTableToArray`)](common-value-table-to-array.md)
 * [`СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`)](common-value-table-row-to-structure.md)
 
+Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииентСервер` (`CommonClientServer`)
+
+* [`СвернутьМассив` (`CollapseArray`)](common-client-server-collapse-array.md)
+
+
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
 * [`ОбщийМодуль` (`CommonModule`)](common-client-common-module.md)
