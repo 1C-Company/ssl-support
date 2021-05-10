@@ -1041,6 +1041,41 @@ public class BslCommonFunctionsTest
         restoreState(oldFileContent, oldFile);
     }
 
+    @Test
+    public void testFunctionFixedData() throws Exception
+    {
+
+        IFile oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        String oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/common-module-fixed-data.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+        testingWorkspace.buildWorkspace();
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(1, method.getStatements().size());
+
+        Expression data = getRightExpr(method.getStatements().get(0));
+        Environmental envs = EcoreUtil2.getContainerOfType(data, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(data, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals(IEObjectTypeNames.FIXED_STRUCTURE, McoreUtil.getTypeName(type));
+
+        Map<String, Collection<String>> expected = Maps.newHashMap();
+        expected.put("Ключ1", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        checkProperties(type.getContextDef().getProperties().stream().skip(1).collect(Collectors.toList()), expected,
+            true, false);
+
+        restoreState(oldFileContent, oldFile);
+    }
+
     private Expression getRightExpr(Statement statement)
     {
         assertTrue(statement instanceof SimpleStatement);
