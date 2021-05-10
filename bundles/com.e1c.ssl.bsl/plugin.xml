@@ -66,6 +66,11 @@
             name="ObjectPropertiesDetails"
             nameRu="ОписаниеСвойствОбъекта">
       </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionArraysDifferenceTypesComputer"
+            name="ArraysDifference"
+            nameRu="РазностьМассивов">
+      </computers>
       
    </extension>
 

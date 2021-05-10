@@ -1041,6 +1041,37 @@ public class BslCommonFunctionsTest
         restoreState(oldFileContent, oldFile);
     }
 
+    @Test
+    public void testFunctionArraysDifference() throws Exception
+    {
+        IFile oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        String oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/arrays-difference.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(3, method.getStatements().size());
+        Expression array = getRightExpr(method.getStatements().get(2));
+        Environmental envs = EcoreUtil2.getContainerOfType(array, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(array, envs.environments());
+        assertEquals(2, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        assertTrue(types.get(1) instanceof Type);
+
+        Type type = (Type)types.get(0);
+        if (type.eContainer() == null)
+            type = (Type)types.get(1);
+
+        assertEquals("CatalogRef.Товары", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+
+        restoreState(oldFileContent, oldFile);
+
+    }
+
     private Expression getRightExpr(Statement statement)
     {
         assertTrue(statement instanceof SimpleStatement);
