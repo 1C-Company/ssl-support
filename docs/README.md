@@ -30,6 +30,7 @@
 * [`ОписаниеСвойствОбъекта` (`ObjectPropertiesDetails`)](common-object-properties-details.md)
 * [`ТаблицаЗначенийВМассив` (`ValueTableToArray`)](common-value-table-to-array.md)
 * [`СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`)](common-value-table-row-to-structure.md)
+* [`ВыгрузитьКолонку` (`UnloadColumn`)](common-unload-column.md)
 
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
