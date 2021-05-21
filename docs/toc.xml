@@ -45,6 +45,9 @@
       <topic href="html/common-client-subsystem-exist.html" label="ОбщегоНазначенияКлиент.ПодсистемаСуществует">
          <anchor id="common-client-subsystem-exist"/>
       </topic>
+      <topic href="html/common-copy-recursive.html" label="ОбщегоНазначения.СкопироватьРекурсивно">
+         <anchor id="common-copy-recursive"/>
+      </topic>
    </topic>
    <topic href="html/changelog.html" label="CHANGELOG">
       <anchor id="changelog"/>

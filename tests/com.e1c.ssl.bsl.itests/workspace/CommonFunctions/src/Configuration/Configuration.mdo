@@ -38,6 +38,5 @@
   <catalogs>Catalog.Товары</catalogs>
   <catalogs>Catalog.Поставщики</catalogs>
   <documents>Document.Документ</documents>
-  <documents>Document.Документ1</documents>
   <informationRegisters>InformationRegister.ШтрихКоды</informationRegisters>
 </mdclass:Configuration>
