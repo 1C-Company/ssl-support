@@ -37,5 +37,6 @@
   <commonModules>CommonModule.УсловныйМодуль</commonModules>
   <catalogs>Catalog.Товары</catalogs>
   <catalogs>Catalog.Поставщики</catalogs>
+  <documents>Document.Документ</documents>
   <informationRegisters>InformationRegister.ШтрихКоды</informationRegisters>
 </mdclass:Configuration>

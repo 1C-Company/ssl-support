@@ -1053,6 +1053,37 @@ public class BslCommonFunctionsTest
     }
 
     @Test
+    public void testFunctionCheckDocumentsPosting() throws Exception
+    {
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/check-documents-posting.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(2, method.getStatements().size());
+        Expression array = getRightExpr(method.getStatements().get(1));
+        Environmental envs = EcoreUtil2.getContainerOfType(array, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(array, envs.environments());
+        assertEquals(2, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        assertTrue(types.get(1) instanceof Type);
+
+        Type type = (Type)types.get(0);
+        if (type.eContainer() == null)
+            type = (Type)types.get(1);
+
+        assertEquals("DocumentRef.Документ", McoreUtil.getTypeName(type)); //$NON-NLS-1$
+
+        restoreState(oldFileContent, oldFile);
+
+    }
+
+    @Test
     public void testFunctionCopyRecursive() throws Exception
     {
         this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
