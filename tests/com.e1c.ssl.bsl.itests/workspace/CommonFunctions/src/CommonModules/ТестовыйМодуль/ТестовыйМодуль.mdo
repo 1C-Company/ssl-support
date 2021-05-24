@@ -5,7 +5,7 @@
     <key>ru</key>
     <value>Тестовый модуль</value>
   </synonym>
-  <server>true</server>
   <clientManagedApplication>true</clientManagedApplication>
+  <server>true</server>
   <clientOrdinaryApplication>true</clientOrdinaryApplication>
 </mdclass:CommonModule>

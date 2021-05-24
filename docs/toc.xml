@@ -36,6 +36,9 @@
       <topic href="html/common-value-table-row-to-structure.html" label="ОбщегоНазначения.СтрокаТаблицыЗначенийВСтруктуру">
          <anchor id="common-value-table-row-to-structure"/>
       </topic>
+      <topic href="html/common-check-documents-posting.html" label="ОбщегоНазначения.ПроверитьПроведенностьДокументов">
+         <anchor id="common-check-documents-posting"/>
+      </topic>
       <topic href="html/common-client-common-module.html" label="ОбщегоНазначенияКлиент.ОбщийМодуль">
          <anchor id="common-client-common-module"/>
       </topic>
@@ -44,6 +47,9 @@
       </topic>
       <topic href="html/common-client-server-value-in-array.html" label="ОбщегоНазначенияКлиентСервер.ЗначениеВМассиве">
          <anchor id="common-client-server-value-in-array"/>
+      </topic>
+      <topic href="html/common-copy-recursive.html" label="ОбщегоНазначения.СкопироватьРекурсивно">
+         <anchor id="common-copy-recursive"/>
       </topic>
    </topic>
    <topic href="html/changelog.html" label="CHANGELOG">
