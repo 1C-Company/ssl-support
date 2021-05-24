@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
@@ -27,11 +26,9 @@ import org.eclipse.xtext.scoping.IScope;
 
 import com._1c.g5.v8.dt.bsl.model.BslFactory;
 import com._1c.g5.v8.dt.bsl.model.BslPackage;
-import com._1c.g5.v8.dt.bsl.model.DynamicFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
-import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
 import com._1c.g5.v8.dt.bsl.model.VariablesScopeSpec;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
 import com._1c.g5.v8.dt.mcore.Environmental;
@@ -99,10 +96,6 @@ public class CommonFunctionCommonModuleManagerTypesComputer
         .build();
     //@formatter:on
 
-    public static final String COMMON_CLIENT_MODULE_NAME = "CommonClient"; //$NON-NLS-1$
-
-    public static final String COMMON_CLIENT_MODULE_NAME_RU = "ОбщегоНазначенияКлиент"; //$NON-NLS-1$
-
     public static final String INVOCATION_NAME = "CommonModule"; //$NON-NLS-1$
 
     public static final String INVOCATION_NAME_RU = "ОбщийМодуль"; //$NON-NLS-1$
@@ -118,7 +111,7 @@ public class CommonFunctionCommonModuleManagerTypesComputer
         if (inv.getParams().size() != 1 || paramContent == null)
             return Collections.emptyList();
 
-        if (isValidModuleNameInvocation(inv))
+        if (isValidAnyModuleNameInvocation(inv))
         {
             return computeTypes(inv, paramContent);
         }
@@ -165,41 +158,5 @@ public class CommonFunctionCommonModuleManagerTypesComputer
         }
 
         return Collections.emptyList();
-    }
-
-    @Override
-    protected boolean isValidModuleNameInvocation(Invocation inv)
-    {
-
-        if (inv.getMethodAccess() instanceof DynamicFeatureAccess)
-        {
-            DynamicFeatureAccess dfa = (DynamicFeatureAccess)inv.getMethodAccess();
-
-            if (dfa.getSource() instanceof StaticFeatureAccess)
-            {
-                String moduleName = ((StaticFeatureAccess)dfa.getSource()).getName();
-                if (moduleName != null && (moduleName.equalsIgnoreCase(COMMON_MODULE_NAME_RU)
-                    || moduleName.equalsIgnoreCase(COMMON_CLIENT_MODULE_NAME_RU)
-
-                    || moduleName.equalsIgnoreCase(COMMON_MODULE_NAME)
-                    || moduleName.equalsIgnoreCase(COMMON_CLIENT_MODULE_NAME)))
-                {
-                    return true;
-                }
-            }
-        }
-        else if (inv.getMethodAccess() instanceof StaticFeatureAccess)
-        {
-            URI uri = EcoreUtil.getURI(inv);
-            String moduleName = uri.segment(uri.segmentCount() - 1);
-            if (COMMON_MODULE_NAME_RU.equalsIgnoreCase(moduleName)
-                || COMMON_CLIENT_MODULE_NAME_RU.equalsIgnoreCase(moduleName)
-                || COMMON_MODULE_NAME.equalsIgnoreCase(moduleName)
-                || COMMON_CLIENT_MODULE_NAME.equalsIgnoreCase(moduleName))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
