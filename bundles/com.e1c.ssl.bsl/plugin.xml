@@ -71,6 +71,16 @@
             name="FixedData"
             nameRu="ФиксированныеДанные">
       </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionCheckDocumentsPostingTypesComputer"
+            name="CheckDocumentsPosting"
+            nameRu="ПроверитьПроведенностьДокументов">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionCopyRecursiveTypesComputer"
+            name="CopyRecursive"
+            nameRu="СкопироватьРекурсивно">
+      </computers>
       
    </extension>
 

@@ -40,6 +40,8 @@
 * `ТаблицаЗначенийВМассив` (`ValueTableToArray`) - возвращает массив из структур с со свойствами идентичными колонкам таблицы
 * `СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`) - возвращает структуру со свойствами идентичными колонкам таблицы
 * `ФиксированныеДанные` (`FixedData`) - фиксированные данные, аналогичные переданным в первом параметре
+* `ПроверитьПроведенностьДокументов` (`CheckDocumentsPosting`) - возвращает типизированный массив
+* `СкопироватьРекурсивно` (`CopyRecursive`) - функция возвращает тип первого входящего параметра
 
 Позволяет налету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
@@ -60,13 +62,15 @@
 
 | Версия | P2-репозиторий | ZIP-архив репозитория |
 |--------|----------------|-----------------------|
-| 0.1.0 для 1C:EDT 2020.3 | https://edt.1c.ru/releases/plugins/ssl-support/edt-1.19.0/0.1.0/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-1.19.0/0.1.0/repo.zip |
-| 0.1.1 для 1C:EDT 2020.4 | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.4.0/0.1.1/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.4.0/0.1.1/repo.zip |
+| 0.4.0 для 1C:EDT 2021.1 | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.1/0.4.0/repo/ | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.1/0.4.0/repo.zip |
+| 0.3.0 для 1C:EDT 2020.6 | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2020.6/0.3.0/repo/ | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2020.6/0.3.0/repo.zip |
 | 0.2.0 для 1C:EDT 2020.5 | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.5.0/0.2.0/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.5.0/0.2.0/repo.zip |
-| 0.3.0 для 1C:EDT 2020.6 | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.6/0.3.0/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.6/0.3.0/repo.zip |
-| 0.4.0 для 1C:EDT 2021.1 | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.1/0.4.0/ | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.1/0.4.0/repo.zip |
+| 0.1.1 для 1C:EDT 2020.4 | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.4.0/0.1.1/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.4.0/0.1.1/repo.zip |
+| 0.1.0 для 1C:EDT 2020.3 | https://edt.1c.ru/releases/plugins/ssl-support/edt-1.19.0/0.1.0/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-1.19.0/0.1.0/repo.zip |
 
-Для входа на сайт https://edt.1c.ru используйте логин и пароль сайта https://its.1c.ru/ .
+Для входа на сайт https://edt.1c.ru/releases/plugins/ используйте логин и пароль сайта https://its.1c.ru/ .
+
+Для входа на сайт https://edt.1c.ru/downloads/releases/plugins/ авторизация не требуется.
 
 Далее для установки нужно выполнить следующие действия:
 
