@@ -30,6 +30,7 @@
 * [`ОписаниеСвойствОбъекта` (`ObjectPropertiesDetails`)](common-object-properties-details.md)
 * [`ТаблицаЗначенийВМассив` (`ValueTableToArray`)](common-value-table-to-array.md)
 * [`СтрокаТаблицыЗначенийВСтруктуру` (`ValueTableRowToStructure`)](common-value-table-row-to-structure.md)
+* [`ВыгрузитьКолонку` (`UnloadColumn`)](common-unload-column.md)
 * [`ОбщегоНазначения.ПроверитьПроведенностьДокументов` (`Common.CheckDocumentsPosting`)] (common-check-documents-posting.md)
 * [`СкопироватьРекурсивно` (`CopyRecursive`)](common-copy-recursive.md)
 
