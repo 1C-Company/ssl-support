@@ -48,6 +48,9 @@
       <topic href="html/common-client-server-collapse-array.html" label="ОбщегоНазначенияКлиентСервер.СвернутьМассив">
          <anchor id="common-client-server-collapse-array"/>
       </topic>
+      <topic href="html/common-unload-column.html" label="ОбщегоНазначения.ВыгрузитьКолонку">
+         <anchor id="common-unload-column"/>
+      </topic>
       <topic href="html/common-copy-recursive.html" label="ОбщегоНазначения.СкопироватьРекурсивно">
          <anchor id="common-copy-recursive"/>
       </topic>
