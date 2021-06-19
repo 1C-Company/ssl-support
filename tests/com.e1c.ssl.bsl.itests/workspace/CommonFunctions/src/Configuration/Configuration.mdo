@@ -35,7 +35,6 @@
   <commonModules>CommonModule.ОбщегоНазначенияКлиент</commonModules>
   <commonModules>CommonModule.ТестовыйМодуль</commonModules>
   <commonModules>CommonModule.УсловныйМодуль</commonModules>
-  <commonModules>CommonModule.СтандартныеПодсистемыПовтИсп</commonModules>
   <commonModules>CommonModule.СтроковыеФункцииКлиентСервер</commonModules>
   <catalogs>Catalog.Товары</catalogs>
   <catalogs>Catalog.Поставщики</catalogs>

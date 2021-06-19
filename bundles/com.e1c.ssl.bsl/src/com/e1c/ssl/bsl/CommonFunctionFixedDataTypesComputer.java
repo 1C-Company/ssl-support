@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.util.Pair;
@@ -87,26 +88,26 @@ public class CommonFunctionFixedDataTypesComputer
             if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.STRUCTURE))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_STRUCTURE);
-                return computeTypes(inv, all.getFirst(), item);
+                return computeTypes(all.getFirst(), item, inv);
             }
             else if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.ARRAY))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_ARRAY);
-                return computeTypes(inv, all.getFirst(), item);
+                return computeTypes(all.getFirst(), item, inv);
             }
             else if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.MAP))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_MAP);
-                return computeTypes(inv, all.getFirst(), item);
+                return computeTypes(all.getFirst(), item, inv);
             }
         }
 
         return Collections.emptyList();
     }
 
-    private List<TypeItem> computeTypes(Invocation inv, Collection<Property> properties, TypeItem item)
+    private List<TypeItem> computeTypes(Collection<Property> properties, TypeItem item, EObject context)
     {
-        Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, inv));
+        Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, context));
 
         for (Property prop : properties)
         {
