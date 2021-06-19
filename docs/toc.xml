@@ -48,6 +48,9 @@
       <topic href="html/common-client-arrays-difference.html" label="ОбщегоНазначенияКлиентСервер.РазностьМассивов">
          <anchor id="common-client-arrays-difference"/>
       </topic>
+      <topic href="html/common-unload-column.html" label="ОбщегоНазначения.ВыгрузитьКолонку">
+         <anchor id="common-unload-column"/>
+      </topic>
       <topic href="html/common-copy-recursive.html" label="ОбщегоНазначения.СкопироватьРекурсивно">
          <anchor id="common-copy-recursive"/>
       </topic>
