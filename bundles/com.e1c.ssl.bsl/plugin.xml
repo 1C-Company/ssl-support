@@ -72,6 +72,11 @@
             nameRu="РазностьМассивов">
       </computers>
       <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionValueInArrayTypesComputer"
+            name="ValueInArray"
+            nameRu="ЗначениеВМассиве">
+      </computers>
+      <computers
             computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionUnloadColumnTypesComputer"
             name="UnloadColumn"
             nameRu="ВыгрузитьКолонку">

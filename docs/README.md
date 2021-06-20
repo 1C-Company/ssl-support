@@ -37,6 +37,7 @@
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииентСервер` (`CommonClientServer`)
 
 * [`РазностьМассивов` (`ArraysDifference`)](common-client-server-arrays-difference.md)
+* [`ЗначениеВМассиве` (`ValueInArray`)](common-client-server-value-in-array.md)
 
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
