@@ -40,7 +40,8 @@ public class CommonFunctionCopyRecursiveTypesComputer
         if (params.isEmpty() || params.size() > 2)
             return Collections.emptyList();
 
-        if (!isValidAnyModuleNameInvocation(inv))
+        if (!isValidModuleNameInvocation(inv) && !isValidClientModuleNameInvocation(inv)
+            && !isValidClientServerModuleNameInvocation(inv))
             return Collections.emptyList();
 
         Expression expr = params.get(0);

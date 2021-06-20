@@ -48,6 +48,9 @@
       <topic href="html/common-value-fixed-data.html" label="ОбщегоНазначения.ФиксированныеДанные">
          <anchor id="common-value-fixed-data"/>
       </topic>
+      <topic href="html/common-client-server-value-in-array.html" label="ОбщегоНазначенияКлиентСервер.ЗначениеВМассиве">
+         <anchor id="common-client-server-value-in-array"/>
+      </topic>
       <topic href="html/common-unload-column.html" label="ОбщегоНазначения.ВыгрузитьКолонку">
          <anchor id="common-unload-column"/>
       </topic>

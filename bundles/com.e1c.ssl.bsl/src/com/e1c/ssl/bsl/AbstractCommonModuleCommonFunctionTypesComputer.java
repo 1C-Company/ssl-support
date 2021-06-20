@@ -73,6 +73,10 @@ public abstract class AbstractCommonModuleCommonFunctionTypesComputer
 
     public static final String COMMON_CLIENT_MODULE_NAME_RU = "ОбщегоНазначенияКлиент"; //$NON-NLS-1$
 
+    public static final String COMMON_CLIENT_SERVER_MODULE_NAME = "CommonClientServer"; //$NON-NLS-1$
+
+    public static final String COMMON_CLIENT_SERVER_MODULE_NAME_RU = "ОбщегоНазначенияКлиентСервер"; //$NON-NLS-1$
+
     protected static final String METHOD_ARRAY_ADD_RU = "Добавить"; //$NON-NLS-1$
 
     protected static final String METHOD_ARRAY_ADD = "Add"; //$NON-NLS-1$
@@ -117,15 +121,14 @@ public abstract class AbstractCommonModuleCommonFunctionTypesComputer
     }
 
     /**
-     * Checks if the invocation is for valid module name "CommonServer".
+     * Checks if the invocation is for valid module name "CommonClientServer".
      *
      * @param inv the invocation
      * @return true, if it is valid module name invocation
      */
-    protected boolean isValidAnyModuleNameInvocation(Invocation inv)
+    protected boolean isValidClientServerModuleNameInvocation(Invocation inv)
     {
-        return isValidModuleNameInvocation(inv, COMMON_CLIENT_MODULE_NAME, COMMON_CLIENT_MODULE_NAME_RU)
-            || isValidModuleNameInvocation(inv, COMMON_MODULE_NAME, COMMON_MODULE_NAME_RU);
+        return isValidModuleNameInvocation(inv, COMMON_CLIENT_SERVER_MODULE_NAME, COMMON_CLIENT_SERVER_MODULE_NAME_RU);
     }
 
     private boolean isValidModuleNameInvocation(Invocation inv, String name, String nameRu)

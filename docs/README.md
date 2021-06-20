@@ -35,6 +35,9 @@
 * [`ПроверитьПроведенностьДокументов` (`CheckDocumentsPosting`)](common-check-documents-posting.md)
 * [`СкопироватьРекурсивно` (`CopyRecursive`)](common-copy-recursive.md)
 
+Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииентСервер` (`CommonClientServer`)
+* [`ЗначениеВМассиве` (`ValueInArray`)](common-client-server-value-in-array.md)
+
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 
 * [`ОбщийМодуль` (`CommonModule`)](common-client-common-module.md)

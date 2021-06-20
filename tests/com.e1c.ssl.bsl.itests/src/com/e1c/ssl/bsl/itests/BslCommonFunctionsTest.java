@@ -1122,6 +1122,97 @@ public class BslCommonFunctionsTest
     }
 
     @Test
+    public void testFunctionFixedArray() throws Exception
+    {
+
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/common-module-fixed-array.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+        testingWorkspace.buildWorkspace();
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(2, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(3, method.getStatements().size());
+
+        Expression data = getRightExpr(method.getStatements().get(1));
+        Environmental envs = EcoreUtil2.getContainerOfType(data, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(data, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals(IEObjectTypeNames.FIXED_ARRAY, McoreUtil.getTypeName(type));
+
+        restoreState(oldFileContent, oldFile);
+    }
+
+    @Test
+    public void testFunctionFixedMap() throws Exception
+    {
+
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/common-module-fixed-map.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+        testingWorkspace.buildWorkspace();
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(5, method.getStatements().size());
+
+        Expression data = getRightExpr(method.getStatements().get(3));
+        Environmental envs = EcoreUtil2.getContainerOfType(data, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(data, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals(IEObjectTypeNames.FIXED_MAP, McoreUtil.getTypeName(type));
+
+        restoreState(oldFileContent, oldFile);
+    }
+
+    @Test
+    public void testFunctionValueInArray() throws Exception
+    {
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/value-in-array.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        assertEquals(1, module.allMethods().size());
+        Method method = module.allMethods().get(0);
+        assertEquals(1, method.getStatements().size());
+        Expression structure = getRightExpr(method.getStatements().get(0));
+        checkExpr(structure, Lists.newArrayList(IEObjectTypeNames.STRUCTURE));
+
+        Environmental envs = EcoreUtil2.getContainerOfType(structure, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(structure, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals(IEObjectTypeNames.STRUCTURE, McoreUtil.getTypeName(type));
+        Map<String, Collection<String>> expected = Maps.newHashMap();
+        expected.put("Ключ1", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        checkProperties(type.getContextDef().getProperties().stream().skip(1).collect(Collectors.toList()), expected,
+            true, false);
+
+        restoreState(oldFileContent, oldFile);
+    }
+
+    @Test
     public void testFunctionCheckDocumentsPosting() throws Exception
     {
         this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));

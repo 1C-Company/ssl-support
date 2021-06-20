@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -23,6 +24,7 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
+import com._1c.g5.v8.dt.bsl.model.ExtendedCollectionType;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
 import com._1c.g5.v8.dt.mcore.Environmental;
@@ -68,13 +70,13 @@ public class CommonFunctionFixedDataTypesComputer
         if (types.isEmpty())
             return Collections.emptyList();
 
-        Collection<Pair<Collection<Property>, TypeItem>> collection =
+        Collection<Pair<Collection<Property>, TypeItem>> properties =
             this.getDynamicFeatureAccessComputer().getAllProperties(types, envs.eResource());
 
-        if (collection.isEmpty())
+        if (properties.isEmpty())
             return Collections.emptyList();
 
-        Iterator<Pair<Collection<Property>, TypeItem>> iterator = collection.iterator();
+        Iterator<Pair<Collection<Property>, TypeItem>> iterator = properties.iterator();
         Pair<Collection<Property>, TypeItem> all = iterator.next();
 
         if (all == null)
@@ -88,45 +90,54 @@ public class CommonFunctionFixedDataTypesComputer
             if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.STRUCTURE))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_STRUCTURE);
-                return computeTypes(all.getFirst(), item, inv);
+                return computeStructureTypes(all.getFirst(), item, inv);
             }
-            else if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.ARRAY))
+            else if (type instanceof ExtendedCollectionType
+                && McoreUtil.getTypeName(type).equals(IEObjectTypeNames.ARRAY))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_ARRAY);
-                return computeTypes(all.getFirst(), item, inv);
+                return computeTypes(type, item, inv);
             }
             else if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.MAP))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_MAP);
-                return computeTypes(all.getFirst(), item, inv);
+                return computeTypes(type, item, inv);
             }
         }
 
         return Collections.emptyList();
     }
 
-    private List<TypeItem> computeTypes(Collection<Property> properties, TypeItem item, EObject context)
+    private List<TypeItem> computeTypes(TypeItem sourceType, TypeItem item, EObject context)
     {
         Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, context));
 
-        for (Property prop : properties)
+        if (sourceType instanceof Type)
         {
-            if (prop instanceof DerivedProperty)
-            {
-                DerivedProperty property = McoreFactory.eINSTANCE.createDerivedProperty();
-                property.setName(prop.getName());
-                property.setNameRu(prop.getNameRu());
-                property.setReadable(true);
-                property.setWritable(true);
-                property.setTypeContainer(McoreFactory.eINSTANCE.createTypeContainerRef());
-
-                ((TypeContainerRef)property.getTypeContainer()).getTypes().addAll(prop.getTypes());
-
-                property.setSource(((DerivedProperty)prop).getSource());
-
-                type.getContextDef().getProperties().add(property);
-            }
+            TypeContainerRef containerRef = McoreFactory.eINSTANCE.createTypeContainerRef();
+            containerRef.getTypes().addAll(((Type)sourceType).getCollectionElementTypes().allTypes());
+            type.setCollectionElementTypes(containerRef);
+            type.setIterable(type.isIterable());
         }
+
+        List<TypeItem> collectionTypes = Lists.newArrayList();
+        collectionTypes.add(type);
+
+        return collectionTypes;
+    }
+
+    private List<TypeItem> computeStructureTypes(Collection<Property> properties, TypeItem item, EObject context)
+    {
+        Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, context));
+
+        List<DerivedProperty> derivedProperties =
+            properties.stream().filter(prop -> prop instanceof DerivedProperty).map(prop -> {
+                DerivedProperty property = (DerivedProperty)EcoreUtil2.cloneWithProxies(prop);
+                property.setWritable(false);
+                return property;
+            }).collect(Collectors.toList());
+
+        type.getContextDef().getProperties().addAll(derivedProperties);
 
         List<TypeItem> collectionTypes = Lists.newArrayList();
         collectionTypes.add(type);

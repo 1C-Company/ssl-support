@@ -35,7 +35,7 @@
   <commonModules>CommonModule.ОбщегоНазначенияКлиент</commonModules>
   <commonModules>CommonModule.ТестовыйМодуль</commonModules>
   <commonModules>CommonModule.УсловныйМодуль</commonModules>
-  <commonModules>CommonModule.СтроковыеФункцииКлиентСервер</commonModules>
+  <commonModules>CommonModule.ОбщегоНазначенияКлиентСервер</commonModules>
   <catalogs>Catalog.Товары</catalogs>
   <catalogs>Catalog.Поставщики</catalogs>
   <documents>Document.Документ</documents>
