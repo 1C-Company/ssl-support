@@ -36,8 +36,8 @@
 
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииентСервер` (`CommonClientServer`)
 
+* [`ЗначениеВМассиве` (`ValueInArray`)](common-client-server-value-in-array.md)
 * [`СвернутьМассив` (`CollapseArray`)](common-client-server-collapse-array.md)
-
 
 Позволяет на лету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`)
 

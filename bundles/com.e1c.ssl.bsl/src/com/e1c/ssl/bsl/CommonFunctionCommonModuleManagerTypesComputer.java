@@ -111,7 +111,7 @@ public class CommonFunctionCommonModuleManagerTypesComputer
         if (inv.getParams().size() != 1 || paramContent == null)
             return Collections.emptyList();
 
-        if (isValidAnyModuleNameInvocation(inv))
+        if (isValidModuleNameInvocation(inv) || isValidClientModuleNameInvocation(inv))
         {
             return computeTypes(inv, paramContent);
         }
