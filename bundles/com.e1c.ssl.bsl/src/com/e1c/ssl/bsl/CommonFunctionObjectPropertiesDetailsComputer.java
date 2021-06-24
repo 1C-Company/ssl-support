@@ -98,8 +98,9 @@ public class CommonFunctionObjectPropertiesDetailsComputer
                 .findFirst()
                 .orElse(null);
 
-            if (property == null)
+            if (property == null || property.getTypes().isEmpty())
                 return Collections.emptyList();
+
             all = this.getDynamicFeatureAccessComputer()
                 .getAllProperties(((Type)(property.getTypes().get(0))).getCollectionElementTypes().allTypes(),
                     envs.eResource())
@@ -133,11 +134,14 @@ public class CommonFunctionObjectPropertiesDetailsComputer
         Type valueTable = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(type, inv));
 
         Type derivedType = valueTableDynamicContextDefProvider.computeDerivedValueTableType(inv, valueTable);
+        if (derivedType == null || derivedType.getCollectionElementTypes() == null
+            || derivedType.getCollectionElementTypes().allTypes().isEmpty())
+            return Collections.emptyList();
 
         Type valueTableRowType = (Type)derivedType.getCollectionElementTypes().allTypes().get(0);
 
         TypeContainer columns = ValueTableDynamicContextDefProvider.getColumnCollectionType(derivedType);
-        if (columns == null)
+        if (columns == null || columns.allTypes().isEmpty())
             return Collections.emptyList();
 
         Type valueTableColumnType = (Type)columns.allTypes().get(0);
