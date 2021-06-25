@@ -14,9 +14,9 @@ Automatic-Module-Name: com.e1c.ssl.bsl.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
 Import-Package: com._1c.g5.modeling.xtext.scoping;version="[4.1.0,5.0.0)",
- com._1c.g5.v8.dt.bsl.documentation.comment;version="[2.0.0,3.0.0)",
+ com._1c.g5.v8.dt.bsl.documentation.comment;version="[3.0.0,4.0.0)",
  com._1c.g5.v8.dt.bsl.model;version="[4.0.0,5.0.0)",
- com._1c.g5.v8.dt.bsl.resource;version="[12.0.0,13.0.0)",
+ com._1c.g5.v8.dt.bsl.resource;version="[13.0.0,14.0.0)",
  com._1c.g5.v8.dt.bsl.ui.contentassist.stringliteral;version="[5.0.0,6.0.0)",
  com._1c.g5.v8.dt.bsl.validation.stringliterals;version="[5.0.0,6.0.0)",
  com._1c.g5.v8.dt.lcore.naming;version="[1.0.0,2.0.0)",
