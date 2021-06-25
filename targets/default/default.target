@@ -93,14 +93,19 @@
 <unit id="org.eclipse.nebula.widgets.datechooser.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.nebula.widgets.formattedtext.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.nebula.widgets.grid.feature.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.nebula.widgets.chips" version="0.0.0"/>
+<unit id="org.eclipse.nebula.widgets.opal.commons" version="0.0.0"/>
 <unit id="org.eclipse.ocl.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.rcp.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.userstorage.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.wst.server_core.feature.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.wst.server_ui.feature.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.wst.server_userdoc.feature.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
 <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="0.0.0"/>
-<repository id="dt_repository" location="https://edt.1c.ru/downloads/releases/ruby/2021.1/"/>
+<repository id="dt_repository" location="https://edt.1c.ru/downloads/releases/ruby/2021.2/"/>
 </location>
 
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
