@@ -54,15 +54,14 @@ public class CommonFunctionValueInArrayTypesComputer
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
 
-        List<TypeItem> type = this.getTypesComputer().computeTypes(expr, envs.environments());
-
-        List<TypeItem> collectionTypes = Lists.newArrayList();
-        collectionTypes.add(type.get(0));
+        List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
+        if (types.isEmpty())
+            return Collections.emptyList();
 
         IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             versionSupport.getRuntimeVersionOrDefault(inv, Version.LATEST));
 
-        ExtendedCollectionType extendedType = TypeSystemUtil.createExtendedArrayType(collectionTypes, provider, inv);
+        ExtendedCollectionType extendedType = TypeSystemUtil.createExtendedArrayType(types, provider, inv);
 
         return Lists.newArrayList(extendedType);
 

@@ -2,8 +2,8 @@ name: CI
 
 on:
   push:
-    branches-ignore:
-      - 'gh-pages'
+    branches:
+      - master
   pull_request:
     branches: 
       - '*'
@@ -46,7 +46,7 @@ jobs:
 
     - name: Publish Test Report
       uses: scacap/action-surefire-report@v1
-      if: github.event.pull_request.head.repo.full_name == github.repository
+      if: always()
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     
