@@ -45,6 +45,9 @@
       <topic href="html/common-client-subsystem-exist.html" label="ОбщегоНазначенияКлиент.ПодсистемаСуществует">
          <anchor id="common-client-subsystem-exist"/>
       </topic>
+      <topic href="html/common-client-arrays-difference.html" label="ОбщегоНазначенияКлиентСервер.РазностьМассивов">
+         <anchor id="common-client-arrays-difference"/>
+      </topic>
       <topic href="html/common-client-server-value-in-array.html" label="ОбщегоНазначенияКлиентСервер.ЗначениеВМассиве">
          <anchor id="common-client-server-value-in-array"/>
       </topic>
