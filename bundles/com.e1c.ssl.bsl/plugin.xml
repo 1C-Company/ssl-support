@@ -72,6 +72,16 @@
             nameRu="ФиксированныеДанные">
       </computers>
       <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionCollapseArrayTypesComputer"
+            name="CollapseArray"
+            nameRu="СвернутьМассив">
+      </computers>
+      <computers
+            computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionArraysDifferenceTypesComputer"
+            name="ArraysDifference"
+            nameRu="РазностьМассивов">
+      </computers>
+      <computers
             computer="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.CommonFunctionValueInArrayTypesComputer"
             name="ValueInArray"
             nameRu="ЗначениеВМассиве">

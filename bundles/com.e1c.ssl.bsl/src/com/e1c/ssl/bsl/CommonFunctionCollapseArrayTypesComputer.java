@@ -18,24 +18,18 @@ import java.util.List;
 import org.eclipse.xtext.EcoreUtil2;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
-import com._1c.g5.v8.dt.bsl.model.ExtendedCollectionType;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
-import com._1c.g5.v8.dt.bsl.typesystem.util.TypeSystemUtil;
 import com._1c.g5.v8.dt.mcore.Environmental;
-import com._1c.g5.v8.dt.mcore.McorePackage;
 import com._1c.g5.v8.dt.mcore.TypeItem;
-import com._1c.g5.v8.dt.platform.IEObjectProvider;
-import com._1c.g5.v8.dt.platform.version.Version;
-import com.google.common.collect.Lists;
 
 /**
- * Extension computer of invocation types of 1C:SSL API module function {@code CommonClientServer.ValueInArray()} that
+ * Extension computer of invocation types of 1C:SSL API module function {@code CommonClientServer.CollapseArray()} that
  * returns the typed array.
  *
  * @author Artem Iliukhin
  *
  */
-public class CommonFunctionValueInArrayTypesComputer
+public class CommonFunctionCollapseArrayTypesComputer
     extends AbstractCommonModuleObjectAttributeValueTypesComputer
 {
 
@@ -49,21 +43,13 @@ public class CommonFunctionValueInArrayTypesComputer
             return Collections.emptyList();
 
         Expression expr = inv.getParams().get(0);
-        if (expr == null)
-            return Collections.emptyList();
+        if (expr != null)
+        {
+            Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
+            return this.getTypesComputer().computeTypes(expr, envs.environments());
+        }
 
-        Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-
-        List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
-        if (types.isEmpty())
-            return Collections.emptyList();
-
-        IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
-            versionSupport.getRuntimeVersionOrDefault(inv, Version.LATEST));
-
-        ExtendedCollectionType extendedType = TypeSystemUtil.createExtendedArrayType(types, provider, inv);
-
-        return Lists.newArrayList(extendedType);
+        return Collections.emptyList();
 
     }
 

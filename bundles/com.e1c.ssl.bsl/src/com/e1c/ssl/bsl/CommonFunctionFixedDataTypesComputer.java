@@ -70,45 +70,47 @@ public class CommonFunctionFixedDataTypesComputer
         if (types.isEmpty())
             return Collections.emptyList();
 
-        Collection<Pair<Collection<Property>, TypeItem>> properties =
-            this.getDynamicFeatureAccessComputer().getAllProperties(types, envs.eResource());
-
-        if (properties.isEmpty())
-            return Collections.emptyList();
-
-        Iterator<Pair<Collection<Property>, TypeItem>> iterator = properties.iterator();
-        Pair<Collection<Property>, TypeItem> all = iterator.next();
-
-        if (all == null)
-            return Collections.emptyList();
-
         IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             versionSupport.getRuntimeVersionOrDefault(inv, Version.LATEST));
+
+        List<TypeItem> collectionTypes = Lists.newArrayList();
 
         for (TypeItem type : types)
         {
             if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.STRUCTURE))
             {
+                Collection<Pair<Collection<Property>, TypeItem>> properties =
+                    this.getDynamicFeatureAccessComputer().getAllProperties(types, envs.eResource());
+
+                if (properties.isEmpty())
+                    return Collections.emptyList();
+
+                Iterator<Pair<Collection<Property>, TypeItem>> iterator = properties.iterator();
+                Pair<Collection<Property>, TypeItem> all = iterator.next();
+
+                if (all == null)
+                    return Collections.emptyList();
+
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_STRUCTURE);
-                return computeStructureTypes(all.getFirst(), item, inv);
+                collectionTypes.add(computeStructureType(all.getFirst(), item, inv));
             }
             else if (type instanceof ExtendedCollectionType
                 && McoreUtil.getTypeName(type).equals(IEObjectTypeNames.ARRAY))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_ARRAY);
-                return computeTypes(type, item, inv);
+                collectionTypes.add(computeType(type, item, inv));
             }
             else if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.MAP))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_MAP);
-                return computeTypes(type, item, inv);
+                collectionTypes.add(computeType(type, item, inv));
             }
         }
 
-        return Collections.emptyList();
+        return collectionTypes;
     }
 
-    private List<TypeItem> computeTypes(TypeItem sourceType, TypeItem item, EObject context)
+    private TypeItem computeType(TypeItem sourceType, TypeItem item, EObject context)
     {
         Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, context));
 
@@ -120,13 +122,10 @@ public class CommonFunctionFixedDataTypesComputer
             type.setIterable(type.isIterable());
         }
 
-        List<TypeItem> collectionTypes = Lists.newArrayList();
-        collectionTypes.add(type);
-
-        return collectionTypes;
+        return type;
     }
 
-    private List<TypeItem> computeStructureTypes(Collection<Property> properties, TypeItem item, EObject context)
+    private TypeItem computeStructureType(Collection<Property> properties, TypeItem item, EObject context)
     {
         Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, context));
 
@@ -139,9 +138,6 @@ public class CommonFunctionFixedDataTypesComputer
 
         type.getContextDef().getProperties().addAll(derivedProperties);
 
-        List<TypeItem> collectionTypes = Lists.newArrayList();
-        collectionTypes.add(type);
-
-        return collectionTypes;
+        return type;
     }
 }

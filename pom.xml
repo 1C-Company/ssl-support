@@ -16,13 +16,13 @@
   <parent>
     <groupId>com.e1c.ssl</groupId>
     <artifactId>bom</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
     <relativePath>./bom/pom.xml</relativePath>
   </parent>
 
   <groupId>com.e1c.ssl</groupId>
   <artifactId>parent</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
+  <version>0.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>1C:SSL support for 1C:EDT</name>

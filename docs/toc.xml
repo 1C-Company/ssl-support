@@ -48,6 +48,12 @@
       <topic href="html/common-value-fixed-data.html" label="ОбщегоНазначения.ФиксированныеДанные">
          <anchor id="common-value-fixed-data"/>
       </topic>
+      <topic href="html/common-client-server-collapse-array.html" label="ОбщегоНазначенияКлиентСервер.СвернутьМассив">
+         <anchor id="common-client-server-collapse-array"/>
+      </topic>
+      <topic href="html/common-client-arrays-difference.html" label="ОбщегоНазначенияКлиентСервер.РазностьМассивов">
+         <anchor id="common-client-arrays-difference"/>
+      </topic>
       <topic href="html/common-client-server-value-in-array.html" label="ОбщегоНазначенияКлиентСервер.ЗначениеВМассиве">
          <anchor id="common-client-server-value-in-array"/>
       </topic>

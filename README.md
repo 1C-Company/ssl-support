@@ -46,6 +46,8 @@
 
 Позволяет налету вычислять функции общего модуля `ОбщегоНазначенияКлиентСервер` (`CommonClientServer`), которые возвращают тип в зависимости от переданных параметров.
 
+* `СвернутьМассив`(`CollapseArray`) - возвращает типизированный массив на основе типа расчитанного по первому параметру
+* `РазностьМассивов`(`ArraysDifference`) - возвращает типизированный массив на основе типа расчитанного по первому параметру
 * `ЗначениеВМассиве`(`ValueInArray`) - возвращает типизированный массив с типом первого параметра
 
 Позволяет налету вычислять функции общего модуля `ОбщегоНазначенияКлииент` (`CommonClient`), которые возвращают тип в зависимости от переданных параметров.
@@ -67,6 +69,7 @@
 
 | Версия | P2-репозиторий | ZIP-архив репозитория |
 |--------|----------------|-----------------------|
+| 0.5.0 для 1C:EDT 2021.2 | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.2/0.5.0/repo/ | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.2/0.5.0/repo.zip |
 | 0.4.0 для 1C:EDT 2021.1 | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.1/0.4.0/repo/ | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2021.1/0.4.0/repo.zip |
 | 0.3.0 для 1C:EDT 2020.6 | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2020.6/0.3.0/repo/ | https://edt.1c.ru/downloads/releases/plugins/ssl-support/edt-2020.6/0.3.0/repo.zip |
 | 0.2.0 для 1C:EDT 2020.5 | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.5.0/0.2.0/repo/ | https://edt.1c.ru/releases/plugins/ssl-support/edt-2020.5.0/0.2.0/repo.zip |
