@@ -9,20 +9,30 @@
  *
  * Contributors:
  *     1C-Soft LLC - initial API and implementation
+ *     Popov vitalii - task #52
  *******************************************************************************/
 package com.e1c.ssl.bsl;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
+import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.BooleanLiteral;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.mcore.Environmental;
+import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com.google.inject.Inject;
@@ -39,8 +49,19 @@ public class CommonFunctionCopyRecursiveTypesComputer
     extends AbstractCommonModuleCommonFunctionTypesComputer
 {
 
+    private TypesComputerHelper typeFactory = null;
+    private final DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
+
     @Inject
-    protected IRuntimeVersionSupport versionSupport;
+    public CommonFunctionCopyRecursiveTypesComputer(IRuntimeVersionSupport versionSupport)
+    {
+        super();
+        this.typeFactory = new TypesComputerHelper(versionSupport);
+
+        IResourceServiceProvider rsp =
+            IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
+        this.dynamicFeatureAccessComputer = rsp.get(DynamicFeatureAccessComputer.class);
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -58,25 +79,19 @@ public class CommonFunctionCopyRecursiveTypesComputer
             return Collections.emptyList();
 
         // Without type transfrom
-        if (params.size() == 1 || !returnFixCollection(params))
+        Optional<Boolean> needTransformCollectionType = needTransformCollectionType(params);
+        if (params.size() == 1 || needTransformCollectionType.isEmpty())
         {
-
             Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
             return this.getTypesComputer().computeTypes(expr, envs.environments());
         }
 
         // Transform to fixed collection
-        if (returnFixCollection(params))
-        {
-            return computeFixCollectionType(expr, inv);
-        }
-
-        return Collections.emptyList();
+        return transformTypes(expr, inv, needTransformCollectionType.get());
     }
 
-    private List<TypeItem> computeFixCollectionType(Expression expr, Invocation context)
+    private List<TypeItem> transformTypes(Expression expr, Invocation context, boolean isResultFixStructure)
     {
-        TypesComputerUtils typesComputerUtils = new TypesComputerUtils(versionSupport);
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
@@ -85,40 +100,66 @@ public class CommonFunctionCopyRecursiveTypesComputer
             return Collections.emptyList();
         }
 
-        List<TypeItem> fixCollectionType;
-        switch (types.get(0).getName())
-        {
-        case IEObjectTypeNames.MAP:
-
-            fixCollectionType =
-                typesComputerUtils.createCustomMapWithType(IEObjectTypeNames.FIXED_MAP, expr, context);
-            break;
-        case IEObjectTypeNames.STRUCTURE:
-            fixCollectionType = typesComputerUtils
-                .tranformToStructureType(IEObjectTypeNames.FIXED_STRUCTURE, expr, context);
-            break;
-        case IEObjectTypeNames.ARRAY:
-            fixCollectionType = typesComputerUtils.transformToFixArray(expr, context);
-            break;
-        default:
-            fixCollectionType = types;
-        }
-
-        return fixCollectionType;
+        // @formatter:off
+        return types.stream()
+            .map(it -> transformType(it, envs, context, isResultFixStructure))
+            .collect(Collectors.toList());
+        //@formatter:on
     }
 
-    private boolean returnFixCollection(EList<Expression> params)
+    private TypeItem transformType(TypeItem type, Environmental envs, Invocation context, boolean isResultFixStructure)
+    {
+
+        TypeItem resultType;
+
+        Collection<Pair<Collection<Property>, TypeItem>> props;
+        switch (McoreUtil.getTypeName(type))
+        {
+        case IEObjectTypeNames.MAP:
+            resultType = typeFactory.transformMap(type, context, isResultFixStructure);
+            break;
+        case IEObjectTypeNames.STRUCTURE:
+            props =
+                dynamicFeatureAccessComputer.getAllProperties(Collections.singletonList(type), envs.eResource());
+            resultType = typeFactory
+                .tranformToStructureType(type, props, isResultFixStructure, context);
+            break;
+        case IEObjectTypeNames.ARRAY:
+            resultType = typeFactory.transformArray(type, context, isResultFixStructure);
+            break;
+
+        case IEObjectTypeNames.FIXED_MAP:
+            resultType = typeFactory.transformMap(type, context, isResultFixStructure);
+            break;
+
+        case IEObjectTypeNames.FIXED_STRUCTURE:
+            props = dynamicFeatureAccessComputer.getAllProperties(Collections.singletonList(type), envs.eResource());
+            resultType = typeFactory.tranformToStructureType(type, props, isResultFixStructure, context);
+            break;
+
+        case IEObjectTypeNames.FIXED_ARRAY:
+            resultType = typeFactory.transformArray(type, context, isResultFixStructure);
+            break;
+
+        default:
+            resultType = type;
+        }
+
+        return resultType;
+    }
+
+    private Optional<Boolean> needTransformCollectionType(EList<Expression> params)
     {
         if (params.size() != 2)
-            return false;
+            return Optional.empty();
 
         Expression expression = params.get(1);
         BooleanLiteral returnFixStructureParam = EcoreUtil2.getContainerOfType(expression, BooleanLiteral.class);
 
         if (returnFixStructureParam == null)
-            return false;
+            return Optional.empty();
 
-        return returnFixStructureParam.isIsTrue();
+        return Optional.of(returnFixStructureParam.isIsTrue());
     }
 
 }

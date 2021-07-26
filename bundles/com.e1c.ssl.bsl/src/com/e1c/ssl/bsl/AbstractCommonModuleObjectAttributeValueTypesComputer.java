@@ -101,7 +101,7 @@ public abstract class AbstractCommonModuleObjectAttributeValueTypesComputer
     protected List<TypeItem> createCustomMapType(List<TypeItem> keyTypes, List<TypeItem> valueTypes, Invocation context)
     {
 
-        TypesComputerUtils typesComputerUtil = new TypesComputerUtils(versionSupport);
+        TypesComputerHelper typesComputerUtil = new TypesComputerHelper(versionSupport);
         return typesComputerUtil.createCustomMapType(keyTypes, valueTypes, context);
     }
 

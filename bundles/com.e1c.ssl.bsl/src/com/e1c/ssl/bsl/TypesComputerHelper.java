@@ -1,6 +1,16 @@
-/**
+/*******************************************************************************
+ * Copyright (C) 2021, 1C-Soft LLC and others.
  *
- */
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     1C-Soft LLC - initial API and implementation
+ *     Popov vitalii - task #52
+ *******************************************************************************/
 package com.e1c.ssl.bsl;
 
 import java.util.Collection;
@@ -10,31 +20,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.BslFactory;
-import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.ExtendedCollectionType;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
-import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
-import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
+import com._1c.g5.v8.dt.bsl.typesystem.util.TypeSystemUtil;
 import com._1c.g5.v8.dt.mcore.ContextDefWithRefItem;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
-import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.McoreFactory;
 import com._1c.g5.v8.dt.mcore.McorePackage;
 import com._1c.g5.v8.dt.mcore.Method;
 import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
+import com._1c.g5.v8.dt.mcore.TypeContainer;
 import com._1c.g5.v8.dt.mcore.TypeContainerDef;
 import com._1c.g5.v8.dt.mcore.TypeContainerRef;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.Environments;
+import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
@@ -44,116 +51,132 @@ import com._1c.g5.v8.dt.platform.version.Version;
  * @author Popov Vitalii
  *
  */
-class TypesComputerUtils
+class TypesComputerHelper
 {
 
     private final IRuntimeVersionSupport versionSupport;
     private IEObjectProvider provider;
-    private final DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
-    private TypesComputer typesComputer;
 
-    public TypesComputerUtils(IRuntimeVersionSupport versionSupport)
+
+    public TypesComputerHelper(IRuntimeVersionSupport versionSupport)
     {
         this.versionSupport = versionSupport;
-        IResourceServiceProvider rsp =
-            IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
-        this.dynamicFeatureAccessComputer = rsp.get(DynamicFeatureAccessComputer.class);
-        this.typesComputer = rsp.get(TypesComputer.class);
     }
 
-    protected List<TypeItem> tranformToStructureType(String dstType, Expression srcExpression,
-        Invocation context)
+    /**
+     * Transform types STRUCTURE to FIX_STRUCTURE or FIX_STRUCTURE to STRUCTURE.
+     *
+     * @param type - current type.
+     * @param proprties - structure properties.
+     * @param transformToFixType - transform direction.
+     * @param context
+     * @return type.
+     */
+    protected TypeItem tranformToStructureType(TypeItem type,
+        Collection<Pair<Collection<Property>, TypeItem>> proprties, boolean transformToFixType,
+        EObject context)
     {
+        String dstType = transformToFixType ? IEObjectTypeNames.FIXED_STRUCTURE : IEObjectTypeNames.STRUCTURE;
+        if (McoreUtil.getTypeName(type).equals(dstType))
+        {
+            return type;
+        }
+
         provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
         TypeItem collectionType = (TypeItem)provider.getProxy(dstType);
-        Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(collectionType, context));
+        Type newType = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(collectionType, context));
 
-        Environmental envs = EcoreUtil2.getContainerOfType(srcExpression, Environmental.class);
-        List<TypeItem> types = this.typesComputer.computeTypes(srcExpression, envs.environments());
-        Collection<Pair<Collection<Property>, TypeItem>> collection =
-            dynamicFeatureAccessComputer.getAllProperties(types, envs.eResource());
+        if (proprties.isEmpty())
+            return type;
 
-        if (collection.isEmpty())
-            return Collections.emptyList();
-
-        Iterator<Pair<Collection<Property>, TypeItem>> iterator = collection.iterator();
+        Iterator<Pair<Collection<Property>, TypeItem>> iterator = proprties.iterator();
         Pair<Collection<Property>, TypeItem> all = iterator.next();
 
         if (all == null)
-            return Collections.emptyList();
+            return type;
 
         for (Property prop : all.getFirst())
         {
             if (prop instanceof DerivedProperty)
             {
-                DerivedProperty newProp = cloneProperty(prop);
-                type.getContextDef().getProperties().add(newProp);
+                DerivedProperty newProp = cloneProperty((DerivedProperty)prop);
+                newProp.setWritable(!transformToFixType);
+                newType.getContextDef().getProperties().add(newProp);
             }
         }
 
-        return Collections.singletonList(type);
+        return newType;
     }
 
     /**
+     * Transform types FIXIED_ARRAY to ARRAY or ARRAY to FIXED_ARRAY.
+     *
      * @param expr
      * @param context
      * @return the list of types
      */
-    protected List<TypeItem> transformToFixArray(Expression expr, Invocation context)
+    protected TypeItem transformArray(TypeItem type, EObject context, boolean transformToFixCollection)
     {
         provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
-        Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
+        String typeName = McoreUtil.getTypeName(type);
+        if (typeName.equals(IEObjectTypeNames.FIXED_ARRAY) && transformToFixCollection
+            || typeName.equals(IEObjectTypeNames.ARRAY) && !transformToFixCollection)
+        {
+            return type;
+        }
 
-        List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        if (types.isEmpty())
-            return Collections.emptyList();
+        if (!(type instanceof Type))
+            return type;
 
-        Type type = (Type)types.get(0);
-        ExtendedCollectionType extendedFixArrayType =
-            createExtendedFixArrayType(type.getCollectionElementTypes().allTypes(), provider, context);
-        return Collections.singletonList(extendedFixArrayType);
+        Type arrayType = (Type)type;
+
+        ExtendedCollectionType extendedFixArrayType;
+        if(transformToFixCollection)
+        {
+            extendedFixArrayType =
+                createExtendedFixArrayType(arrayType.getCollectionElementTypes().allTypes(), provider, context);
+        }
+        else
+        {
+            extendedFixArrayType = TypeSystemUtil
+                .createExtendedArrayType(arrayType.getCollectionElementTypes().allTypes(), provider, context);
+        }
+
+        return extendedFixArrayType;
     }
 
     /**
-     * Creates the custom MAP type where kay and value has specific types.
+     * Transform types FIXED_MAP to MAP or MAP to FIXED_MAP.
      *
      * @param mapType FIX_MAP or MAP
      * @param expr source type
      * @param context the context
      */
-    protected List<TypeItem> createCustomMapWithType(String mapType, Expression expr, Invocation context)
+    protected TypeItem transformMap(TypeItem type, EObject context, boolean transformToFixType)
     {
+        String dstTypeName = transformToFixType ? IEObjectTypeNames.FIXED_MAP : IEObjectTypeNames.MAP;
+        if (McoreUtil.getTypeName(type).equals(dstTypeName))
+        {
+            return type;
+        }
+
         provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
-        TypeItem dstType = (TypeItem)provider.getProxy(mapType);
+        TypeItem dstType = (TypeItem)provider.getProxy(dstTypeName);
 
-        Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-        List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        Type type = (Type)types.get(0);
-        Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
+        if (!(type instanceof Type))
+            return type;
+
+        Type mapType = (Type)type;
+        Type collectionType = (Type)mapType.getCollectionElementTypes().allTypes().get(0);
         List<TypeItem> keysTypes = getTypeFromPropertyCollection(collectionType, "Key"); //$NON-NLS-1$
         List<TypeItem> valuesTypes = getTypeFromPropertyCollection(collectionType, "Value"); //$NON-NLS-1$
-        return Collections.singletonList(createCustomMapWithType(dstType, keysTypes, valuesTypes, context));
-    }
-
-    /**
-     * @param collectionType
-     * @param propertyName
-     * @return item types
-     */
-    private List<TypeItem> getTypeFromPropertyCollection(Type collectionType, String propertyName)
-    {
-        return collectionType.getContextDef()
-            .allProperties()
-            .stream()
-            .filter(property -> propertyName.equals(property.getName()))
-            .flatMap(property -> property.getTypes().stream())
-            .collect(Collectors.toList());
+        return createCustomMapWithType(dstType, keysTypes, valuesTypes, context);
     }
 
     /**
@@ -174,8 +197,23 @@ class TypesComputerUtils
         return Collections.singletonList(mapType);
     }
 
+    /**
+     * @param collectionType
+     * @param propertyName
+     * @return item types
+     */
+    private List<TypeItem> getTypeFromPropertyCollection(Type collectionType, String propertyName)
+    {
+        return collectionType.getContextDef()
+            .allProperties()
+            .stream()
+            .filter(property -> propertyName.equals(property.getName()))
+            .flatMap(property -> property.getTypes().stream())
+            .collect(Collectors.toList());
+    }
+
     private Type createCustomMapWithType(TypeItem type, List<TypeItem> keyTypes, List<TypeItem> valueTypes,
-        Invocation context)
+        EObject context)
     {
         Type mapType = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(type, context));
         TypeContainerDef newTypeContainer = McoreFactory.eINSTANCE.createTypeContainerDef();
@@ -261,18 +299,20 @@ class TypesComputerUtils
         return extendedType;
     }
 
-    private DerivedProperty cloneProperty(Property prop)
+    private DerivedProperty cloneProperty(DerivedProperty prop)
     {
         DerivedProperty property = McoreFactory.eINSTANCE.createDerivedProperty();
         property.setName(prop.getName());
         property.setNameRu(prop.getNameRu());
-        property.setReadable(true);
-        property.setWritable(true);
+        property.setReadable(prop.isReadable());
+        property.setWritable(prop.isWritable());
         property.setTypeContainer(McoreFactory.eINSTANCE.createTypeContainerRef());
 
-        ((TypeContainerRef)property.getTypeContainer()).getTypes().addAll(prop.getTypes());
+        TypeContainer typeContainer = property.getTypeContainer();
+        if (typeContainer instanceof TypeContainerRef)
+            ((TypeContainerRef)typeContainer).getTypes().addAll(prop.getTypes());
 
-        property.setSource(((DerivedProperty)prop).getSource());
+        property.setSource(prop.getSource());
         return property;
     }
 }

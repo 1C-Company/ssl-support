@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2020, 1C-Soft LLC and others.
+ * Copyright (C) 2021, 1C-Soft LLC and others.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  *
  * Contributors:
  *     1C-Soft LLC - initial API and implementation
+ *     Popov vitalii - task #52
  *******************************************************************************/
 package com.e1c.ssl.bsl.itests;
 
@@ -61,7 +62,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
- * Tests for API functions of 1C:SSL API modules "Common" or "CommonClient".
+ * Tests for functions CopyRecursive of 1C:SSL API modules "Common".
  *
  * @author Popov Vitalii
  *
@@ -274,11 +275,12 @@ public class BslCopyRecursiveTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(array, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(array, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals(2, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
         Type collectionType = (Type)type.getCollectionElementTypes().allTypes().get(0);
-        assertEquals(IEObjectTypeNames.STRUCTURE, McoreUtil.getTypeName(collectionType));
+        assertEquals(IEObjectTypeNames.STRUCTURE,
+            McoreUtil.getTypeName(collectionType));
     }
 
     /**
@@ -306,6 +308,42 @@ public class BslCopyRecursiveTest
         Type type = (Type)types.get(0);
 
         assertEquals(IEObjectTypeNames.VALUE_LIST, McoreUtil.getTypeName(type));
+
+    }
+
+    /**
+     * Check that {@code Common.CopyRecursive(Value, false)} return correct type for Fixed Structure.
+     */
+    @Test
+    public void testFunctionCopyRecursiveReturnStructure() throws Exception
+    {
+        String resultType = IEObjectTypeNames.STRUCTURE;
+
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
+        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
+        replaceFileContent(oldFile, newFile);
+
+        Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
+        Method method = module.allMethods().get(6);
+        Expression structure = getRightExpr(method.getStatements().get(1));
+
+        checkExpr(structure, Lists.newArrayList(resultType));
+
+        Environmental envs = EcoreUtil2.getContainerOfType(structure, Environmental.class);
+        List<TypeItem> types = typesComputer.computeTypes(structure, envs.environments());
+        assertEquals(1, types.size());
+        assertTrue(types.get(0) instanceof Type);
+        Type type = (Type)types.get(0);
+
+        assertEquals(resultType, McoreUtil.getTypeName(type));
+        Map<String, Collection<String>> expected = Maps.newHashMap();
+        expected.put("Ключ1", Lists.newArrayList("String")); //$NON-NLS-1$ //$NON-NLS-2$
+
+        checkProperties(type.getContextDef().getProperties().stream().skip(1).collect(Collectors.toList()), expected,
+            true, false);
 
     }
 
