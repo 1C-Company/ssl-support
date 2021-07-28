@@ -66,7 +66,7 @@ class TypesComputerHelper
     /**
      * Transform types STRUCTURE to FIX_STRUCTURE or FIX_STRUCTURE to STRUCTURE.
      *
-     * @param type - current type.
+     * @param type - current type, must be MAP or FIXED_MAP.
      * @param proprties - structure properties.
      * @param transformToFixType - transform direction.
      * @param context
@@ -113,9 +113,10 @@ class TypesComputerHelper
     /**
      * Transform types FIXIED_ARRAY to ARRAY or ARRAY to FIXED_ARRAY.
      *
-     * @param expr
+     * @param type - current type, must be MAP or FIXED_MAP.
      * @param context
-     * @return the list of types
+     * @param transformToFixType - transform direction.
+     * @return transformed type.
      */
     protected TypeItem transformArray(TypeItem type, EObject context, boolean transformToFixCollection)
     {
@@ -152,9 +153,10 @@ class TypesComputerHelper
     /**
      * Transform types FIXED_MAP to MAP or MAP to FIXED_MAP.
      *
-     * @param mapType FIX_MAP or MAP
-     * @param expr source type
-     * @param context the context
+     * @param type - current type, must be MAP or FIXED_MAP.
+     * @param context - source type.
+     * @param transformToFixType - transform direction.
+     * @return transformed type.
      */
     protected TypeItem transformMap(TypeItem type, EObject context, boolean transformToFixType)
     {
@@ -182,9 +184,9 @@ class TypesComputerHelper
     /**
      * Creates the custom MAP type where kay and value has specific types.
      *
-     * @param keyTypes the key types
-     * @param valueTypes the value types
-     * @param context the context
+     * @param keyTypes - the key types
+     * @param valueTypes - the value types
+     * @param context - the context
      * @return the list of types
      */
     protected List<TypeItem> createCustomMapType(List<TypeItem> keyTypes, List<TypeItem> valueTypes, Invocation context)
