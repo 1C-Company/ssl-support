@@ -12,6 +12,7 @@
  *******************************************************************************/
 package com.e1c.ssl.bsl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,7 +39,6 @@ import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com._1c.g5.v8.dt.platform.version.Version;
-import com.google.common.collect.Lists;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.FixedData()} that
@@ -73,11 +73,11 @@ public class CommonFunctionFixedDataTypesComputer
         IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             versionSupport.getRuntimeVersionOrDefault(inv, Version.LATEST));
 
-        List<TypeItem> collectionTypes = Lists.newArrayList();
+        List<TypeItem> collectionTypes = new ArrayList<>();
 
         for (TypeItem type : types)
         {
-            if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.STRUCTURE))
+            if (IEObjectTypeNames.STRUCTURE.equals(McoreUtil.getTypeName(type)))
             {
                 Collection<Pair<Collection<Property>, TypeItem>> properties =
                     this.getDynamicFeatureAccessComputer().getAllProperties(types, envs.eResource());
@@ -95,12 +95,12 @@ public class CommonFunctionFixedDataTypesComputer
                 collectionTypes.add(computeStructureType(all.getFirst(), item, inv));
             }
             else if (type instanceof ExtendedCollectionType
-                && McoreUtil.getTypeName(type).equals(IEObjectTypeNames.ARRAY))
+                && IEObjectTypeNames.ARRAY.equals(McoreUtil.getTypeName(type)))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_ARRAY);
                 collectionTypes.add(computeType(type, item, inv));
             }
-            else if (McoreUtil.getTypeName(type).equals(IEObjectTypeNames.MAP))
+            else if (IEObjectTypeNames.MAP.equals(McoreUtil.getTypeName(type)))
             {
                 TypeItem item = provider.getProxy(IEObjectTypeNames.FIXED_MAP);
                 collectionTypes.add(computeType(type, item, inv));
