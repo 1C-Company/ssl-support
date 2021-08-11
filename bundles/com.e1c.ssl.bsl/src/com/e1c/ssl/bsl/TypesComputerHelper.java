@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Copyright (C) 2021, 1C-Soft LLC and others.
  *
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -27,7 +28,6 @@ import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.BslFactory;
 import com._1c.g5.v8.dt.bsl.model.ExtendedCollectionType;
-import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.typesystem.util.TypeSystemUtil;
 import com._1c.g5.v8.dt.mcore.ContextDefWithRefItem;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
@@ -46,19 +46,23 @@ import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com._1c.g5.v8.dt.platform.version.Version;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
+ * Provides API for transform one {@code TypeItem} to another {@code TypeItem}.
+ *
  * @author Popov Vitalii
  *
  */
+@Singleton
 class TypesComputerHelper
 {
 
     private final IRuntimeVersionSupport versionSupport;
-    private IEObjectProvider provider;
 
-
-    public TypesComputerHelper(IRuntimeVersionSupport versionSupport)
+    @Inject
+    TypesComputerHelper(IRuntimeVersionSupport versionSupport)
     {
         this.versionSupport = versionSupport;
     }
@@ -66,13 +70,13 @@ class TypesComputerHelper
     /**
      * Transform types STRUCTURE to FIX_STRUCTURE or FIX_STRUCTURE to STRUCTURE.
      *
-     * @param type - current type, must be MAP or FIXED_MAP.
+     * @param type - current type, must be MAP or FIXED_MAP, cannot be {@code null}.
      * @param proprties - structure properties.
      * @param transformToFixType - transform direction.
-     * @param context
-     * @return type.
+     * @param context, cannot be {@code null}.
+     * @return type, cannot return {@code null}.
      */
-    protected TypeItem tranformToStructureType(TypeItem type,
+    public TypeItem transformStructure(TypeItem type,
         Collection<Pair<Collection<Property>, TypeItem>> proprties, boolean transformToFixType,
         EObject context)
     {
@@ -82,10 +86,10 @@ class TypesComputerHelper
             return type;
         }
 
-        provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
+        IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
-        TypeItem collectionType = (TypeItem)provider.getProxy(dstType);
+        Type collectionType = (Type)provider.getProxy(dstType);
         Type newType = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(collectionType, context));
 
         if (proprties.isEmpty())
@@ -101,6 +105,7 @@ class TypesComputerHelper
         {
             if (prop instanceof DerivedProperty)
             {
+                // TODO not copy porperty in case where writable doesn't change
                 DerivedProperty newProp = cloneProperty((DerivedProperty)prop);
                 newProp.setWritable(!transformToFixType);
                 newType.getContextDef().getProperties().add(newProp);
@@ -113,19 +118,18 @@ class TypesComputerHelper
     /**
      * Transform types FIXIED_ARRAY to ARRAY or ARRAY to FIXED_ARRAY.
      *
-     * @param type - current type, must be MAP or FIXED_MAP.
-     * @param context
+     * @param type - current type, must be MAP or FIXED_MAP, cannot be {@code null}.
+     * @param context, cannot be {@code null}.
      * @param transformToFixType - transform direction.
-     * @return transformed type.
+     * @return type, cannot return {@code null}.
      */
-    protected TypeItem transformArray(TypeItem type, EObject context, boolean transformToFixCollection)
+    public TypeItem transformArray(TypeItem type, EObject context, boolean transformToFixType)
     {
-        provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
+        IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
-        String typeName = McoreUtil.getTypeName(type);
-        if (typeName.equals(IEObjectTypeNames.FIXED_ARRAY) && transformToFixCollection
-            || typeName.equals(IEObjectTypeNames.ARRAY) && !transformToFixCollection)
+        String dstType = transformToFixType ? IEObjectTypeNames.FIXED_ARRAY : IEObjectTypeNames.ARRAY;
+        if (McoreUtil.getTypeName(type).equals(dstType))
         {
             return type;
         }
@@ -136,7 +140,7 @@ class TypesComputerHelper
         Type arrayType = (Type)type;
 
         ExtendedCollectionType extendedFixArrayType;
-        if(transformToFixCollection)
+        if (transformToFixType)
         {
             extendedFixArrayType =
                 createExtendedFixArrayType(arrayType.getCollectionElementTypes().allTypes(), provider, context);
@@ -153,12 +157,12 @@ class TypesComputerHelper
     /**
      * Transform types FIXED_MAP to MAP or MAP to FIXED_MAP.
      *
-     * @param type - current type, must be MAP or FIXED_MAP.
-     * @param context - source type.
+     * @param type - current type, must be MAP or FIXED_MAP, cannot be {@code null}.
+     * @param context - source type, cannot be {@code null}.
      * @param transformToFixType - transform direction.
-     * @return transformed type.
+     * @return transformed type, cannot return {@code null}.
      */
-    protected TypeItem transformMap(TypeItem type, EObject context, boolean transformToFixType)
+    public TypeItem transformMap(TypeItem type, EObject context, boolean transformToFixType)
     {
         String dstTypeName = transformToFixType ? IEObjectTypeNames.FIXED_MAP : IEObjectTypeNames.MAP;
         if (McoreUtil.getTypeName(type).equals(dstTypeName))
@@ -166,10 +170,10 @@ class TypesComputerHelper
             return type;
         }
 
-        provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
+        IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
-        TypeItem dstType = (TypeItem)provider.getProxy(dstTypeName);
+        Type dstType = (Type)provider.getProxy(dstTypeName);
 
         if (!(type instanceof Type))
             return type;
@@ -178,32 +182,27 @@ class TypesComputerHelper
         Type collectionType = (Type)mapType.getCollectionElementTypes().allTypes().get(0);
         List<TypeItem> keysTypes = getTypeFromPropertyCollection(collectionType, "Key"); //$NON-NLS-1$
         List<TypeItem> valuesTypes = getTypeFromPropertyCollection(collectionType, "Value"); //$NON-NLS-1$
-        return createCustomMapWithType(dstType, keysTypes, valuesTypes, context);
+        return createCustomMapWithType(dstType, keysTypes, valuesTypes, context, provider);
     }
 
     /**
-     * Creates the custom MAP type where kay and value has specific types.
+     * Creates the custom MAP type where key and value has specific types.
      *
-     * @param keyTypes - the key types
-     * @param valueTypes - the value types
-     * @param context - the context
-     * @return the list of types
+     * @param keyTypes - the key types.
+     * @param valueTypes - the value types.
+     * @param context - the context, cannot be {@code null}.
+     * @return the list of types.
      */
-    protected List<TypeItem> createCustomMapType(List<TypeItem> keyTypes, List<TypeItem> valueTypes, Invocation context)
+    public List<TypeItem> createCustomMapType(List<TypeItem> keyTypes, List<TypeItem> valueTypes, EObject context)
     {
-        provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
+        IEObjectProvider provider = IEObjectProvider.Registry.INSTANCE.get(McorePackage.Literals.TYPE_ITEM,
             this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
 
-        TypeItem type = (TypeItem)provider.getProxy(IEObjectTypeNames.MAP);
-        Type mapType = createCustomMapWithType(type, keyTypes, valueTypes, context);
+        Type type = (Type)provider.getProxy(IEObjectTypeNames.MAP);
+        Type mapType = createCustomMapWithType(type, keyTypes, valueTypes, context, provider);
         return Collections.singletonList(mapType);
     }
 
-    /**
-     * @param collectionType
-     * @param propertyName
-     * @return item types
-     */
     private List<TypeItem> getTypeFromPropertyCollection(Type collectionType, String propertyName)
     {
         return collectionType.getContextDef()
@@ -214,8 +213,8 @@ class TypesComputerHelper
             .collect(Collectors.toList());
     }
 
-    private Type createCustomMapWithType(TypeItem type, List<TypeItem> keyTypes, List<TypeItem> valueTypes,
-        EObject context)
+    private Type createCustomMapWithType(Type type, List<TypeItem> keyTypes, List<TypeItem> valueTypes,
+        EObject context, IEObjectProvider provider)
     {
         Type mapType = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(type, context));
         TypeContainerDef newTypeContainer = McoreFactory.eINSTANCE.createTypeContainerDef();

@@ -34,12 +34,12 @@ import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
-import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.CopyRecursive()} and
- * {@code CommonClient.CopyRecursive()} that returns the same type like first param.
+ * {@code CommonClient.CopyRecursive()} that returns the same type like first param if second param not set.
+ * Returns fixed type if second is {@code true} or unfixed type if second param is {@code false}.
  *
  * @author Artem Iliukhin
  * @author Popov Vitalii - task #52
@@ -49,14 +49,14 @@ public class CommonFunctionCopyRecursiveTypesComputer
     extends AbstractCommonModuleCommonFunctionTypesComputer
 {
 
-    private TypesComputerHelper typeFactory = null;
+    private final TypesComputerHelper typesComputerHelper;
     private final DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
     @Inject
-    public CommonFunctionCopyRecursiveTypesComputer(IRuntimeVersionSupport versionSupport)
+    public CommonFunctionCopyRecursiveTypesComputer(TypesComputerHelper typesComputerHelper)
     {
         super();
-        this.typeFactory = new TypesComputerHelper(versionSupport);
+        this.typesComputerHelper = typesComputerHelper;
 
         IResourceServiceProvider rsp =
             IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
@@ -90,7 +90,7 @@ public class CommonFunctionCopyRecursiveTypesComputer
         return transformTypes(expr, inv, needTransformCollectionType.get());
     }
 
-    private List<TypeItem> transformTypes(Expression expr, Invocation context, boolean isResultFixStructure)
+    private List<TypeItem> transformTypes(Expression expr, Invocation context, boolean isResultFixData)
     {
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
@@ -102,12 +102,12 @@ public class CommonFunctionCopyRecursiveTypesComputer
 
         // @formatter:off
         return types.stream()
-            .map(it -> transformType(it, envs, context, isResultFixStructure))
+            .map(it -> transformType(it, envs, context, isResultFixData))
             .collect(Collectors.toList());
         //@formatter:on
     }
 
-    private TypeItem transformType(TypeItem type, Environmental envs, Invocation context, boolean isResultFixStructure)
+    private TypeItem transformType(TypeItem type, Environmental envs, Invocation context, boolean isResultFixData)
     {
 
         TypeItem resultType;
@@ -116,29 +116,29 @@ public class CommonFunctionCopyRecursiveTypesComputer
         switch (McoreUtil.getTypeName(type))
         {
         case IEObjectTypeNames.MAP:
-            resultType = typeFactory.transformMap(type, context, isResultFixStructure);
+            resultType = typesComputerHelper.transformMap(type, context, isResultFixData);
             break;
         case IEObjectTypeNames.STRUCTURE:
             props =
                 dynamicFeatureAccessComputer.getAllProperties(Collections.singletonList(type), envs.eResource());
-            resultType = typeFactory
-                .tranformToStructureType(type, props, isResultFixStructure, context);
+            resultType = typesComputerHelper
+                .transformStructure(type, props, isResultFixData, context);
             break;
         case IEObjectTypeNames.ARRAY:
-            resultType = typeFactory.transformArray(type, context, isResultFixStructure);
+            resultType = typesComputerHelper.transformArray(type, context, isResultFixData);
             break;
 
         case IEObjectTypeNames.FIXED_MAP:
-            resultType = typeFactory.transformMap(type, context, isResultFixStructure);
+            resultType = typesComputerHelper.transformMap(type, context, isResultFixData);
             break;
 
         case IEObjectTypeNames.FIXED_STRUCTURE:
             props = dynamicFeatureAccessComputer.getAllProperties(Collections.singletonList(type), envs.eResource());
-            resultType = typeFactory.tranformToStructureType(type, props, isResultFixStructure, context);
+            resultType = typesComputerHelper.transformStructure(type, props, isResultFixData, context);
             break;
 
         case IEObjectTypeNames.FIXED_ARRAY:
-            resultType = typeFactory.transformArray(type, context, isResultFixStructure);
+            resultType = typesComputerHelper.transformArray(type, context, isResultFixData);
             break;
 
         default:
@@ -154,12 +154,12 @@ public class CommonFunctionCopyRecursiveTypesComputer
             return Optional.empty();
 
         Expression expression = params.get(1);
-        BooleanLiteral returnFixStructureParam = EcoreUtil2.getContainerOfType(expression, BooleanLiteral.class);
 
-        if (returnFixStructureParam == null)
+        if (!(expression instanceof BooleanLiteral))
             return Optional.empty();
 
-        return Optional.of(returnFixStructureParam.isIsTrue());
+        BooleanLiteral returnFixDataParam = (BooleanLiteral)expression;
+        return Optional.of(returnFixDataParam.isIsTrue());
     }
 
 }

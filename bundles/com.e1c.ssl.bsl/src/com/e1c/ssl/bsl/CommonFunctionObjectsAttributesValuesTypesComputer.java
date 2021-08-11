@@ -18,6 +18,7 @@ import java.util.List;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectsAttributeValue()} that
@@ -30,13 +31,21 @@ public class CommonFunctionObjectsAttributesValuesTypesComputer
     extends CommonFunctionObjectAttributesValuesTypesComputer
 {
 
+    private final TypesComputerHelper typesComputerHelper;
+
+    @Inject
+    public CommonFunctionObjectsAttributesValuesTypesComputer(TypesComputerHelper typesComputerHelper)
+    {
+        this.typesComputerHelper = typesComputerHelper;
+    }
+
     @Override
     protected List<TypeItem> computeTypes(Invocation inv, List<TypeItem> refTypes, String paramContent)
     {
         List<TypeItem> types = super.computeTypes(inv, refTypes, paramContent);
         if (!types.isEmpty())
         {
-            return createCustomMapType(refTypes, types, inv);
+            return typesComputerHelper.createCustomMapType(refTypes, types, inv);
 
         }
         return Collections.emptyList();

@@ -20,7 +20,6 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
-import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.Type;
@@ -89,20 +88,4 @@ public abstract class AbstractCommonModuleObjectAttributeValueTypesComputer
             .collect(Collectors.toList());
         //@formatter:on
     }
-
-    /**
-     * Creates the custom MAP type where kay and value has specific types.
-     *
-     * @param keyTypes the key types
-     * @param valueTypes the value types
-     * @param context the context
-     * @return the list of types
-     */
-    protected List<TypeItem> createCustomMapType(List<TypeItem> keyTypes, List<TypeItem> valueTypes, Invocation context)
-    {
-
-        TypesComputerHelper typesComputerUtil = new TypesComputerHelper(versionSupport);
-        return typesComputerUtil.createCustomMapType(keyTypes, valueTypes, context);
-    }
-
 }
