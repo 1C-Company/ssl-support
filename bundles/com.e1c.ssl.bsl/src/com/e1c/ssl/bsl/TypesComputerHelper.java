@@ -69,12 +69,18 @@ class TypesComputerHelper
 
     /**
      * Transform types STRUCTURE to FIX_STRUCTURE or FIX_STRUCTURE to STRUCTURE.
+     * Сannot return {@code null}.
      *
-     * @param type - current type, must be MAP or FIXED_MAP, cannot be {@code null}.
+     * @param type - current type, must be MAP or FIXED_MAP. Сannot be {@code null}.
+     *
      * @param proprties - structure properties.
+     *
      * @param transformToFixType - transform direction.
-     * @param context, cannot be {@code null}.
-     * @return type, cannot return {@code null}.
+     *
+     * @param context
+     * Сannot be {@code null}.
+     *
+     * @return type
      */
     public TypeItem transformStructure(TypeItem type,
         Collection<Pair<Collection<Property>, TypeItem>> proprties, boolean transformToFixType,
@@ -117,11 +123,17 @@ class TypesComputerHelper
 
     /**
      * Transform types FIXIED_ARRAY to ARRAY or ARRAY to FIXED_ARRAY.
+     * Сannot return {@code null}.
      *
-     * @param type - current type, must be MAP or FIXED_MAP, cannot be {@code null}.
-     * @param context, cannot be {@code null}.
+     * @param type - current type, must be MAP or FIXED_MAP.
+     * Cannot be {@code null}.
+     *
+     * @param context
+     * Сannot be {@code null}.
+     *
      * @param transformToFixType - transform direction.
-     * @return type, cannot return {@code null}.
+     *
+     * @return type
      */
     public TypeItem transformArray(TypeItem type, EObject context, boolean transformToFixType)
     {
@@ -156,11 +168,17 @@ class TypesComputerHelper
 
     /**
      * Transform types FIXED_MAP to MAP or MAP to FIXED_MAP.
+     * Cannot return {@code null}.
      *
-     * @param type - current type, must be MAP or FIXED_MAP, cannot be {@code null}.
-     * @param context - source type, cannot be {@code null}.
+     * @param type - current type, must be MAP or FIXED_MAP.
+     * Cannot be {@code null}.
+     *
+     * @param context - source type.
+     * Cannot be {@code null}.
+     *
      * @param transformToFixType - transform direction.
-     * @return transformed type, cannot return {@code null}.
+     *
+     * @return transformed type.
      */
     public TypeItem transformMap(TypeItem type, EObject context, boolean transformToFixType)
     {
@@ -189,8 +207,12 @@ class TypesComputerHelper
      * Creates the custom MAP type where key and value has specific types.
      *
      * @param keyTypes - the key types.
+     *
      * @param valueTypes - the value types.
-     * @param context - the context, cannot be {@code null}.
+     *
+     * @param context - the context.
+     * Cannot be {@code null}.
+     *
      * @return the list of types.
      */
     public List<TypeItem> createCustomMapType(List<TypeItem> keyTypes, List<TypeItem> valueTypes, EObject context)
