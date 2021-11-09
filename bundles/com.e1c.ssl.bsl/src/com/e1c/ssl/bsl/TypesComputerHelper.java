@@ -82,9 +82,8 @@ class TypesComputerHelper
      *
      * @return type
      */
-    public TypeItem transformStructure(TypeItem type,
-        Collection<Pair<Collection<Property>, TypeItem>> proprties, boolean transformToFixType,
-        EObject context)
+    public TypeItem transformStructure(TypeItem type, Collection<Pair<Collection<Property>, TypeItem>> proprties,
+        boolean transformToFixType, EObject context)
     {
         String dstType = transformToFixType ? IEObjectTypeNames.FIXED_STRUCTURE : IEObjectTypeNames.STRUCTURE;
         if (McoreUtil.getTypeName(type).equals(dstType))
@@ -235,8 +234,8 @@ class TypesComputerHelper
             .collect(Collectors.toList());
     }
 
-    private Type createCustomMapWithType(Type type, List<TypeItem> keyTypes, List<TypeItem> valueTypes,
-        EObject context, IEObjectProvider provider)
+    private Type createCustomMapWithType(Type type, List<TypeItem> keyTypes, List<TypeItem> valueTypes, EObject context,
+        IEObjectProvider provider)
     {
         Type mapType = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(type, context));
         TypeContainerDef newTypeContainer = McoreFactory.eINSTANCE.createTypeContainerDef();
@@ -277,6 +276,12 @@ class TypesComputerHelper
                 {
                     columnProperty.getTypeContainer().allTypes().add(valueType);
                 }
+            }
+            com._1c.g5.v8.dt.mcore.Method getMethod = getMapGetMethod(mapType);
+            if (getMethod != null)
+            {
+                getMethod.getRetValType().clear();
+                getMethod.getRetValType().addAll(valueTypes);
             }
         }
 
@@ -337,5 +342,15 @@ class TypesComputerHelper
 
         property.setSource(prop.getSource());
         return property;
+    }
+
+    private com._1c.g5.v8.dt.mcore.Method getMapGetMethod(TypeItem paramType)
+    {
+        return ((Type)paramType).getContextDef()
+            .allMethods()
+            .stream()
+            .filter(method -> "Get".equals(method.getName())) //$NON-NLS-1$
+            .findFirst()
+            .orElse(null);
     }
 }

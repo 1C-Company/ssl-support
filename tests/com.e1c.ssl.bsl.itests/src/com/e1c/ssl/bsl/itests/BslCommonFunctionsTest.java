@@ -807,17 +807,24 @@ public class BslCommonFunctionsTest
             p -> "Value".equals(p.getName())).findFirst(); //$NON-NLS-1$
         assertTrue(found.isPresent());
         Property property = found.get();
-        type = (Type)property.getTypes().get(0);
+        Type valuePropertyType = (Type)property.getTypes().get(0);
 
-        assertEquals(STRUCTURE, McoreUtil.getTypeName(type));
-        assertNotNull(type.getContextDef());
+        Optional<com._1c.g5.v8.dt.mcore.Method> methodFound =
+            type.getContextDef().getMethods().stream().filter(m -> "Get".equals(m.getName())).findFirst(); //$NON-NLS-1$
+        assertTrue(methodFound.isPresent());
+        com._1c.g5.v8.dt.mcore.Method methodGet = methodFound.get();
+        Type methodGetType = (Type)methodGet.getRetValType().get(0);
+        assertEquals(valuePropertyType, methodGetType);
+
+        assertEquals(STRUCTURE, McoreUtil.getTypeName(valuePropertyType));
+        assertNotNull(valuePropertyType.getContextDef());
 
         Map<String, Collection<String>> expected2 = Maps.newHashMap();
         expected2.put("Поставщик", Lists.newArrayList("CatalogRef.Поставщики")); //$NON-NLS-1$ //$NON-NLS-2$
         expected2.put("Родитель", Lists.newArrayList("CatalogRef.Товары")); //$NON-NLS-1$ //$NON-NLS-2$
         expected2.put("Ссылка", Lists.newArrayList("CatalogRef.Товары")); //$NON-NLS-1$ //$NON-NLS-2$
 
-        checkProperties(type.getContextDef().getProperties(), expected2, true, true);
+        checkProperties(valuePropertyType.getContextDef().getProperties(), expected2, true, true);
 
         restoreState(oldFileContent, oldFile);
     }
