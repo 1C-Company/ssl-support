@@ -52,6 +52,39 @@
 
     <p2repo.archive.skip>false</p2repo.archive.skip>
     <org.jacoco.version>0.8.6</org.jacoco.version>
+    <!-- SonarQube Settings -->
+    <sonar.projectKey>1C-Company_ssl-support</sonar.projectKey>
+    <sonar.organization>1c-company</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+    <!-- JaCoCo code coverage, pass to SonarQube -->
+    <sonar.coverage.jacoco.xmlReportPaths>../../**/target/site/jacoco*/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    
+    <sonar.issue.ignore.multicriteria>e1,e2,e3,e4,t1,t2,t3,t4</sonar.issue.ignore.multicriteria>
+    <!-- Static non-final field names should comply with a naming convention -->
+    <sonar.issue.ignore.multicriteria.e1.ruleKey>java:S3008</sonar.issue.ignore.multicriteria.e1.ruleKey>
+    <sonar.issue.ignore.multicriteria.e1.resourceKey>**/Messages.java</sonar.issue.ignore.multicriteria.e1.resourceKey>
+    <!-- Instance methods should not write to "static" fields -->
+    <sonar.issue.ignore.multicriteria.e2.ruleKey>java:S2696</sonar.issue.ignore.multicriteria.e2.ruleKey>
+    <sonar.issue.ignore.multicriteria.e2.resourceKey>**/*Plugin.java</sonar.issue.ignore.multicriteria.e2.resourceKey>
+    <!-- Generic exceptions should never be thrown -->
+    <sonar.issue.ignore.multicriteria.e3.ruleKey>java:S112</sonar.issue.ignore.multicriteria.e3.ruleKey>
+    <sonar.issue.ignore.multicriteria.e3.resourceKey>**/*Plugin.java</sonar.issue.ignore.multicriteria.e3.resourceKey>
+    <!-- Non-primitive fields should not be "volatile" -->
+    <sonar.issue.ignore.multicriteria.e4.ruleKey>java:S3077</sonar.issue.ignore.multicriteria.e4.ruleKey>
+    <sonar.issue.ignore.multicriteria.e4.resourceKey>**/*Plugin.java</sonar.issue.ignore.multicriteria.e4.resourceKey>
+    <!-- Generic exceptions should never be thrown -->
+    <sonar.issue.ignore.multicriteria.t1.ruleKey>java:S112</sonar.issue.ignore.multicriteria.t1.ruleKey>
+    <sonar.issue.ignore.multicriteria.t1.resourceKey>/tests/**/*.java</sonar.issue.ignore.multicriteria.t1.resourceKey>
+    <!-- Null pointers should not be dereferenced -->
+    <sonar.issue.ignore.multicriteria.t2.ruleKey>java:S2259</sonar.issue.ignore.multicriteria.t2.ruleKey>
+    <sonar.issue.ignore.multicriteria.t2.resourceKey>/tests/**/*.java</sonar.issue.ignore.multicriteria.t2.resourceKey>
+    <!-- "throws" declarations should not be superfluous -->
+    <sonar.issue.ignore.multicriteria.t3.ruleKey>java:S1130</sonar.issue.ignore.multicriteria.t3.ruleKey>
+    <sonar.issue.ignore.multicriteria.t3.resourceKey>/tests/**/*.java</sonar.issue.ignore.multicriteria.t3.resourceKey>
+    <!-- Reflection should not be used to increase accessibility of classes, methods, or fields -->
+    <sonar.issue.ignore.multicriteria.t4.ruleKey>java:S3011</sonar.issue.ignore.multicriteria.t4.ruleKey>
+    <sonar.issue.ignore.multicriteria.t4.resourceKey>/tests/**/*.java</sonar.issue.ignore.multicriteria.t4.resourceKey>
   </properties>
 
   <build>
@@ -72,15 +105,6 @@
                 <version>0.5.0-SNAPSHOT</version>
               </artifact>
             </target>
-            <dependency-resolution>
-              <extraRequirements>
-                <requirement>
-                  <type>eclipse-plugin</type>
-                  <id>javax.annotation</id>
-                  <versionRange>0.0.0</versionRange>
-                </requirement>
-              </extraRequirements>
-            </dependency-resolution>
             <environments>
               <environment>
                 <os>win32</os>
@@ -226,15 +250,37 @@
         <plugin>
           <groupId>com.ruleoftech</groupId>
           <artifactId>markdown-page-generator-plugin</artifactId>
-            <version>${markdown-page-generator.version}</version>
-            <executions>
+          <version>${markdown-page-generator.version}</version>
+          <executions>
               <execution>
                 <phase>process-resources</phase>
                 <goals>
                   <goal>generate</goal>
                 </goals>
               </execution>
-            </executions>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>native2ascii-maven-plugin</artifactId>
+          <version>2.0.1</version>
+          <executions>
+            <execution>
+              <id>utf8-to-latin1</id>
+              <goals>
+                <goal>resources</goal>
+              </goals>
+              <phase>compile</phase>
+            </execution>
+          </executions>
+          <configuration>
+            <srcDir>src</srcDir>
+            <targetDir>${project.build.outputDirectory}</targetDir>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <excludes>
+              <exclude>**/build.properties</exclude>
+            </excludes>
+           </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
