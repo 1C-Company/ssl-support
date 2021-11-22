@@ -11,3 +11,4 @@ target/
 */reports
 #Mac-specific directory that no other operating system needs.
 .DS_Store
+.m2/

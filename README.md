@@ -1,4 +1,9 @@
-![Build](https://github.com/1C-Company/ssl-support/workflows/CI/badge.svg)
+[![Build](https://github.com/1C-Company/ssl-support/workflows/CI/badge.svg)](https://github.com/1C-Company/ssl-support/actions)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=1C-Company_ssl-support&metric=coverage)](https://sonarcloud.io/dashboard?id=1C-Company_ssl-support)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=1C-Company_ssl-support&metric=ncloc)](https://sonarcloud.io/dashboard?id=1C-Company_ssl-support)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=1C-Company_ssl-support&metric=bugs)](https://sonarcloud.io/dashboard?id=1C-Company_ssl-support)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=1C-Company_ssl-support&metric=code_smells)](https://sonarcloud.io/dashboard?id=1C-Company_ssl-support)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=1C-Company_ssl-support&metric=sqale_index)](https://sonarcloud.io/dashboard?id=1C-Company_ssl-support)
 
 # 1C:SSL support for 1C:EDT
 
