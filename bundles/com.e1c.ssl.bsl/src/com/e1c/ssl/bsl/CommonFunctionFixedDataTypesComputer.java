@@ -113,11 +113,11 @@ public class CommonFunctionFixedDataTypesComputer
     private TypeItem computeType(TypeItem sourceType, TypeItem item, EObject context)
     {
         Type type = EcoreUtil2.cloneWithProxies((Type)EcoreUtil.resolve(item, context));
-
-        if (sourceType instanceof Type)
+        TypeItem resolveSourceType = (TypeItem)EcoreUtil.resolve(sourceType, context);
+        if (resolveSourceType instanceof Type && !resolveSourceType.eIsProxy())
         {
             TypeContainerRef containerRef = McoreFactory.eINSTANCE.createTypeContainerRef();
-            containerRef.getTypes().addAll(((Type)sourceType).getCollectionElementTypes().allTypes());
+            containerRef.getTypes().addAll(((Type)resolveSourceType).getCollectionElementTypes().allTypes());
             type.setCollectionElementTypes(containerRef);
             type.setIterable(type.isIterable());
         }
