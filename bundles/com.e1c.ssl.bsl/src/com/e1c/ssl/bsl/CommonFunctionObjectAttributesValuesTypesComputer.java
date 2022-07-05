@@ -42,6 +42,8 @@ import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.bsl.model.StringLiteral;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.ContextDef;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
 import com._1c.g5.v8.dt.mcore.Environmental;
@@ -54,8 +56,10 @@ import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectProvider.Registry;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
+import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com._1c.g5.v8.dt.platform.version.Version;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectAttributesValues()} that
@@ -67,6 +71,19 @@ import com.google.common.collect.Lists;
 public class CommonFunctionObjectAttributesValuesTypesComputer
     extends AbstractCommonModuleObjectAttributeValueTypesComputer
 {
+    private final TypesComputer typesComputer;
+
+    private final ExpressionValueComputer expressionValueComputer;
+
+    @Inject
+    public CommonFunctionObjectAttributesValuesTypesComputer(TypesComputer typesComputer,
+        IRuntimeVersionSupport versionSupport, DynamicFeatureAccessComputer dynamicFeatureAccessComputer,
+        ExpressionValueComputer expressionValueComputer)
+    {
+        super(typesComputer, versionSupport, dynamicFeatureAccessComputer);
+        this.typesComputer = typesComputer;
+        this.expressionValueComputer = expressionValueComputer;
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -79,7 +96,7 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
 
         Environmental envs = EcoreUtil2.getContainerOfType(inv, Environmental.class);
         //@formatter:off
-        List<String> types = getTypesComputer()
+        List<String> types = typesComputer
             .computeTypes(inv.getParams().get(1), envs.environments())
             .stream().map(McoreUtil::getTypeName)
             .collect(Collectors.toList());
@@ -108,7 +125,8 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
 
     private List<TypeItem> computeTypesByArray(Invocation inv, List<TypeItem> refTypes)
     {
-        List<Pair<String, StringLiteral>> paramContent = getArrayExpressionContent(inv.getParams().get(1));
+        List<Pair<String, StringLiteral>> paramContent =
+            expressionValueComputer.getArrayExpressionContent(inv.getParams().get(1));
         if (paramContent.isEmpty())
             return Collections.emptyList();
         Map<String, Pair<String, EObject>> paramStructure = new HashMap<>();
@@ -132,7 +150,7 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
     private List<TypeItem> computeTypesByStructure(Invocation inv, List<TypeItem> refTypes)
     {
         Map<String, Triple<StringLiteral, String, StringLiteral>> paramContent =
-            getStructureExpressionContent(inv.getParams().get(1));
+            expressionValueComputer.getStructureExpressionContent(inv.getParams().get(1));
         if (paramContent.isEmpty())
             return Collections.emptyList();
 
@@ -153,12 +171,13 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
 
     private List<TypeItem> computeTypesByString(Invocation inv, List<TypeItem> refTypes)
     {
-        String paramContent = getExpressionContent(inv.getParams().get(1));
+        Pair<String, Collection<StringLiteral>> paramContent =
+            expressionValueComputer.getExpressionContent(inv.getParams().get(1));
 
         if (paramContent == null)
             return Collections.emptyList();
 
-        return computeTypes(inv, refTypes, paramContent);
+        return computeTypes(inv, refTypes, paramContent.getFirst());
     }
 
     private BslDerivedPropertySource createLiteralSource(StringLiteral literal, String literalText,
@@ -261,8 +280,8 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
 
                 if (value != null && !value.isEmpty())
                 {
-                    for (Iterator<Triple<List<String>, String, EObject>> iterator =
-                        value.iterator(); iterator.hasNext();)
+                    for (Iterator<Triple<List<String>, String, EObject>> iterator = value.iterator(); iterator
+                        .hasNext();)
                     {
                         Triple<List<String>, String, EObject> item = iterator.next();
 

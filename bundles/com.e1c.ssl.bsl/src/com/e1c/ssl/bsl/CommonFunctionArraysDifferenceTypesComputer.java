@@ -19,8 +19,12 @@ import org.eclipse.xtext.EcoreUtil2;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code CommonClientServer.ArraysDifference()}
@@ -32,6 +36,15 @@ import com._1c.g5.v8.dt.mcore.TypeItem;
 public class CommonFunctionArraysDifferenceTypesComputer
     extends AbstractCommonModuleObjectAttributeValueTypesComputer
 {
+    private final TypesComputer typesComputer;
+
+    @Inject
+    protected CommonFunctionArraysDifferenceTypesComputer(TypesComputer typesComputer,
+        IRuntimeVersionSupport versionSupport, DynamicFeatureAccessComputer dynamicFeatureAccessComputer)
+    {
+        super(typesComputer, versionSupport, dynamicFeatureAccessComputer);
+        this.typesComputer = typesComputer;
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -46,7 +59,7 @@ public class CommonFunctionArraysDifferenceTypesComputer
         if (expr != null)
         {
             Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-            return this.getTypesComputer().computeTypes(expr, envs.environments());
+            return typesComputer.computeTypes(expr, envs.environments());
         }
 
         return Collections.emptyList();

@@ -25,13 +25,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
 
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.McorePackage;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectManagerByRef()} that returns
@@ -69,6 +72,15 @@ public class CommonFunctionObjectManagerByRefTypesComputer
     //@formatter:on
 
     private static final String REF = "ref"; //$NON-NLS-1$
+
+    private final IScopeProvider scopeProvider;
+
+    @Inject
+    public CommonFunctionObjectManagerByRefTypesComputer(TypesComputer typesComputer, IScopeProvider scopeProvider)
+    {
+        super(typesComputer);
+        this.scopeProvider = scopeProvider;
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -111,7 +123,7 @@ public class CommonFunctionObjectManagerByRefTypesComputer
 
     protected TypeItem getTypesByFqn(QualifiedName fqn, EObject context)
     {
-        IScope scope = getBslScopeProvider().getScope(context, TYPE_DESCRIPTION__TYPES);
+        IScope scope = scopeProvider.getScope(context, TYPE_DESCRIPTION__TYPES);
         IEObjectDescription elem = scope.getSingleElement(fqn);
         if (elem != null && elem.getEClass() == McorePackage.Literals.TYPE)
         {

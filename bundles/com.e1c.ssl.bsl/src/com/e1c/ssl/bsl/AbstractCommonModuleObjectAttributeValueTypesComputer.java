@@ -15,19 +15,17 @@ package com.e1c.ssl.bsl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
 import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
-import com.google.inject.Inject;
 
 /**
  * Abstract extension computer of invocation types of 1C:SSL API module functions that
@@ -39,18 +37,26 @@ import com.google.inject.Inject;
 public abstract class AbstractCommonModuleObjectAttributeValueTypesComputer
     extends AbstractCommonModuleCommonFunctionTypesComputer
 {
+    private final TypesComputer typesComputer;
 
     private final DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
-    @Inject
-    protected IRuntimeVersionSupport versionSupport;
+    protected final IRuntimeVersionSupport versionSupport;
 
-    protected AbstractCommonModuleObjectAttributeValueTypesComputer()
+    /**
+     * Instantiates a new abstract common module object attribute value types computer.
+     *
+     * @param typesComputer the types computer, cannot be {@code null}.
+     * @param versionSupport the version support, cannot be {@code null}.
+     * @param dynamicFeatureAccessComputer the dynamic feature access computer, cannot be {@code null}.
+     */
+    protected AbstractCommonModuleObjectAttributeValueTypesComputer(TypesComputer typesComputer,
+        IRuntimeVersionSupport versionSupport, DynamicFeatureAccessComputer dynamicFeatureAccessComputer)
     {
-        super();
-        IResourceServiceProvider rsp =
-            IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
-        this.dynamicFeatureAccessComputer = rsp.get(DynamicFeatureAccessComputer.class);
+        super(typesComputer);
+        this.typesComputer = typesComputer;
+        this.dynamicFeatureAccessComputer = dynamicFeatureAccessComputer;
+        this.versionSupport = versionSupport;
 
     }
 
@@ -73,7 +79,7 @@ public abstract class AbstractCommonModuleObjectAttributeValueTypesComputer
     protected List<TypeItem> getReturnArrayRefTypes(Expression expr)
     {
         Environmental environmental = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-        List<TypeItem> paramTypes = getTypesComputer().computeTypes(expr, environmental.environments());
+        List<TypeItem> paramTypes = typesComputer.computeTypes(expr, environmental.environments());
         //@formatter:off
         return paramTypes.stream()
             .filter(Type.class::isInstance)
