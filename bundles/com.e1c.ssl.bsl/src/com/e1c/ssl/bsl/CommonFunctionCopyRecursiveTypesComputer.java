@@ -20,15 +20,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.BooleanLiteral;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.TypeItem;
@@ -49,18 +48,21 @@ public class CommonFunctionCopyRecursiveTypesComputer
     extends AbstractCommonModuleCommonFunctionTypesComputer
 {
 
+    private final TypesComputer typesComputer;
+
     private final TypesComputerHelper typesComputerHelper;
+
     private final DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
     @Inject
-    public CommonFunctionCopyRecursiveTypesComputer(TypesComputerHelper typesComputerHelper)
+    public CommonFunctionCopyRecursiveTypesComputer(TypesComputerHelper typesComputerHelper,
+        TypesComputer typesComputer, DynamicFeatureAccessComputer dynamicFeatureAccessComputer)
     {
-        super();
+        super(typesComputer);
+        this.typesComputer = typesComputer;
         this.typesComputerHelper = typesComputerHelper;
+        this.dynamicFeatureAccessComputer = dynamicFeatureAccessComputer;
 
-        IResourceServiceProvider rsp =
-            IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
-        this.dynamicFeatureAccessComputer = rsp.get(DynamicFeatureAccessComputer.class);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class CommonFunctionCopyRecursiveTypesComputer
         if (params.size() == 1 || needTransformCollectionType.isEmpty())
         {
             Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-            return this.getTypesComputer().computeTypes(expr, envs.environments());
+            return typesComputer.computeTypes(expr, envs.environments());
         }
 
         // Transform to fixed collection
@@ -94,7 +96,7 @@ public class CommonFunctionCopyRecursiveTypesComputer
     {
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
-        List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
+        List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
         if (types.isEmpty())
         {
             return Collections.emptyList();
@@ -119,10 +121,8 @@ public class CommonFunctionCopyRecursiveTypesComputer
             resultType = typesComputerHelper.transformMap(type, context, isResultFixData);
             break;
         case IEObjectTypeNames.STRUCTURE:
-            props =
-                dynamicFeatureAccessComputer.getAllProperties(Collections.singletonList(type), envs.eResource());
-            resultType = typesComputerHelper
-                .transformStructure(type, props, isResultFixData, context);
+            props = dynamicFeatureAccessComputer.getAllProperties(Collections.singletonList(type), envs.eResource());
+            resultType = typesComputerHelper.transformStructure(type, props, isResultFixData, context);
             break;
         case IEObjectTypeNames.ARRAY:
             resultType = typesComputerHelper.transformArray(type, context, isResultFixData);

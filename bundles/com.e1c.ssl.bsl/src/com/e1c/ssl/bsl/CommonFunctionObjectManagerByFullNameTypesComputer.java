@@ -12,16 +12,22 @@
  *******************************************************************************/
 package com.e1c.ssl.bsl;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.xtext.naming.QualifiedName;
+import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.model.StringLiteral;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectManagerByFullName()} that
@@ -33,7 +39,6 @@ import com.google.common.collect.Lists;
 public class CommonFunctionObjectManagerByFullNameTypesComputer
     extends CommonFunctionObjectManagerByRefTypesComputer
 {
-
     //@formatter:off
     protected static final Map<String, QualifiedName> NON_REF_MANAGER_MODULE_BASE =
         ImmutableMap.<String, QualifiedName>builder()
@@ -64,20 +69,31 @@ public class CommonFunctionObjectManagerByFullNameTypesComputer
         .build();
     //@formatter:on
 
+    private final ExpressionValueComputer expressionValueComputer;
+
+    @Inject
+    public CommonFunctionObjectManagerByFullNameTypesComputer(TypesComputer typesComputer, IScopeProvider scopeProvider,
+        ExpressionValueComputer expressionValueComputer)
+    {
+        super(typesComputer, scopeProvider);
+        this.expressionValueComputer = expressionValueComputer;
+    }
+
     @Override
     public List<TypeItem> getTypes(Invocation inv)
     {
         if (inv.getParams().isEmpty())
             return Collections.emptyList();
 
-        String paramContent = getExpressionContent(inv.getParams().get(0));
+        Pair<String, Collection<StringLiteral>> paramContent =
+            expressionValueComputer.getExpressionContent(inv.getParams().get(0));
 
         if (inv.getParams().size() != 1 || paramContent == null)
             return Collections.emptyList();
 
         if (isValidModuleNameInvocation(inv))
         {
-            return computeTypes(inv, paramContent);
+            return computeTypes(inv, paramContent.getFirst());
         }
         return Collections.emptyList();
     }

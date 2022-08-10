@@ -20,13 +20,17 @@ import org.eclipse.xtext.EcoreUtil2;
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.ExtendedCollectionType;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.bsl.typesystem.util.TypeSystemUtil;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.McorePackage;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
+import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com._1c.g5.v8.dt.platform.version.Version;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code CommonClientServer.ValueInArray()} that
@@ -38,6 +42,15 @@ import com.google.common.collect.Lists;
 public class CommonFunctionValueInArrayTypesComputer
     extends AbstractCommonModuleObjectAttributeValueTypesComputer
 {
+    private final TypesComputer typesComputer;
+
+    @Inject
+    public CommonFunctionValueInArrayTypesComputer(TypesComputer typesComputer, IRuntimeVersionSupport versionSupport,
+        DynamicFeatureAccessComputer dynamicFeatureAccessComputer)
+    {
+        super(typesComputer, versionSupport, dynamicFeatureAccessComputer);
+        this.typesComputer = typesComputer;
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -54,7 +67,7 @@ public class CommonFunctionValueInArrayTypesComputer
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
 
-        List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
+        List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
         if (types.isEmpty())
             return Collections.emptyList();
 

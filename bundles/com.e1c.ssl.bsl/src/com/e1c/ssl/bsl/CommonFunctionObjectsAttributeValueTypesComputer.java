@@ -16,7 +16,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com.google.inject.Inject;
 
 /**
@@ -29,12 +32,14 @@ import com.google.inject.Inject;
 public class CommonFunctionObjectsAttributeValueTypesComputer
     extends CommonFunctionObjectAttributeValueTypesComputer
 {
-
     private final TypesComputerHelper typesComputerHelper;
 
     @Inject
-    public CommonFunctionObjectsAttributeValueTypesComputer(TypesComputerHelper typesComputerHelper)
+    public CommonFunctionObjectsAttributeValueTypesComputer(TypesComputer typesComputer,
+        IRuntimeVersionSupport versionSupport, DynamicFeatureAccessComputer dynamicFeatureAccessComputer,
+        ExpressionValueComputer expressionValueComputer, TypesComputerHelper typesComputerHelper)
     {
+        super(typesComputer, versionSupport, dynamicFeatureAccessComputer, expressionValueComputer);
         this.typesComputerHelper = typesComputerHelper;
     }
 

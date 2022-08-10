@@ -61,6 +61,11 @@ class TypesComputerHelper
 
     private final IRuntimeVersionSupport versionSupport;
 
+    /**
+     * Instantiates a new types computer helper.
+     *
+     * @param versionSupport the version support, cannot be {@code null}.
+     */
     @Inject
     TypesComputerHelper(IRuntimeVersionSupport versionSupport)
     {

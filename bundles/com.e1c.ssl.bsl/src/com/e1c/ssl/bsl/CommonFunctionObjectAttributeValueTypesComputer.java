@@ -22,8 +22,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.Invocation;
+import com._1c.g5.v8.dt.bsl.model.StringLiteral;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectsAttributeValue()} that
@@ -35,6 +40,16 @@ import com._1c.g5.v8.dt.mcore.TypeItem;
 public class CommonFunctionObjectAttributeValueTypesComputer
     extends AbstractCommonModuleObjectAttributeValueTypesComputer
 {
+    private final ExpressionValueComputer expressionValueComputer;
+
+    @Inject
+    public CommonFunctionObjectAttributeValueTypesComputer(TypesComputer typesComputer,
+        IRuntimeVersionSupport versionSupport, DynamicFeatureAccessComputer dynamicFeatureAccessComputer,
+        ExpressionValueComputer expressionValueComputer)
+    {
+        super(typesComputer, versionSupport, dynamicFeatureAccessComputer);
+        this.expressionValueComputer = expressionValueComputer;
+    }
 
     @Override
     public List<TypeItem> getTypes(Invocation inv)
@@ -42,14 +57,15 @@ public class CommonFunctionObjectAttributeValueTypesComputer
         if (inv.getParams().size() < 2)
             return Collections.emptyList();
 
-        String paramContent = getExpressionContent(inv.getParams().get(1));
+        Pair<String, Collection<StringLiteral>> paramContent =
+            expressionValueComputer.getExpressionContent(inv.getParams().get(1));
 
         if (paramContent == null)
             return Collections.emptyList();
 
         if (isValidModuleNameInvocation(inv))
         {
-            return computeTypes(inv, paramContent);
+            return computeTypes(inv, paramContent.getFirst());
         }
         return Collections.emptyList();
     }

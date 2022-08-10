@@ -16,16 +16,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.Pair;
 import org.eclipse.xtext.util.Strings;
 
 import com._1c.g5.v8.dt.bsl.model.Expression;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.StaticFeatureAccess;
+import com._1c.g5.v8.dt.bsl.model.StringLiteral;
+import com._1c.g5.v8.dt.bsl.resource.DynamicFeatureAccessComputer;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.bsl.typesystem.ValueTableDynamicContextDefProvider;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
 import com._1c.g5.v8.dt.mcore.Environmental;
@@ -38,8 +39,10 @@ import com._1c.g5.v8.dt.mcore.TypeContainerRef;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.platform.IEObjectProvider;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
+import com._1c.g5.v8.dt.platform.version.IRuntimeVersionSupport;
 import com._1c.g5.v8.dt.platform.version.Version;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.ObjectPropertiesDetails()} that
@@ -54,12 +57,20 @@ public class CommonFunctionObjectPropertiesDetailsComputer
 
     private final ValueTableDynamicContextDefProvider valueTableDynamicContextDefProvider;
 
-    protected CommonFunctionObjectPropertiesDetailsComputer()
+    private final ExpressionValueComputer expressionValueComputer;
+
+    private final TypesComputer typesComputer;
+
+    @Inject
+    public CommonFunctionObjectPropertiesDetailsComputer(TypesComputer typesComputer,
+        IRuntimeVersionSupport versionSupport, DynamicFeatureAccessComputer dynamicFeatureAccessComputer,
+        ExpressionValueComputer expressionValueComputer,
+        ValueTableDynamicContextDefProvider valueTableDynamicContextDefProvider)
     {
-        super();
-        IResourceServiceProvider rsp =
-            IResourceServiceProvider.Registry.INSTANCE.getResourceServiceProvider(URI.createURI("*.bsl")); //$NON-NLS-1$
-        this.valueTableDynamicContextDefProvider = rsp.get(ValueTableDynamicContextDefProvider.class);
+        super(typesComputer, versionSupport, dynamicFeatureAccessComputer);
+        this.valueTableDynamicContextDefProvider = valueTableDynamicContextDefProvider;
+        this.expressionValueComputer = expressionValueComputer;
+        this.typesComputer = typesComputer;
     }
 
     @Override
@@ -71,8 +82,9 @@ public class CommonFunctionObjectPropertiesDetailsComputer
         if (!isValidModuleNameInvocation(inv))
             return Collections.emptyList();
 
-        String propetiesName = getExpressionContent(inv.getParams().get(1));
-        if (Strings.isEmpty(propetiesName))
+        Pair<String, Collection<StringLiteral>> propetiesName =
+            expressionValueComputer.getExpressionContent(inv.getParams().get(1));
+        if (propetiesName == null || Strings.isEmpty(propetiesName.getFirst()))
             return Collections.emptyList();
 
         Expression expr = inv.getParams().get(0);
@@ -80,7 +92,7 @@ public class CommonFunctionObjectPropertiesDetailsComputer
         {
             Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
 
-            List<TypeItem> types = this.getTypesComputer().computeTypes(expr, envs.environments());
+            List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
             if (types.isEmpty())
                 return Collections.emptyList();
 
@@ -111,7 +123,7 @@ public class CommonFunctionObjectPropertiesDetailsComputer
             if (all == null)
                 return Collections.emptyList();
 
-            return computeTypes(inv, propetiesName, all.getFirst());
+            return computeTypes(inv, propetiesName.getFirst(), all.getFirst());
         }
         else
         {

@@ -14,6 +14,7 @@ package com.e1c.ssl.bsl;
 
 import static com._1c.g5.v8.dt.mcore.McorePackage.Literals.TYPE_DESCRIPTION__TYPES;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +24,17 @@ import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.util.Pair;
 
 import com._1c.g5.v8.dt.bsl.model.BslFactory;
 import com._1c.g5.v8.dt.bsl.model.BslPackage;
 import com._1c.g5.v8.dt.bsl.model.Invocation;
 import com._1c.g5.v8.dt.bsl.model.Method;
 import com._1c.g5.v8.dt.bsl.model.Module;
+import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.model.VariablesScopeSpec;
+import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
 import com._1c.g5.v8.dt.mcore.DerivedProperty;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.McorePackage;
@@ -37,6 +42,7 @@ import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 /**
  * Extension computer of invocation types of 1C:SSL API module function {@code Common.CommonModule()} that returns
@@ -100,20 +106,34 @@ public class CommonFunctionCommonModuleManagerTypesComputer
 
     public static final String INVOCATION_NAME_RU = "ОбщийМодуль"; //$NON-NLS-1$
 
+    private final ExpressionValueComputer expressionValueComputer;
+
+    private final IScopeProvider scopeProvider;
+
+    @Inject
+    public CommonFunctionCommonModuleManagerTypesComputer(TypesComputer typesComputer,
+        ExpressionValueComputer expressionValueComputer, IScopeProvider scopeProvider)
+    {
+        super(typesComputer);
+        this.expressionValueComputer = expressionValueComputer;
+        this.scopeProvider = scopeProvider;
+    }
+
     @Override
     public List<TypeItem> getTypes(Invocation inv)
     {
         if (inv.getParams().isEmpty())
             return Collections.emptyList();
 
-        String paramContent = getExpressionContent(inv.getParams().get(0));
+        Pair<String, Collection<StringLiteral>> paramContent =
+            expressionValueComputer.getExpressionContent(inv.getParams().get(0));
 
         if (inv.getParams().size() != 1 || paramContent == null)
             return Collections.emptyList();
 
         if (isValidModuleNameInvocation(inv) || isValidClientModuleNameInvocation(inv))
         {
-            return computeTypes(inv, paramContent);
+            return computeTypes(inv, paramContent.getFirst());
         }
         return Collections.emptyList();
     }
@@ -135,7 +155,7 @@ public class CommonFunctionCommonModuleManagerTypesComputer
                 Environmental environmental = EcoreUtil2.getContainerOfType(inv, Environmental.class);
                 spec.setEnvironments(environmental.environments());
 
-                IScope scope = getBslScopeProvider().getScope(spec, BslPackage.Literals.FAKE_REFERENCE__PROPERTY);
+                IScope scope = scopeProvider.getScope(spec, BslPackage.Literals.FAKE_REFERENCE__PROPERTY);
                 IEObjectDescription elem = scope.getSingleElement(QualifiedName.create(parts[0]));
                 if (elem != null && elem.getEClass() == McorePackage.Literals.DERIVED_PROPERTY)
                 {
@@ -146,7 +166,7 @@ public class CommonFunctionCommonModuleManagerTypesComputer
             else if (parts.length == 2 && MANAGER_MODULE_BASE.containsKey(parts[0].toLowerCase()))
             {
 
-                IScope scope = getBslScopeProvider().getScope(inv, TYPE_DESCRIPTION__TYPES);
+                IScope scope = scopeProvider.getScope(inv, TYPE_DESCRIPTION__TYPES);
                 QualifiedName fqn = MANAGER_MODULE_BASE.get(parts[0].toLowerCase()).append(parts[1]);
                 IEObjectDescription elem = scope.getSingleElement(fqn);
                 if (elem != null && elem.getEClass() == McorePackage.Literals.TYPE)
