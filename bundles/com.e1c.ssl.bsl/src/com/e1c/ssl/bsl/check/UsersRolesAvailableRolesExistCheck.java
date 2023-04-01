@@ -90,8 +90,8 @@ public class UsersRolesAvailableRolesExistCheck
     protected void configureCheck(CheckConfigurer builder)
     {
         //TODO добавить extension CommonSenseCheckExtension
-        builder.title("Users.RolesAvailabel() role exist") //TODO add NLS String
-            .description("Users.RolesAvailabel() role exist") //TODO add NLS String
+        builder.title(Messages.UsersRolesAvailableRolesExistCheck_title)
+            .description(Messages.UsersRolesAvailableRolesExistCheck_description)
             .complexity(CheckComplexity.NORMAL)
             .severity(IssueSeverity.MAJOR)
             .issueType(IssueType.WARNING)
@@ -135,8 +135,7 @@ public class UsersRolesAvailableRolesExistCheck
             String fqn = topObjectFqnGenerator.generateStandaloneObjectFqn(ROLE, role);
             if (scope.getSingleElement(qualifiedNameConverter.toQualifiedName(fqn)) == null)
             {
-                //TODO add NLS String
-                String message = MessageFormat.format("Role {0} not exist", role);
+                String message = MessageFormat.format(Messages.UsersRolesAvailableRolesExistCheck_Role_not_exist, role);
                 resultAcceptor.addIssue(message, literal, STRING_LITERAL__LINES);
             }
 
