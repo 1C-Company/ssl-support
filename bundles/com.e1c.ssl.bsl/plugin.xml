@@ -103,5 +103,11 @@
       </computers>
       
    </extension>
-
+   <extension
+         point="com.e1c.g5.v8.dt.check.checks">
+      <check
+            category="com.e1c.ssl.bsl"
+            class="com.e1c.ssl.bsl.internal.ExecutableExtensionFactory:com.e1c.ssl.bsl.check.UsersRolesAvailableRolesExistCheck">
+      </check>
+   </extension>
 </plugin>
