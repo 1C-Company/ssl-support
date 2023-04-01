@@ -39,11 +39,15 @@ import com.e1c.g5.v8.dt.check.settings.IssueSeverity;
 import com.e1c.g5.v8.dt.check.settings.IssueType;
 import com.google.inject.Inject;
 
+/**
+ * Check the function Users.RolesAvailable. First param must contains exist roles.
+ * @author Vadim Goncharov
+ */
 public class UsersRolesAvailableRolesExistCheck
     extends BasicCheck
 {
 
-    private static final String CHECK_ID = "users-roles-available-role-exist";
+    private static final String CHECK_ID = "users-roles-available-role-exist"; //$NON-NLS-1$
 
     private static final String COMMONMODULE_USERS_NAME = "Users"; //$NON-NLS-1$
 
@@ -59,6 +63,13 @@ public class UsersRolesAvailableRolesExistCheck
 
     private final IScopeProvider scopeProvider;
 
+    /**
+     * Instantiates a new users roles available roles exist check.
+     *
+     * @param scopeProvider the scope provider
+     * @param qualifiedNameConverter the qualified name converter
+     * @param topObjectFqnGenerator the top object fqn generator
+     */
     @Inject
     public UsersRolesAvailableRolesExistCheck(IScopeProvider scopeProvider,
         IQualifiedNameConverter qualifiedNameConverter, ITopObjectFqnGenerator topObjectFqnGenerator)
