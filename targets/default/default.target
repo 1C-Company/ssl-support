@@ -145,6 +145,7 @@
 <unit id="org.apache.batik.transcoder" version="1.14.0.v20210324-0332"/>
 <unit id="javax.servlet" version="3.1.0.v201410161800"/>
 <unit id="javax.servlet.source" version="3.1.0.v201410161800"/>
+<unit id="com.google.protobuf" version="0.0.0"/>
 <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository/"/>
 </location>
 
