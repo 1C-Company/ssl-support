@@ -145,7 +145,7 @@
           <configuration>
             <useUIHarness>true</useUIHarness>
             <useUIThread>true</useUIThread>
-            <argLine>${ui.test.vmargs} ${tycho-surefire-plugin.vmargs} ${debug.vmargs} ${tycho.testArgLine}</argLine>
+            <argLine>${ui.test.vmargs} ${tycho-surefire-plugin.vmargs} -Dinstall.headless ${debug.vmargs} ${tycho.testArgLine}</argLine>
             <work>${project.build.directory}/work</work>
             <testRuntime>p2Installed</testRuntime>
           </configuration>
