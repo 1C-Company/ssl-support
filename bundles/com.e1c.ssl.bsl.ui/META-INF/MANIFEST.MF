@@ -8,8 +8,9 @@ Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.ui;bundle-version="[3.0.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.15.0,4.0.0)",
  org.eclipse.xtext;bundle-version="[2.18.0,3.0.0)",
- org.eclipse.xtext.ui;bundle-version="[2.18.0,3.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+ org.eclipse.xtext.ui;bundle-version="[2.18.0,3.0.0)",
+ com.google.inject;bundle-version="[7.0.0,8.0.0)"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: com.e1c.ssl.bsl.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
@@ -29,6 +30,5 @@ Import-Package: com._1c.g5.modeling.xtext.scoping;version="[4.1.0,5.0.0)",
  com._1c.g5.v8.dt.platform;version="[7.0.0,8.0.0)",
  com._1c.g5.wiring;version="[2.0.0,3.0.0)",
  com._1c.g5.wiring.binder;version="[1.1.0,2.0.0)",
- com.e1c.ssl.bsl;version="[0.7.0,0.8.0)",
- com.google.inject;version="[5.0.1,6.0.0)"
+ com.e1c.ssl.bsl;version="[0.7.0,0.8.0)"
 Export-Package: com.e1c.ssl.bsl.ui;version="0.7.0"
