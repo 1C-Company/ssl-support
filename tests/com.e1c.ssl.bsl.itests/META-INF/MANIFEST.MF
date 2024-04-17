@@ -6,7 +6,7 @@ Bundle-Version: 0.7.0.qualifier
 Bundle-Vendor: %providerName
 Fragment-Host: com.e1c.ssl.bsl;bundle-version="[0.7.0,0.8.0)"
 Automatic-Module-Name: com.e1c.ssl.bsl.itests
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com._1c.g5.ides.core.handle.impl.xtext;version="[6.0.0,7.0.0)",
  com._1c.g5.v8.dt.core.handle;version="[3.1.0,4.0.0)",
  com._1c.g5.v8.dt.core.handle.impl;version="[4.1.0,5.0.0)",

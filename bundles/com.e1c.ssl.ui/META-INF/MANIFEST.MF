@@ -7,7 +7,7 @@ Bundle-Activator: com.e1c.ssl.ui.Activator
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: com.e1c.ssl.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: com.e1c.ssl.ui;version="0.7.0"
