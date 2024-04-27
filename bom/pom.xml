@@ -34,7 +34,7 @@
     <tycho.extras.version>4.0.5</tycho.extras.version>
     <markdown-page-generator.version>2.3.0</markdown-page-generator.version>
     
-    <spotbugs.maven.plugin.version>3.1.12.2</spotbugs.maven.plugin.version>
+    <spotbugs.maven.plugin.version>4.8.3.1</spotbugs.maven.plugin.version>
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
     <checkstyle.version>8.29</checkstyle.version>
     <checkstyle.header.file>java.header</checkstyle.header.file>
@@ -393,7 +393,7 @@
               <dependency>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs</artifactId>
-                <version>4.0.0-beta2</version>
+                <version>4.8.3</version>
               </dependency>
             </dependencies>
           </plugin>
