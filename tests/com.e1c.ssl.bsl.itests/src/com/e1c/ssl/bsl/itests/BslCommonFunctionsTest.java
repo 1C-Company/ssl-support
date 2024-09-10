@@ -134,7 +134,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/common-module.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -154,7 +153,6 @@ public class BslCommonFunctionsTest
         this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-ref.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
-
 
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
@@ -176,7 +174,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-ref-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(2, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -196,7 +193,6 @@ public class BslCommonFunctionsTest
         this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-full-name.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
-
 
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
@@ -219,7 +215,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-full-name-ref.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -239,7 +234,6 @@ public class BslCommonFunctionsTest
         this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-client.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
-
 
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
@@ -262,7 +256,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-object-manager.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -282,7 +275,6 @@ public class BslCommonFunctionsTest
         this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attribute-value.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
-
 
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
@@ -304,7 +296,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attribute-value-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(2, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -325,7 +316,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attribute-value.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -334,7 +324,8 @@ public class BslCommonFunctionsTest
         Expression right = getRightExpr(method.getStatements().get(0));
         Environmental envs = EcoreUtil2.getContainerOfType(right, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(right, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -365,7 +356,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attribute-value-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(2, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -374,7 +364,8 @@ public class BslCommonFunctionsTest
         Expression right = getRightExpr(method.getStatements().get(1));
         Environmental envs = EcoreUtil2.getContainerOfType(right, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(right, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -405,7 +396,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -414,7 +404,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -442,7 +433,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(2, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -451,7 +441,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$ //$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -479,7 +470,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-array-ctor-subproperty.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -488,7 +478,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -516,7 +507,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-array-ctor.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -525,7 +515,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -553,7 +544,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -562,7 +552,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -590,7 +581,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-compute-strings.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -599,7 +589,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -628,7 +619,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-string-var.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -637,7 +627,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -665,7 +656,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-structure-ctor.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -674,7 +664,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -702,7 +693,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-structure-subproperty.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -711,7 +701,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -740,7 +731,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-structure.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -749,7 +739,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -777,7 +768,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attributes-values.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -786,7 +776,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -803,8 +794,11 @@ public class BslCommonFunctionsTest
 
         checkProperties(collectionType.getContextDef().getProperties(), expected, false, false);
 
-        Optional<Property> found = collectionType.getContextDef().getProperties().stream().filter(
-            p -> "Value".equals(p.getName())).findFirst(); //$NON-NLS-1$
+        Optional<Property> found = collectionType.getContextDef()
+            .getProperties()
+            .stream()
+            .filter(p -> "Value".equals(p.getName())) //$NON-NLS-1$
+            .findFirst();
         assertTrue(found.isPresent());
         Property property = found.get();
         Type valuePropertyType = (Type)property.getTypes().get(0);
@@ -840,7 +834,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attributes-values-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(2, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -849,7 +842,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -866,8 +860,11 @@ public class BslCommonFunctionsTest
 
         checkProperties(collectionType.getContextDef().getProperties(), expected, false, false);
 
-        Optional<Property> found = collectionType.getContextDef().getProperties().stream().filter(
-            p -> "Value".equals(p.getName())).findFirst(); //$NON-NLS-1$
+        Optional<Property> found = collectionType.getContextDef()
+            .getProperties()
+            .stream()
+            .filter(p -> "Value".equals(p.getName())) //$NON-NLS-1$
+            .findFirst();
         assertTrue(found.isPresent());
         Property property = found.get();
         type = (Type)property.getTypes().get(0);
@@ -896,7 +893,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attributes-values-string-var.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -905,7 +901,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(expr, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -922,8 +919,11 @@ public class BslCommonFunctionsTest
 
         checkProperties(collectionType.getContextDef().getProperties(), expected, false, false);
 
-        Optional<Property> found = collectionType.getContextDef().getProperties().stream().filter(
-            p -> "Value".equals(p.getName())).findFirst(); //$NON-NLS-1$
+        Optional<Property> found = collectionType.getContextDef()
+            .getProperties()
+            .stream()
+            .filter(p -> "Value".equals(p.getName())) //$NON-NLS-1$
+            .findFirst();
         assertTrue(found.isPresent());
         Property property = found.get();
         type = (Type)property.getTypes().get(0);
@@ -952,7 +952,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-table-row-to-structure.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -962,7 +961,8 @@ public class BslCommonFunctionsTest
         Expression structure = getRightExpr(method.getStatements().get(4));
         Environmental envs = EcoreUtil2.getContainerOfType(structure, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(structure, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -988,7 +988,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-table-to-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -998,7 +997,8 @@ public class BslCommonFunctionsTest
         Expression array = getRightExpr(method.getStatements().get(3));
         Environmental envs = EcoreUtil2.getContainerOfType(array, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(array, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1040,7 +1040,8 @@ public class BslCommonFunctionsTest
         Expression array = getRightExpr(method.getStatements().get(3));
         Environmental envs = EcoreUtil2.getContainerOfType(array, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(array, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1064,7 +1065,6 @@ public class BslCommonFunctionsTest
         File newFile = new File(FOLDER_NAME + "common-functions/object-property-details.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
-
         Module module = getBslModule(PROJECT_NAME, PATH_COMMON_MODULE_TEST);
         assertEquals(1, module.allMethods().size());
         Method method = module.allMethods().get(0);
@@ -1074,7 +1074,8 @@ public class BslCommonFunctionsTest
         Expression table = getRightExpr(method.getStatements().get(2));
         Environmental envs = EcoreUtil2.getContainerOfType(table, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(table, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1116,7 +1117,8 @@ public class BslCommonFunctionsTest
         Expression data = getRightExpr(method.getStatements().get(0));
         Environmental envs = EcoreUtil2.getContainerOfType(data, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(data, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1150,7 +1152,8 @@ public class BslCommonFunctionsTest
         Expression data = getRightExpr(method.getStatements().get(1));
         Environmental envs = EcoreUtil2.getContainerOfType(data, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(data, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1164,8 +1167,8 @@ public class BslCommonFunctionsTest
         Map<String, Collection<String>> expected =
             Map.of("Наименование", List.of("String"), "ОбновлениеДоступно", List.of("Boolean")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-        checkProperties(collectionType.getContextDef().getProperties().stream().collect(Collectors.toList()),
-            expected, true, false);
+        checkProperties(collectionType.getContextDef().getProperties().stream().collect(Collectors.toList()), expected,
+            true, false);
 
         restoreState(oldFileContent, oldFile);
     }
@@ -1190,7 +1193,8 @@ public class BslCommonFunctionsTest
         Expression data = getRightExpr(method.getStatements().get(3));
         Environmental envs = EcoreUtil2.getContainerOfType(data, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(data, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1252,7 +1256,8 @@ public class BslCommonFunctionsTest
             .filter(t -> !IEObjectTypeNames.ARBITRARY.equalsIgnoreCase(McoreUtil.getTypeName(t)))
             .collect(Collectors.toList());
 
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
 
         TypeItem type = types.get(0);
 
@@ -1285,7 +1290,8 @@ public class BslCommonFunctionsTest
             .filter(t -> !IEObjectTypeNames.ARBITRARY.equalsIgnoreCase(McoreUtil.getTypeName(t)))
             .collect(Collectors.toList());
 
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$//$NON-NLS-2$
+            1, types.size());
 
         TypeItem type = types.get(0);
 
@@ -1315,7 +1321,8 @@ public class BslCommonFunctionsTest
 
         Environmental envs = EcoreUtil2.getContainerOfType(structure, Environmental.class);
         List<TypeItem> types = typesComputer.computeTypes(structure, envs.environments());
-        assertEquals(1, types.size());
+        assertEquals("Current types: " + types.stream().map(McoreUtil::getTypeName).collect(Collectors.joining(", ")), //$NON-NLS-1$ //$NON-NLS-2$
+            1, types.size());
         assertTrue(types.get(0) instanceof Type);
         Type type = (Type)types.get(0);
 
@@ -1428,7 +1435,7 @@ public class BslCommonFunctionsTest
                     project.getWorkspace().removeResourceChangeListener(this);
                 }
             }
-        }, IResourceChangeEvent.PRE_REFRESH);
+        }, IResourceChangeEvent.POST_CHANGE);
         file.setContents(stream, true, false, null);
         int i = 0;
         while (!wasChanged[0] && i < 4)
@@ -1437,6 +1444,7 @@ public class BslCommonFunctionsTest
             Thread.sleep(500);
         }
         testingWorkspace.buildWorkspace();
+        testingWorkspace.waitForBuildCompletion();
     }
 
 }
