@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -33,9 +34,13 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -123,10 +128,8 @@ public class BslCopyRecursiveTest
     @Test
     public void testFunctionCopyRecursiveWithDefaultParam() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -156,10 +159,8 @@ public class BslCopyRecursiveTest
     @Test
     public void testFunctionCopyRecursiveWithDeafuleValueParam() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -190,10 +191,8 @@ public class BslCopyRecursiveTest
     @Test
     public void testFunctionCopyRecursiveReturnFixStructure() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -223,10 +222,8 @@ public class BslCopyRecursiveTest
     @Test
     public void testFunctionCopyRecursiveReturnFixMap() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -261,10 +258,8 @@ public class BslCopyRecursiveTest
     @Test
     public void testFunctionCopyRecursiveReturnFixArray() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -289,10 +284,8 @@ public class BslCopyRecursiveTest
     @Test
     public void testFunctionCopyRecursiveReturnValueList() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -319,10 +312,8 @@ public class BslCopyRecursiveTest
     {
         String resultType = IEObjectTypeNames.STRUCTURE;
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/copy-recursive.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -403,27 +394,32 @@ public class BslCopyRecursiveTest
 
     private void updateFileContent(IFile file, InputStream stream) throws Exception
     {
-        boolean[] wasChanged = new boolean[1];
-        project.getWorkspace().addResourceChangeListener(new IResourceChangeListener()
-        {
-            @Override
-            public void resourceChanged(IResourceChangeEvent event)
-            {
-                if (event.getResource() == file)
-                {
-                    wasChanged[0] = true;
-                    project.getWorkspace().removeResourceChangeListener(this);
-                }
-            }
-        }, IResourceChangeEvent.PRE_REFRESH);
+        // All resource notifications are peformed synchronously in the calling thread
         file.setContents(stream, true, false, null);
-        int i = 0;
-        while (!wasChanged[0] && i < 4)
-        {
-            ++i;
-            Thread.sleep(500);
-        }
         testingWorkspace.buildWorkspace();
+        // As well as AUTO_BUILD-family job is being scheduled synchronously
+        // So all we need is to wait for auto-build job is being finished
+        // And also a little protection from direct file changes (without Eclipse
+        // resource subsystem)
+        project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+        try
+        {
+            Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+            Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
+        }
+        catch (OperationCanceledException | InterruptedException e)
+        {
+            throw new IllegalStateException("Cannot update file:" + file.toString(), e); //$NON-NLS-1$
+        }
     }
 
+    private void readOldContents() throws CoreException, IOException
+    {
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        try (BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8)))
+        {
+            this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
+    }
 }

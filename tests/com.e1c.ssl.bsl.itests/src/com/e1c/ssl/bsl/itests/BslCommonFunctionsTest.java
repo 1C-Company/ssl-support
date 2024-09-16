@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -39,9 +40,13 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -126,11 +131,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionCommonModule() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -146,11 +148,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionManagerByRef() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-ref.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -166,11 +165,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionManagerByRefDynamic() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-ref-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -186,11 +182,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionManagerByFullName() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-full-name.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -207,11 +200,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionManagerByFullNameRef() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/manager-by-full-name-ref.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -227,11 +217,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionClientCommonModule() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-client.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -248,11 +235,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionCatalogMangerModule() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-object-manager.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -268,11 +252,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributeValue() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attribute-value.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -288,11 +269,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributeValueDynamic() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attribute-value-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -308,11 +286,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectsAttributeValue() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attribute-value.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -348,11 +323,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectsAttributeValueDynamic() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attribute-value-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -388,11 +360,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValues() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -425,11 +394,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesDynamic() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -462,11 +428,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesArrayCtorSubProperty() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-array-ctor-subproperty.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -499,11 +462,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesArrayCtor() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-array-ctor.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -536,11 +496,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesArray() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -573,11 +530,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesComputeString() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-compute-strings.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -611,11 +565,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesStringVar() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-string-var.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -648,11 +599,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesStructureCtor() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-structure-ctor.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -685,11 +633,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesStructureSubProperty() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-structure-subproperty.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -723,11 +668,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectAttributesValuesStructure() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-attributes-values-structure.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -760,11 +702,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectsAttributesValues() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attributes-values.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -826,11 +765,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectsAttributesValuesDynamic() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attributes-values-dynamic.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -885,11 +821,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectsAttributesValuesStringVar() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/objects-attributes-values-string-var.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -944,11 +877,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionTableRowToStructure() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-table-row-to-structure.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -980,11 +910,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionTableToArray() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-table-to-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -1022,11 +949,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionUnloadColumn() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-unload-column.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
         testingWorkspace.buildWorkspace();
@@ -1057,11 +981,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionObjectPropertiesDetails() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/object-property-details.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -1100,11 +1021,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionFixedData() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-fixed-data.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
         testingWorkspace.buildWorkspace();
@@ -1135,11 +1053,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionFixedArray() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-fixed-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
         testingWorkspace.buildWorkspace();
@@ -1176,11 +1091,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionFixedMap() throws Exception
     {
+        readOldContents();
 
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
         File newFile = new File(FOLDER_NAME + "common-functions/common-module-fixed-map.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
         testingWorkspace.buildWorkspace();
@@ -1237,10 +1149,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionCollapseArray() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/collapse-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -1272,10 +1182,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionArraysDifference() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/arrays-difference.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -1305,10 +1213,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionValueInArray() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/value-in-array.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -1339,10 +1245,8 @@ public class BslCommonFunctionsTest
     @Test
     public void testFunctionCheckDocumentsPosting() throws Exception
     {
-        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8));
-        this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        readOldContents();
+
         File newFile = new File(FOLDER_NAME + "common-functions/check-documents-posting.bsl"); //$NON-NLS-1$
         replaceFileContent(oldFile, newFile);
 
@@ -1365,6 +1269,16 @@ public class BslCommonFunctionsTest
 
         restoreState(oldFileContent, oldFile);
 
+    }
+
+    protected void readOldContents() throws CoreException, IOException
+    {
+        this.oldFile = project.getFile(Path.fromPortableString(PATH_COMMON_MODULE_TEST));
+        try (BufferedReader reader =
+            new BufferedReader(new InputStreamReader(oldFile.getContents(true), StandardCharsets.UTF_8)))
+        {
+            this.oldFileContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        }
     }
 
     private Expression getRightExpr(Statement statement)
@@ -1411,40 +1325,37 @@ public class BslCommonFunctionsTest
 
     private void replaceFileContent(IFile oldFile, File newFile) throws Exception
     {
-        InputStream stream = new FileInputStream(newFile);
-        updateFileContent(oldFile, stream);
+        try (InputStream stream = new FileInputStream(newFile))
+        {
+            updateFileContent(oldFile, stream);
+        }
     }
 
     private void restoreState(String oldFileContent, IFile oldFile) throws Exception
     {
-        InputStream stream = new StringInputStream(oldFileContent);
-        updateFileContent(oldFile, stream);
+        try (InputStream stream = new StringInputStream(oldFileContent))
+        {
+            updateFileContent(oldFile, stream);
+        }
     }
 
     private void updateFileContent(IFile file, InputStream stream) throws Exception
     {
-        boolean[] wasChanged = new boolean[1];
-        project.getWorkspace().addResourceChangeListener(new IResourceChangeListener()
-        {
-            @Override
-            public void resourceChanged(IResourceChangeEvent event)
-            {
-                if (event.getResource() == file)
-                {
-                    wasChanged[0] = true;
-                    project.getWorkspace().removeResourceChangeListener(this);
-                }
-            }
-        }, IResourceChangeEvent.POST_CHANGE);
+        // All resource notifications are peformed synchronously in the calling thread
         file.setContents(stream, true, false, null);
-        int i = 0;
-        while (!wasChanged[0] && i < 4)
+        // As well as AUTO_BUILD-family job is being scheduled synchronously
+        // So all we need is to wait for auto-build job is being finished
+        // And also a little protection from direct file changes (without Eclipse
+        // resource subsystem)
+        project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+        try
         {
-            ++i;
-            Thread.sleep(500);
+            Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+            Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
         }
-        testingWorkspace.buildWorkspace();
-        testingWorkspace.waitForBuildCompletion();
+        catch (OperationCanceledException | InterruptedException e)
+        {
+            throw new IllegalStateException("Cannot update file:" + file.toString(), e); //$NON-NLS-1$
+        }
     }
-
 }
