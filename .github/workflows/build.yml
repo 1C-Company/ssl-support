@@ -108,7 +108,7 @@ jobs:
 
     - name: Upload WS logs on failure
       uses: actions/upload-artifact@v4
-      if: failure()
+      if: always()
       with:
         name: ws-logs
-        path: /home/runner/work/ssl-support/ssl-support/tests/com.e1c.ssl.bsl.itests/target/work/data/.metadata/.log
+        path: ./**/target/work/data/.metadata/.log
