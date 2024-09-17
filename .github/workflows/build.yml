@@ -111,4 +111,4 @@ jobs:
       if: always()
       with:
         name: ws-logs
-        path: ./**/target/work/data/.metadata/.log
+        path: tests/com.e1c.ssl.bsl.itests/target/work/data/.metadata/.log
