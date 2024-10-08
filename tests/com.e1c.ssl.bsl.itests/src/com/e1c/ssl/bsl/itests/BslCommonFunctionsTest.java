@@ -1333,7 +1333,7 @@ public class BslCommonFunctionsTest
 
     private void restoreState(String oldFileContent, IFile oldFile) throws Exception
     {
-        try (InputStream stream = new StringInputStream(oldFileContent))
+        try (InputStream stream = new StringInputStream(oldFileContent, StandardCharsets.UTF_8.name()))
         {
             updateFileContent(oldFile, stream);
         }
