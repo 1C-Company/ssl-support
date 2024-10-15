@@ -150,8 +150,18 @@ class TypesComputerHelper
             return type;
         }
 
+        if (type.eIsProxy())
+        {
+            type = (TypeItem)EcoreUtil.resolve(type, context);
+            if (type.eIsProxy())
+            {
+                return type;
+            }
+        }
         if (!(type instanceof Type))
+        {
             return type;
+        }
 
         Type arrayType = (Type)type;
 
@@ -199,6 +209,14 @@ class TypesComputerHelper
 
         if (!(type instanceof Type))
             return type;
+        if (type.eIsProxy())
+        {
+            type = (TypeItem)EcoreUtil.resolve(type, context);
+            if (type.eIsProxy())
+            {
+                return type;
+            }
+        }
 
         Type mapType = (Type)type;
         Type collectionType = (Type)mapType.getCollectionElementTypes().allTypes().get(0);

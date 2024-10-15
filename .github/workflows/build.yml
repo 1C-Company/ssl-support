@@ -70,7 +70,7 @@ jobs:
         Xvfb :5 -screen 0 1280x1024x8 -fbdir /tmp &
         export DISPLAY=:5
         echo "Sonar param: \"${SONAR_PARAM}\""
-        mvn clean verify ${SONAR_PARAM} -PSDK,find-bugs -Dtycho.localArtifacts=ignore -Dtycho.p2.httptransport.type=JavaUrl -B -V -X 1C
+        mvn clean verify ${SONAR_PARAM} -PSDK,find-bugs -Dtycho.localArtifacts=ignore -Dtycho.p2.httptransport.type=JavaUrl -X -B -V 1C
 
     - name: Publish Test Report
       uses: scacap/action-surefire-report@v1
@@ -79,19 +79,19 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Upload repo
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ssl-support-repository
         path: repositories/com.e1c.ssl.repository/target/repository/
         
     - name: Upload SDK repo
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ssl-support-repository-sdk
         path: repositories/com.e1c.ssl.repository.sdk/target/repository/
     
     - name: Upload JaCoCo exec data
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: jacoco
@@ -100,7 +100,7 @@ jobs:
           ./**/target/site/jacoco*/
     
     - name: Upload test logs on failure
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: logs
