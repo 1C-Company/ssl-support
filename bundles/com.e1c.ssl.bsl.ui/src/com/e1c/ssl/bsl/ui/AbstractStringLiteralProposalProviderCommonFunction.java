@@ -16,6 +16,7 @@ import static com._1c.g5.v8.dt.mcore.McorePackage.Literals.DERIVED_PROPERTY__SOU
 import static com.e1c.ssl.bsl.AbstractCommonModuleCommonFunctionTypesComputer.COMMON_MODULE_NAME;
 import static com.e1c.ssl.bsl.AbstractCommonModuleCommonFunctionTypesComputer.COMMON_MODULE_NAME_RU;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,6 +40,7 @@ import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
+import com._1c.g5.v8.dt.mcore.TypeSet;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.md.resource.MdTypeUtil;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
@@ -150,9 +152,20 @@ public abstract class AbstractStringLiteralProposalProviderCommonFunction
      */
     protected Collection<Property> getProperties(Collection<TypeItem> refTypes, String[] properties, EObject context)
     {
-
+        Collection<TypeItem> allTypes = new ArrayDeque<>();
+        for (TypeItem type : refTypes)
+        {
+            if (type instanceof TypeSet)
+            {
+                allTypes.addAll(((TypeSet)type).types(context));
+            }
+            else
+            {
+                allTypes.add(type);
+            }
+        }
         Collection<Pair<Collection<Property>, TypeItem>> all =
-            getDynamicFeatureAccessComputer().getAllProperties(refTypes, context.eResource());
+            getDynamicFeatureAccessComputer().getAllProperties(allTypes, context.eResource());
 
         if (properties.length > 1)
         {
