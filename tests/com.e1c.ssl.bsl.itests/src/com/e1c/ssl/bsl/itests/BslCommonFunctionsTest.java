@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +41,8 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
@@ -61,12 +57,17 @@ import com._1c.g5.v8.dt.bsl.model.Module;
 import com._1c.g5.v8.dt.bsl.model.SimpleStatement;
 import com._1c.g5.v8.dt.bsl.model.Statement;
 import com._1c.g5.v8.dt.bsl.resource.TypesComputer;
+import com._1c.g5.v8.dt.core.operations.ProjectPipelineJob;
+import com._1c.g5.v8.dt.core.platform.IDtProject;
+import com._1c.g5.v8.dt.core.platform.IDtProjectManager;
+import com._1c.g5.v8.dt.core.platform.IWorkspaceOrchestrator;
 import com._1c.g5.v8.dt.mcore.Environmental;
 import com._1c.g5.v8.dt.mcore.Property;
 import com._1c.g5.v8.dt.mcore.Type;
 import com._1c.g5.v8.dt.mcore.TypeItem;
 import com._1c.g5.v8.dt.mcore.util.McoreUtil;
 import com._1c.g5.v8.dt.platform.IEObjectTypeNames;
+import com._1c.g5.wiring.ServiceAccess;
 import com.e1c.ssl.internal.bsl.itests.BslIdeTestCaseBase;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1341,21 +1342,19 @@ public class BslCommonFunctionsTest
 
     private void updateFileContent(IFile file, InputStream stream) throws Exception
     {
-        // All resource notifications are peformed synchronously in the calling thread
+        // Protection from some building inconsistency that occurs if we are placing the change between the build
+        // and started process of full BSL module check. In this case the builder cannot compute module dependencies
+        // properly for small and fast test configurations
+        IWorkspaceOrchestrator orchestrator = ServiceAccess.get(IWorkspaceOrchestrator.class);
+        IDtProject dtProject = ServiceAccess.get(IDtProjectManager.class).getDtProject(project);
+
+        Object handle = orchestrator.beginExclusiveOperation("Wait until full check", //$NON-NLS-1$
+            Collections.singleton(dtProject), ProjectPipelineJob.AFTER_BUILD_DD);
+        orchestrator.endOperation(handle);
+
         file.setContents(stream, true, false, null);
-        // As well as AUTO_BUILD-family job is being scheduled synchronously
-        // So all we need is to wait for auto-build job is being finished
-        // And also a little protection from direct file changes (without Eclipse
-        // resource subsystem)
-        project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-        try
-        {
-            Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-            Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
-        }
-        catch (OperationCanceledException | InterruptedException e)
-        {
-            throw new IllegalStateException("Cannot update file:" + file.toString(), e); //$NON-NLS-1$
-        }
+        Thread.sleep(1500);
+
+        testingWorkspace.waitForBuildCompletion();
     }
 }
