@@ -114,7 +114,7 @@ abstract public class BslIdeTestCaseBase
      */
     protected DerivedStateAwareResource getResourceFromProject(String projectName, String fileName) throws Exception
     {
-        IProject project = testingWorkspace.setUpProject(projectName, getClass());
+        testingWorkspace.setUpProject(projectName, getClass());
         testingWorkspace.waitForBuildCompletion();
         BslPackage.eINSTANCE.eClass(); //force BSL environment to load
 
