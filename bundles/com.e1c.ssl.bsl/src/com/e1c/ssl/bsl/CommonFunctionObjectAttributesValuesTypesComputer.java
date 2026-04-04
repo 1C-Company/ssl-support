@@ -260,8 +260,23 @@ public class CommonFunctionObjectAttributesValuesTypesComputer
 
         IEObjectProvider provider =
             Registry.INSTANCE.get(TYPE_ITEM, this.versionSupport.getRuntimeVersionOrDefault(context, Version.LATEST));
-        EObject proxyType = provider.getProxy(IEObjectTypeNames.STRUCTURE);
-        Type structureType = (Type)EcoreUtil2.cloneWithProxies((TypeItem)EcoreUtil.resolve(proxyType, context));
+        Type proxyType = provider.getProxy(IEObjectTypeNames.STRUCTURE);
+        if (proxyType.eIsProxy())
+        {
+            proxyType = (Type)EcoreUtil.resolve(proxyType, context);
+        }
+
+        Type structureType = BslFactory.eINSTANCE.createExtendedType();
+        structureType.setContextDef(McoreFactory.eINSTANCE.createContextDef());
+        structureType.setName("CustomStructure");
+        structureType.setNameRu("ОсобаяСтруктура");
+        structureType.setEnvironments(proxyType.getEnvironments());
+        structureType.setExchangeWithServer(proxyType.isExchangeWithServer());
+        structureType.setIndexAccessible(proxyType.isIndexAccessible());
+        structureType.setIterable(proxyType.isIterable());
+        structureType.setSysEnum(proxyType.isSysEnum());
+        // set Structure as parent type
+        structureType.setParentType(proxyType);
 
         Map<String, Pair<Property, EObject>> newProperties = new HashMap<>();
 
