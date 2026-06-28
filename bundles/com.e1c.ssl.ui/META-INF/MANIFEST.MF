@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: com.e1c.ssl.ui;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-Activator: com.e1c.ssl.ui.Activator
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-25
 Automatic-Module-Name: com.e1c.ssl.ui
 Bundle-ActivationPolicy: lazy
-Export-Package: com.e1c.ssl.ui;version="0.7.0"
+Export-Package: com.e1c.ssl.ui;version="0.8.0"
 Bundle-Localization: plugin
