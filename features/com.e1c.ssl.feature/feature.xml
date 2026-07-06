@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     Copyright (C) 2020, 1C-Soft LLC and others.
    
@@ -10,53 +10,18 @@
    
     Contributors:
         1C-Soft LLC - initial API and implementation
- -->
-<feature
-      id="com.e1c.ssl.feature"
-      label="%feature.name"
-      version="0.8.0.qualifier"
-      provider-name="%feature.vendor"
-      plugin="com.e1c.ssl.ui"
-      license-feature="org.eclipse.license"
-      license-feature-version="2.0.2.qualifier">
-
-   <description>
+ --><feature id="com.e1c.ssl.feature" label="%feature.name" license-feature="org.eclipse.license" license-feature-version="2.0.2.qualifier" plugin="com.e1c.ssl.ui" provider-name="%feature.vendor" version="0.8.0.qualifier">
+  <description>
       %description
    </description>
-
-   <copyright>
+  <copyright>
       %copyright
    </copyright>
-
-   <license url="%licenseURL">
+  <license url="%licenseURL">
       %license
    </license>
-
-   <plugin
-         id="com.e1c.ssl.bsl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.e1c.ssl.bsl.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.e1c.ssl.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="com.e1c.ssl.docs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
+  <plugin download-size="0" id="com.e1c.ssl.bsl" install-size="0" unpack="false" version="0.0.0"/>
+  <plugin download-size="0" id="com.e1c.ssl.bsl.ui" install-size="0" unpack="false" version="0.0.0"/>
+  <plugin download-size="0" id="com.e1c.ssl.ui" install-size="0" version="0.0.0"/>
+  <plugin download-size="0" id="com.e1c.ssl.docs" install-size="0" unpack="false" version="0.0.0"/>
 </feature>

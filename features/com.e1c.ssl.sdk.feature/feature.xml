@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     Copyright (c) 2020 1C-Soft LLC.
     This program and the accompanying materials are made available under
@@ -7,34 +7,16 @@
     SPDX-License-Identifier: EPL-2.0
     Contributors:
         1C-Soft LLC - initial API and implementation
- -->
-<feature
-      id="com.e1c.ssl.sdk"
-      label="%featureName"
-      version="0.8.0.qualifier"
-      provider-name="%providerName"
-      license-feature="org.eclipse.license"
-      license-feature-version="2.0.2.qualifier">
-
-   <description>
+ --><feature id="com.e1c.ssl.sdk" label="%featureName" license-feature="org.eclipse.license" license-feature-version="2.0.2.qualifier" provider-name="%providerName" version="0.8.0.qualifier">
+  <description>
       %description
    </description>
-
-   <copyright>
+  <copyright>
       %copyright
    </copyright>
-
-   <license url="%licenseURL">
+  <license url="%licenseURL">
       %license
    </license>
-
-   <includes
-         id="com.e1c.ssl.feature.source"
-         version="0.8.0.qualifier"
-         optional="true"/>
-
-   <includes
-         id="com.e1c.ssl.feature"
-         version="0.8.0.qualifier"/>
-
+  <includes id="com.e1c.ssl.feature.source" optional="true" version="0.8.0.qualifier"/>
+  <includes id="com.e1c.ssl.feature" version="0.8.0.qualifier"/>
 </feature>
