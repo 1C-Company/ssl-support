@@ -81,18 +81,17 @@ public class StringLiteralProposalProviderCommonFunctionObjectAttributeValue
         else
         {
             FeatureAccess feature = ((Invocation)context.getFirst()).getMethodAccess();
-            if (!(feature instanceof DynamicFeatureAccess))
+            if (!(feature instanceof DynamicFeatureAccess dfa))
             {
                 return false;
             }
-            else if (!(((DynamicFeatureAccess)feature).getSource() instanceof FeatureAccess))
+            else if (!(dfa.getSource() instanceof FeatureAccess featureAccess))
             {
                 return false;
             }
             else
             {
-                String parentFeatureName =
-                    ((FeatureAccess)((DynamicFeatureAccess)feature).getSource()).getName().toLowerCase();
+                String parentFeatureName = featureAccess.getName().toLowerCase();
                 return MODULE_NAMES.contains(parentFeatureName);
             }
         }
@@ -123,10 +122,11 @@ public class StringLiteralProposalProviderCommonFunctionObjectAttributeValue
                     names.add(propertyName);
 
                     Optional<DerivedProperty> property =
-                        getProperties(refTypes, names.toArray(new String[0]), context.getFirst()).stream().filter(
-                            p -> isDerivedProperty(p) && (propertyName.equalsIgnoreCase(p.getNameRu())
-                                || propertyName.equalsIgnoreCase(p.getName()))).findAny().map(
-                                    DerivedProperty.class::cast);
+                        getProperties(refTypes, names.toArray(new String[0]), context.getFirst()).stream()
+                            .filter(p -> isDerivedProperty(p) && (propertyName.equalsIgnoreCase(p.getNameRu())
+                                || propertyName.equalsIgnoreCase(p.getName())))
+                            .findAny()
+                            .map(DerivedProperty.class::cast);
                     if (property.isPresent())
                     {
                         DerivedProperty derived = property.get();
@@ -169,9 +169,10 @@ public class StringLiteralProposalProviderCommonFunctionObjectAttributeValue
                     names.add(propertyName);
 
                     Optional<Property> property =
-                        getProperties(refTypes, names.toArray(new String[0]), context.getFirst()).stream().filter(
-                            p -> propertyName.equalsIgnoreCase(p.getNameRu())
-                                || propertyName.equalsIgnoreCase(p.getName())).findAny();
+                        getProperties(refTypes, names.toArray(new String[0]), context.getFirst()).stream()
+                            .filter(p -> propertyName.equalsIgnoreCase(p.getNameRu())
+                                || propertyName.equalsIgnoreCase(p.getName()))
+                            .findAny();
                     if (property.isPresent() && isDerivedProperty(property.get()))
                     {
                         DerivedProperty derived = property.map(DerivedProperty.class::cast).get();
@@ -213,7 +214,7 @@ public class StringLiteralProposalProviderCommonFunctionObjectAttributeValue
             String name = isRussian ? property.getNameRu() : property.getName();
             properties[properties.length - 1] = name;
             String proposal = String.join(".", properties); //$NON-NLS-1$
-            proposals.add(Tuples.create(this.addQuoteToBegin(proposal), proposal, imgProvider));
+            proposals.add(Tuples.create(proposal, proposal, imgProvider));
         }
 
         return proposals;

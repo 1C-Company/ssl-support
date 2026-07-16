@@ -50,6 +50,7 @@ import com._1c.g5.v8.dt.bsl.ui.contentassist.stringliteral.AbstractStringLiteral
 import com._1c.g5.v8.dt.lcore.naming.LowerCaseQualifiedName;
 import com._1c.g5.v8.dt.lcore.util.CaseInsensitiveString;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage.Literals;
+import com.e1c.ssl.bsl.AbstractCommonModuleCommonFunctionTypesComputer;
 import com.e1c.ssl.bsl.CommonFunctionCommonModuleManagerTypesComputer;
 import com.e1c.ssl.bsl.internal.ui.BslStringLiteralProposalImageProviderForMdObject;
 import com.google.common.collect.Lists;
@@ -70,10 +71,10 @@ public class StringLiteralProposalProviderCommonModuleManager
             CommonFunctionCommonModuleManagerTypesComputer.INVOCATION_NAME_RU.toLowerCase());
 
     private static final Set<String> MODULE_NAMES =
-        Set.of(CommonFunctionCommonModuleManagerTypesComputer.COMMON_MODULE_NAME.toLowerCase(),
-            CommonFunctionCommonModuleManagerTypesComputer.COMMON_MODULE_NAME_RU.toLowerCase(),
-            CommonFunctionCommonModuleManagerTypesComputer.COMMON_CLIENT_MODULE_NAME.toLowerCase(),
-            CommonFunctionCommonModuleManagerTypesComputer.COMMON_CLIENT_MODULE_NAME_RU.toLowerCase());
+        Set.of(AbstractCommonModuleCommonFunctionTypesComputer.COMMON_MODULE_NAME.toLowerCase(),
+            AbstractCommonModuleCommonFunctionTypesComputer.COMMON_MODULE_NAME_RU.toLowerCase(),
+            AbstractCommonModuleCommonFunctionTypesComputer.COMMON_CLIENT_MODULE_NAME.toLowerCase(),
+            AbstractCommonModuleCommonFunctionTypesComputer.COMMON_CLIENT_MODULE_NAME_RU.toLowerCase());
 
     @Override
     public boolean isAppropriate(Triple<EObject, List<Expression>, Integer> context)
@@ -90,18 +91,17 @@ public class StringLiteralProposalProviderCommonModuleManager
         else
         {
             FeatureAccess feature = ((Invocation)context.getFirst()).getMethodAccess();
-            if (!(feature instanceof DynamicFeatureAccess))
+            if (!(feature instanceof DynamicFeatureAccess dfa))
             {
                 return false;
             }
-            else if (!(((DynamicFeatureAccess)feature).getSource() instanceof FeatureAccess))
+            else if (!(dfa.getSource() instanceof FeatureAccess featureAccess))
             {
                 return false;
             }
             else
             {
-                String parentFeatureName =
-                    ((FeatureAccess)((DynamicFeatureAccess)feature).getSource()).getName().toLowerCase();
+                String parentFeatureName = featureAccess.getName().toLowerCase();
                 return MODULE_NAMES.contains(parentFeatureName);
             }
         }
@@ -140,13 +140,13 @@ public class StringLiteralProposalProviderCommonModuleManager
             IEObjectDescription object = iterator.next();
             if (managerSegment == null)
             {
-                proposals.add(Tuples.create(this.addQuoteToBegin(object.getQualifiedName().getLastSegment()),
+                proposals.add(Tuples.create(object.getQualifiedName().getLastSegment(),
                     object.getQualifiedName().getLastSegment(), imgProvider));
             }
             else
             {
                 String preffix = String.join(".", managerSegment, object.getQualifiedName().getLastSegment()); //$NON-NLS-1$
-                proposals.add(Tuples.create(this.addQuoteToBegin(preffix), preffix, imgProvider));
+                proposals.add(Tuples.create(preffix, preffix, imgProvider));
             }
         }
 
@@ -157,7 +157,7 @@ public class StringLiteralProposalProviderCommonModuleManager
                 EClass eClass = getEClassByRef(entry.getValue());
                 imgProvider = new BslStringLiteralProposalImageProviderForMdObject(eClass);
                 String preffix = entry.getKey().getString() + "."; //$NON-NLS-1$
-                proposals.add(Tuples.create(this.addQuoteToBegin(preffix), preffix, imgProvider));
+                proposals.add(Tuples.create(preffix, preffix, imgProvider));
             }
         }
 
@@ -169,8 +169,8 @@ public class StringLiteralProposalProviderCommonModuleManager
         if (ref == null)
             return null;
         EClassifier eType = ref.getEType();
-        if (eType instanceof EClass)
-            return (EClass)eType;
+        if (eType instanceof EClass eClass)
+            return eClass;
         return null;
     }
 

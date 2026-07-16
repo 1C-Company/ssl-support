@@ -42,7 +42,7 @@ import com._1c.g5.v8.dt.bsl.model.StringLiteral;
 import com._1c.g5.v8.dt.bsl.ui.contentassist.stringliteral.AbstractStringLiteralProposalProvider;
 import com._1c.g5.v8.dt.lcore.naming.LowerCaseQualifiedName;
 import com._1c.g5.v8.dt.metadata.mdclass.MdClassPackage.Literals;
-import com.e1c.ssl.bsl.CommonFunctionCommonModuleManagerTypesComputer;
+import com.e1c.ssl.bsl.AbstractCommonModuleCommonFunctionTypesComputer;
 import com.e1c.ssl.bsl.internal.ui.BslStringLiteralProposalImageProviderForMdObject;
 
 /**
@@ -56,14 +56,13 @@ public class StringLiteralProposalProviderSubsystemExist
     extends AbstractStringLiteralProposalProvider
 {
 
-    private static final Collection<String> INVOCATION_NAMES =
-        Set.of("subsystemexist", "подсистемасуществует"); //$NON-NLS-1$ //$NON-NLS-2$
+    private static final Collection<String> INVOCATION_NAMES = Set.of("subsystemexist", "подсистемасуществует"); //$NON-NLS-1$ //$NON-NLS-2$
 
     private static final Set<String> MODULE_NAMES =
-        Set.of(CommonFunctionCommonModuleManagerTypesComputer.COMMON_MODULE_NAME.toLowerCase(),
-            CommonFunctionCommonModuleManagerTypesComputer.COMMON_MODULE_NAME_RU.toLowerCase(),
-            CommonFunctionCommonModuleManagerTypesComputer.COMMON_CLIENT_MODULE_NAME.toLowerCase(),
-            CommonFunctionCommonModuleManagerTypesComputer.COMMON_CLIENT_MODULE_NAME_RU.toLowerCase());
+        Set.of(AbstractCommonModuleCommonFunctionTypesComputer.COMMON_MODULE_NAME.toLowerCase(),
+            AbstractCommonModuleCommonFunctionTypesComputer.COMMON_MODULE_NAME_RU.toLowerCase(),
+            AbstractCommonModuleCommonFunctionTypesComputer.COMMON_CLIENT_MODULE_NAME.toLowerCase(),
+            AbstractCommonModuleCommonFunctionTypesComputer.COMMON_CLIENT_MODULE_NAME_RU.toLowerCase());
 
     @Override
     public boolean isAppropriate(Triple<EObject, List<Expression>, Integer> context)
@@ -80,18 +79,17 @@ public class StringLiteralProposalProviderSubsystemExist
         else
         {
             FeatureAccess feature = ((Invocation)context.getFirst()).getMethodAccess();
-            if (!(feature instanceof DynamicFeatureAccess))
+            if (!(feature instanceof DynamicFeatureAccess dfa))
             {
                 return false;
             }
-            else if (!(((DynamicFeatureAccess)feature).getSource() instanceof FeatureAccess))
+            else if (!(dfa.getSource() instanceof FeatureAccess featureAccess))
             {
                 return false;
             }
             else
             {
-                String parentFeatureName =
-                    ((FeatureAccess)((DynamicFeatureAccess)feature).getSource()).getName().toLowerCase();
+                String parentFeatureName = featureAccess.getName().toLowerCase();
                 return MODULE_NAMES.contains(parentFeatureName);
             }
         }
@@ -205,7 +203,7 @@ public class StringLiteralProposalProviderSubsystemExist
                 segments[segments.length - 1] = object.getQualifiedName().getLastSegment();
             }
             String name = String.join(".", segments); //$NON-NLS-1$
-            proposals.add(Tuples.create(this.addQuoteToBegin(name), name, imgProvider));
+            proposals.add(Tuples.create(name, name, imgProvider));
         }
         return proposals;
     }
