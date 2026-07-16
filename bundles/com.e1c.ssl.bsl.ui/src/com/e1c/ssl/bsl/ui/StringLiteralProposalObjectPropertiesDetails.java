@@ -63,8 +63,8 @@ public class StringLiteralProposalObjectPropertiesDetails
         Expression expression = context.getSecond().get(context.getThird());
 
         StringLiteral literal = null;
-        if (expression instanceof StringLiteral)
-            literal = (StringLiteral)expression;
+        if (expression instanceof StringLiteral strLiteral)
+            literal = strLiteral;
 
         if (literal == null)
             return false;
@@ -80,18 +80,17 @@ public class StringLiteralProposalObjectPropertiesDetails
         else
         {
             FeatureAccess feature = ((Invocation)context.getFirst()).getMethodAccess();
-            if (!(feature instanceof DynamicFeatureAccess))
+            if (!(feature instanceof DynamicFeatureAccess dfa))
             {
                 return false;
             }
-            else if (!(((DynamicFeatureAccess)feature).getSource() instanceof FeatureAccess))
+            else if (!(dfa.getSource() instanceof FeatureAccess featureAccess))
             {
                 return false;
             }
             else
             {
-                String parentFeatureName =
-                    ((FeatureAccess)((DynamicFeatureAccess)feature).getSource()).getName().toLowerCase();
+                String parentFeatureName = featureAccess.getName().toLowerCase();
                 return MODULE_NAMES.contains(parentFeatureName);
             }
         }
@@ -113,8 +112,8 @@ public class StringLiteralProposalObjectPropertiesDetails
         Expression expression = context.getSecond().get(context.getThird());
 
         StringLiteral literal = null;
-        if (expression instanceof StringLiteral)
-            literal = (StringLiteral)expression;
+        if (expression instanceof StringLiteral strLiteral)
+            literal = strLiteral;
 
         if (literal != null && literal.getLines().size() == 1)
         {
@@ -123,19 +122,14 @@ public class StringLiteralProposalObjectPropertiesDetails
 
             if (properties.length > 0)
             {
-                List<String> names = new ArrayList<>();
-
                 for (int i = 0; i < properties.length; i++)
                 {
                     String propertyName = properties[i];
-                    names.add(propertyName);
 
-                    Optional<Property> property =
-                        getProperties(context)
-                            .stream()
-                            .filter(p -> propertyName.equalsIgnoreCase(p.getNameRu())
-                                || propertyName.equalsIgnoreCase(p.getName()))
-                            .findAny();
+                    Optional<Property> property = getProperties(context).stream()
+                        .filter(p -> propertyName.equalsIgnoreCase(p.getNameRu())
+                            || propertyName.equalsIgnoreCase(p.getName()))
+                        .findAny();
                     if (property.isPresent())
                     {
                         URI uri = EcoreUtil.getURI(property.get());
@@ -167,7 +161,7 @@ public class StringLiteralProposalObjectPropertiesDetails
 
             properties[properties.length - 1] = name;
             String proposal = String.join(", ", properties); //$NON-NLS-1$
-            proposals.add(Tuples.create(this.addQuoteToBegin(proposal), name, imgProvider));
+            proposals.add(Tuples.create(proposal, name, imgProvider));
         }
 
         return proposals;

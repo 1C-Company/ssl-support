@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -62,7 +61,10 @@ public abstract class AbstractStringLiteralProposalProviderCommonFunction
 
     private final DynamicFeatureAccessComputer dynamicFeatureAccessComputer;
 
-    public AbstractStringLiteralProposalProviderCommonFunction()
+    /**
+     * Default constructor with injection from {@link IResourceServiceProvider}
+     */
+    protected AbstractStringLiteralProposalProviderCommonFunction()
     {
         super();
         IResourceServiceProvider rsp =
@@ -114,7 +116,7 @@ public abstract class AbstractStringLiteralProposalProviderCommonFunction
     {
         Environmental environmental = EcoreUtil2.getContainerOfType(expr, Environmental.class);
         List<TypeItem> paramTypes = getTypesComputer().computeTypes(expr, environmental.environments());
-        return paramTypes.stream().filter(this::isRefType).collect(Collectors.toList());
+        return paramTypes.stream().filter(this::isRefType).toList();
     }
 
     /**
@@ -138,7 +140,7 @@ public abstract class AbstractStringLiteralProposalProviderCommonFunction
             .flatMap(t -> t.getCollectionElementTypes().allTypes().stream())
             .filter(this::isRefType)
             .map(TypeItem.class::cast)
-            .collect(Collectors.toList());
+            .toList();
         //@formatter:on
     }
 
@@ -155,9 +157,9 @@ public abstract class AbstractStringLiteralProposalProviderCommonFunction
         Collection<TypeItem> allTypes = new ArrayDeque<>();
         for (TypeItem type : refTypes)
         {
-            if (type instanceof TypeSet)
+            if (type instanceof TypeSet typeSet)
             {
-                allTypes.addAll(((TypeSet)type).types(context));
+                allTypes.addAll(typeSet.types(context));
             }
             else
             {
