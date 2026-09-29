@@ -67,6 +67,7 @@
 <unit id="org.eclipse.orbit.xml-apis-ext" version="0.0.0"/>
 <unit id="org.osgi.service.http.whiteboard" version="0.0.0"/>
 <unit id="org.eclipse.equinox.http.service.api" version="0.0.0"/>
+<unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
 </location>
 
 <!-- ECF -->
