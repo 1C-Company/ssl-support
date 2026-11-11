@@ -43,15 +43,6 @@ jobs:
         # docker rmi $(docker image ls -aq) || true
         df -h
 
-    - name: Cache maven repo
-      uses: actions/cache@v4
-      if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-latest-${{ hashFiles('**/pom.xml') }}-${{ hashFiles('targets/default/default.target') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-latest-
-
    # - name: Cache SonarCloud packages
    #   uses: actions/cache@v4
    #   if: inputs.analyze
